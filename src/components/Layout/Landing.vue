@@ -1,9 +1,14 @@
 <template>
-<AppBar />
-<home ></home>
- <!-- New section below footer -->
- 
-<Footer />
+ <!-- Loader component displays while loading -->
+ <Loader :loading="loading" v-if="loading" />
+
+<!-- Main content is displayed once loading is complete -->
+<div v-else>
+  <AppBar />
+  <home></home>
+  <!-- New section below footer -->
+  <Footer />
+</div>
 </template>
 
 <script>
@@ -13,11 +18,12 @@ import {
 import AppBar from '@/components/Layout/AppBar.vue';
 import Home from '@/components/pages/home/Home.vue';
 import Footer from '@/components/Layout/Footer.vue';
+import Loader from '@/components/Layout/Loader.vue';
 export default {
     components: {
         AppBar,
         Home,
-        Footer
+        Footer,Loader
     },
     setup() {
         const {
@@ -30,54 +36,10 @@ export default {
     data() {
         return {
             drawer: false,
+            loading: true, // Initial loading state
             ministriesOpen: false,
             // selectedRoute: '/', // Set "Home" as default selected
-            menuItems: [{
-                    label: "Home",
-                    route: "/"
-                },
-                {
-                    label: "About Us",
-                    route: "/about"
-                },
-                {
-                    label: "Sermons",
-                    route: "/sermons"
-                },
-                {
-                    label: "Kids",
-                    route: "/kids"
-                },
-                {
-                    label: "Fellowship",
-                    route: "/lifecenters"
-                },
-                {
-                    label: "Contact Us",
-                    route: "/contact"
-                }
-            ],
-            ministries: [{
-                    label: "Youth Ministry",
-                    route: "/ministries/youth",
-                    icon: "mdi-human-male-female"
-                },
-                {
-                    label: "Women’s Ministry",
-                    route: "/ministries/women",
-                    icon: "mdi-human-female-female"
-                },
-                {
-                    label: "Men’s Ministry",
-                    route: "/ministries/men",
-                    icon: "mdi-human-male-male"
-                },
-                {
-                    label: "Student's Ministry",
-                    route: "/ministries/students",
-                    icon: "mdi-school-outline"
-                }
-            ]
+           
         };
     },
     computed: {
@@ -113,7 +75,13 @@ export default {
             }
             this.ministriesOpen = false;
         }
-    }
+    },
+    mounted() {
+    // Simulate loading delay for demonstration
+    setTimeout(() => {
+      this.loading = false; // Set loading to false once the page is ready
+    }, 2000); // Adjust this delay as necessary
+  },
 };
 </script>
 
@@ -193,34 +161,36 @@ export default {
 }
 
 .vision-section {
-  background-color: #f9f9f9;
-  padding: 40px 20px;
+    background-color: #f9f9f9;
+    padding: 40px 20px;
 }
 
 .vision-content h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 .vision-content p {
-  font-size: 16px;
-  color: #333;
+    font-size: 16px;
+    color: #333;
 }
 
 .links-social .v-list {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .links-social .v-list-item {
-  margin: 0 10px; /* Adjust spacing between items */
+    margin: 0 10px;
+    /* Adjust spacing between items */
 }
 
 .links-social .v-icon {
-  font-size: 24px; /* Adjust icon size */
+    font-size: 24px;
+    /* Adjust icon size */
 }
 
 .links-social .v-list-item:hover {
-  color: #00ACC1;
+    color: #00ACC1;
 }
 </style>

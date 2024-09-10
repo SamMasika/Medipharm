@@ -2,14 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from '@/components/Auth/Login.vue'
 import Dashboard from '@/components/Layout/Dashboard.vue'
 import Master from '@/components/Layout/Master.vue'
-import Twitter from '@/components/SocialMedia/Twitter.vue'
-import Facebook from '@/components/SocialMedia/Facebook.vue'
-import JamiiForum from '@/components/SocialMedia/JamiiForum.vue'
-import Instagram from '@/components/SocialMedia/Instagram.vue'
-import Ticktock from '@/components/SocialMedia/Ticktock.vue'
-import Linkedin from '@/components/SocialMedia/Linkedin.vue'
-import Snapchat from '@/components/SocialMedia/Snapchat.vue'
 import Landing from '@/components/Layout/Landing.vue'
+import KnowUs from '@/components/pages/aboutus/KnowUs.vue'
 
 const routes = [
   
@@ -17,6 +11,11 @@ const routes = [
     path: '/',
     name: 'landing',
     component: Landing
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: KnowUs
   },
   {
     path: '/login',
@@ -39,41 +38,7 @@ const routes = [
         //   next();
         // }
       },
-      {
-        path: '/twitter',
-        name: 'twitter',
-        component: Twitter,
-      },
-      {
-        path: '/facebook',
-        name: 'facebook',
-        component: Facebook,
-      },
-      {
-        path: '/jamiiforum',
-        name: 'jamiiforum',
-        component: JamiiForum,
-      },
-      {
-        path: '/instagram',
-        name: 'instagram',
-        component: Instagram,
-      },
-      {
-        path: '/ticktock',
-        name: 'ticktock',
-        component: Ticktock,
-      },
-      {
-        path: '/snapchat',
-        name: 'snapchat',
-        component: Snapchat,
-      },
-      {
-        path: '/linkedin',
-        name: 'linkedin',
-        component: Linkedin,
-      },
+     
       
     ]
   }

@@ -53,7 +53,7 @@
             <v-col class="text-center">
                 <!-- Reservation Text -->
                 <p class="footer-text white--text">
-                    © {{ new Date().getFullYear() }} Bethel Revival Temple-Morogoro. All rights reserved.
+                    © {{ new Date().getFullYear() }} TAG Bethel Revival Temple-Morogoro. All rights reserved.
                 </p>
             </v-col>
         </v-row>
@@ -61,15 +61,12 @@
 </v-footer>
 </template>
 
-  
-  
 <script>
 export default {
     name: "Footer",
 };
 </script>
-  
-  
+
 <style scoped>
 .footer {
     background-color: #00acc1;
@@ -84,7 +81,7 @@ export default {
 }
 
 .vision-section {
-    background-color:#E0F7FA;
+    background-color: #E0F7FA;
     padding: 40px 0 0 0;
     margin-bottom: 0;
     margin-top: 50px;

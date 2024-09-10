@@ -13,12 +13,10 @@
                     Watch all sermons
                 </v-btn>
             </v-col>
-
         </v-row>
     </div>
 
     <!-- Row for Video and Button -->
-
 </v-container>
 <!-- Row for Worship Title and Service Timetable -->
 <v-container fluid>
@@ -28,7 +26,7 @@
             <div class="text-center my-5">
                 <v-row justify="center">
                     <!-- Main Service Card -->
-                    <v-col cols="12" md="4"  class="d-flex justify-center">
+                    <v-col cols="12" md="4" class="d-flex justify-center">
                         <v-card class="service-card" elevation="4" rounded="lg">
                             <v-card-title class="my-8">
                                 <v-icon class="mx-8" size="50">mdi-account-group-outline</v-icon>
@@ -110,7 +108,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/fellowship.webp" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Fellowship
                         </v-chip>
                     </v-img>
@@ -134,7 +132,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/prayer.jpeg" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Prayer & Bible Study
                         </v-chip>
                     </v-img>
@@ -158,7 +156,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/giving.jpg" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Giving
                         </v-chip>
                     </v-img>
@@ -296,7 +294,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/construction.webp" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Construction
                         </v-chip>
                     </v-img>
@@ -320,9 +318,10 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/discipleship.webp" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Discipleship Classes
-                        </v-chip></v-img>
+                        </v-chip>
+                    </v-img>
                     <v-card-title>
                         <v-icon class="mx-4">mdi-book-open-outline</v-icon>
                         <span class="title">Discipleship Classes</span>
@@ -345,7 +344,7 @@
                     <!-- Card image with chip overlay -->
                     <v-img src="@/assets/ministry.jpg" height="300px" cover class="position-relative">
                         <!-- Chip with text "Ministry" -->
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2" >
+                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Ministries
                         </v-chip>
                     </v-img>
