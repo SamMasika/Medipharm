@@ -26,13 +26,14 @@
             <v-slide-group v-model="slideModel" center-active class="service-carousel no-arrows" :continuous="false">
                 <v-slide-group-item v-for="(service, index) in services" :key="index">
                     <v-card class="service-card ma-4" height="100%" width="330px" elevation="0" rounded="lg">
-                        <v-img :src="service.image" height="200px" cover></v-img>
+                        <v-img :src="service.image" height="250px" cover></v-img>
                         <v-card-title class=" d-flex align-center">
-                            <v-icon class="mx-2" size="40">{{ service.icon }}</v-icon>
                             <v-spacer></v-spacer>
+                            <v-icon class="mx-5" size="40">{{ service.icon }}</v-icon>
                             <v-chip color="cyan darken-2" size="small" variant="flat" class="text-white">
                                 {{ service.title }}
                             </v-chip>
+                            <v-spacer></v-spacer>
                         </v-card-title>
                         <v-card-text class="text-center " style="font-size:medium">
                             <strong>{{ service.times }}</strong>
