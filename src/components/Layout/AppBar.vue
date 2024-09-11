@@ -26,26 +26,67 @@
                     <v-list-item-title>
                         {{ subitem.label }}
                     </v-list-item-title>
-                    <v-divider></v-divider>
+                    <!-- <v-divider></v-divider> -->
                 </v-list-item>
             </v-list>
         </v-menu>
-
+  <!-- Ministries Dropdown Menu -->
+  <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+            <template #activator="{ props }">
+                <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/churches') }" @click.prevent="selectLink('/churches')">
+                    Churches
+                    <v-icon class="ml-2">mdi-menu-down</v-icon>
+                </a>
+            </template>
+            <v-list>
+                <v-list-item v-for="(subitem, subindex) in churches" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
+                    <v-list-item-title>
+                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
+                        {{ subitem.label }}
+                    </v-list-item-title>
+                </v-list-item>
+            </v-list>
+        </v-menu>
         <!-- Sermons Link -->
         <a href="/sermons" class="nav-link" :class="{ selected: isSelected('/sermons') }" @click.prevent="selectLink('/sermons')">
             Sermons
         </a>
 
-        <!-- Kids Link -->
-        <a href="/kids" class="nav-link" :class="{ selected: isSelected('/kids') }" @click.prevent="selectLink('/kids')">
-            Kids
-        </a>
 
-        <!-- Fellowship Link -->
-        <a href="/lifecenters" class="nav-link" :class="{ selected: isSelected('/lifecenters') }" @click.prevent="selectLink('/lifecenters')">
-            Fellowship
-        </a>
-
+        <!-- Ministries Dropdown Menu -->
+        <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+            <template #activator="{ props }">
+                <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/fellowships') }" @click.prevent="selectLink('/fellowships')">
+                    Fellowships
+                    <v-icon class="ml-2">mdi-menu-down</v-icon>
+                </a>
+            </template>
+            <v-list>
+                <v-list-item v-for="(subitem, subindex) in fellowships" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
+                    <v-list-item-title>
+                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
+                        {{ subitem.label }}
+                    </v-list-item-title>
+                </v-list-item>
+            </v-list>
+        </v-menu>
+        <!-- Ministries Dropdown Menu -->
+        <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+            <template #activator="{ props }">
+                <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/clusters') }" @click.prevent="selectLink('/clusters')">
+                    Clusters
+                    <v-icon class="ml-2">mdi-menu-down</v-icon>
+                </a>
+            </template>
+            <v-list>
+                <v-list-item v-for="(subitem, subindex) in clusters" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
+                    <v-list-item-title>
+                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
+                        {{ subitem.label }}
+                    </v-list-item-title>
+                </v-list-item>
+            </v-list>
+        </v-menu>
         <!-- Ministries Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
@@ -57,10 +98,26 @@
             <v-list>
                 <v-list-item v-for="(subitem, subindex) in ministries" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
                     <v-list-item-title>
-                        <v-icon class="mr-3">{{ subitem.icon }}</v-icon>
+                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
                         {{ subitem.label }}
                     </v-list-item-title>
-                    <v-divider></v-divider>
+                </v-list-item>
+            </v-list>
+        </v-menu>
+        <!-- Ministries Dropdown Menu -->
+        <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+            <template #activator="{ props }">
+                <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/departments') }" @click.prevent="selectLink('/departments')">
+                    Departments
+                    <v-icon class="ml-2">mdi-menu-down</v-icon>
+                </a>
+            </template>
+            <v-list>
+                <v-list-item v-for="(subitem, subindex) in departments" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
+                    <v-list-item-title>
+                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
+                        {{ subitem.label }}
+                    </v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>
@@ -159,23 +216,154 @@ export default {
                     route: '/about/our-belief'
                 }
             ],
-            ministries: [{
-                    label: 'Youth Ministry',
+            fellowships: [{
+                    label: 'DO NOT PASS ME BY',
                     route: '/ministries/youth',
                     icon: 'mdi-human-male-female'
                 },
                 {
-                    label: 'Women’s Ministry',
+                    label: 'PASTORS’ CHILDREN FELLOWSHIP (PCF)',
+                    route: '/ministries/women',
+                    icon: 'mdi-human-female-female'
+                },
+               
+            ],
+            churches: [{
+                    label: 'DO NOT PASS ME BY',
+                    route: '/ministries/youth',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'PASTORS’ CHILDREN FELLOWSHIP (PCF)',
+                    route: '/ministries/women',
+                    icon: 'mdi-human-female-female'
+                },
+               
+            ],
+            clusters: [{
+                    label: 'Cluster A',
+                    route: '/ministries/youth',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'Cluster B',
                     route: '/ministries/women',
                     icon: 'mdi-human-female-female'
                 },
                 {
-                    label: 'Men’s Ministry',
+                    label: 'Cluster C',
                     route: '/ministries/men',
                     icon: 'mdi-human-male-male'
                 },
                 {
-                    label: "Student's Ministry",
+                    label: 'Cluster D',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: 'Cluster E',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: "Cluster H",
+                    route: '/ministries/students',
+                    icon: 'mdi-school-outline'
+                },
+                {
+                    label: "Cluster J",
+                    route: '/ministries/students',
+                    icon: 'mdi-school-outline'
+                }
+            ],
+            ministries: [{
+                    label: 'CHURCH SAFETY AND SECURITY',
+                    route: '/ministries/youth',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'CALEB',
+                    route: '/ministries/women',
+                    icon: 'mdi-human-female-female'
+                },
+                {
+                    label: 'FAMILY AND MARRIAGE',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: 'RADIO MINISTRY',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: 'DEAF MINISTRY',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: "COURTSHIP TO MARRIAGE",
+                    route: '/ministries/students',
+                    icon: 'mdi-school-outline'
+                }
+            ],
+            departments: [{
+                    label: 'DEPARTMENT OF MEN (CHRIST MEN FELLOWSHIP (CMF)) ',
+                    route: '/ministries/youth',
+                    icon: 'mdi-human-male-male'
+                },
+                {
+                    label: 'DEPARTMENT OF WOMEN (WANAWAKE WATUMISHI WA KRISTO (WWK))',
+                    route: '/ministries/women',
+                    icon: 'mdi-human-female-female'
+                },
+                {
+                    label: 'DEPARTMENT OF CHRIST AMBASSADORS (CA’s)',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF CHILDREN (CHILDREN STUDENT MINISTRY (CSM))',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF MUSIC AND PRAISE ',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF DISCIPLESHIP AND LITERATURE',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF PROJECT AND PHYSICAL DEVELOPMENTS',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF MONITORING, EVALUATION AND LEARNING',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF EVANGELISM',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF PRAYER AND DELIVERANCE',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: 'DEPARTMENT OF MISSION',
+                    route: '/ministries/men',
+                    icon: 'mdi-human-male-female'
+                },
+                {
+                    label: "DEPARTMENT OF CASFETA CAMPUS",
                     route: '/ministries/students',
                     icon: 'mdi-school-outline'
                 }

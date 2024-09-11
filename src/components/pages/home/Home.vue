@@ -1,13 +1,13 @@
 <template>
 <v-container fluid>
-    <div class="text-center my-3">
+    <div class="text-center my-1">
         <p style="font-size:medium">Worship with us in person or online every Sunday at 0700hrs (ENG), 0930hrs (ENG) and 1130hrs (SWA)</p>
     </div>
     <div class="text-center my-1">
         <v-row justify="center">
             <v-col cols="12" md="10">
                 <div class="video-container">
-                    <iframe class="video-frame" src="https://www.youtube.com/embed/CpyQ-I7pilg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe class="video-frame" src="https://www.youtube.com/embed/WRkDboupLx4" title="IBADA YA JUMAPILI _ 1_ 02.06.2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <v-btn class="text-none text-white" color="cyan darken-2" size="large" rounded="xl" flat>
                     Watch all sermons
@@ -19,64 +19,39 @@
     <!-- Row for Video and Button -->
 </v-container>
 <!-- Row for Worship Title and Service Timetable -->
-<v-container fluid>
+<v-container fluid class="schedule-container">
     <v-row class="worship-section" justify="center">
         <v-col cols="12" md="8">
-            <h2 class="text-center worship-title my-5">Worship with Us this Sunday</h2>
-            <div class="text-center my-5">
-                <v-row justify="center">
-                    <!-- Main Service Card -->
-                    <v-col cols="12" md="4" class="d-flex justify-center">
-                        <v-card class="service-card" elevation="4" rounded="lg">
-                            <v-card-title class="my-8">
-                                <v-icon class="mx-8" size="50">mdi-account-group-outline</v-icon>
-                                <v-chip color="cyan darken-2" variant="flat" class="text-white">Main Service</v-chip>
-                            </v-card-title>
-                            <v-card-text style="font-size:medium">
-                                <strong class="my-3">English :0700hrs & 0930hrs</strong> <br>
-                                <strong>Swahili:1130hrs</strong>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
+            <h2 class="text-center worship-title my-1"> Our Churches</h2>
+            <v-slide-group v-model="slideModel" center-active class="service-carousel no-arrows" :continuous="false">
+                <v-slide-group-item v-for="(service, index) in services" :key="index">
+                    <v-card class="service-card ma-4" height="100%" width="330px" elevation="0" rounded="lg">
+                        <v-img :src="service.image" height="200px" cover></v-img>
+                        <v-card-title class=" d-flex align-center">
+                            <v-icon class="mx-2" size="40">{{ service.icon }}</v-icon>
+                            <v-spacer></v-spacer>
+                            <v-chip color="cyan darken-2" size="small" variant="flat" class="text-white">
+                                {{ service.title }}
+                            </v-chip>
+                        </v-card-title>
+                        <v-card-text class="text-center " style="font-size:medium">
+                            <strong>{{ service.times }}</strong>
+                        </v-card-text>
+                    </v-card>
+                </v-slide-group-item>
+            </v-slide-group>
 
-                    <!-- Kids Service Card -->
-                    <v-col cols="12" md="4" class="d-flex justify-center">
-                        <v-card class="service-card" elevation="4" rounded="lg">
-                            <v-card-title class="my-8">
-                                <v-icon class="mx-8" size="50">mdi-human-child</v-icon>
-                                <v-chip color="cyan darken-2" variant="flat" class="text-white">Kids Service</v-chip>
-                            </v-card-title>
-                            <v-card-text style="font-size:medium">
-                                <strong class="my-3">English :0700hrs & 0930hrs</strong> <br>
-                                <strong>Swahili:1130hrs</strong>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-
-                    <!-- Teenagers Service Card -->
-                    <v-col cols="12" md="4" class="d-flex justify-center">
-                        <v-card class="service-card" elevation="4" rounded="lg">
-                            <v-card-title class="my-8">
-                                <v-icon class="mx-8" size="50">mdi-account-child-circle</v-icon>
-                                <v-chip color="cyan darken-2" variant="flat" class="text-white">Teenagers Service</v-chip>
-                            </v-card-title>
-                            <v-card-text style="font-size:medium">
-                                <strong>0900hrs & 1100hrs</strong>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </div>
-            <div class="text-center my-8">
+            <div class="text-center my-3">
                 <p class="service-description">
                     Our services are designed to inspire and bring us closer to God through worship, prayer, and the word. Whether you join us in person or online, you are welcome!
                 </p>
             </div>
-            <v-row justify="center" class="my-5">
+
+            <v-row justify="center" class="my-2">
                 <v-col class="d-flex justify-center">
                     <div class="custom-toggle-container">
-                        <v-btn-toggle v-model="toggle" class="custom-toggle">
-                            <v-btn value="about" class="text-none custom-btn custom-btn-left">About Us</v-btn>
+                        <v-btn-toggle v-model="toggle" class="custom-toggle" >
+                            <v-btn value="about" class="text-none custom-btn custom-btn-left" @click="handleToggle">About Us</v-btn>
                             <v-btn value="visit" class="text-none custom-btn custom-btn-right">Visit Us</v-btn>
                         </v-btn-toggle>
                         <v-icon class="icon-on-toggle" color="white">mdi-microphone</v-icon>
@@ -89,7 +64,7 @@
 <!-- Row for Getting Connected to the Church -->
 <v-container>
     <div class="text-center my-5 ">
-        <h2 class=" section-title">Getting Connected to the Church</h2>
+        <h2 class=" section-title">Get Connected to the Church</h2>
     </div>
 
     <div class="text-center my-3 watermark-section">
@@ -107,7 +82,7 @@
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
-                    <v-img src="@/assets/fellowship.webp" height="300px" cover>
+                    <v-img src="@/assets/fellowship.webp" height="300px" w cover>
                         <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
                             Fellowship
                         </v-chip>
@@ -176,7 +151,34 @@
         </v-col>
     </v-row>
 </v-container>
-<v-container fluid>
+<v-container fluid class="daily-bread-container">
+    <section class="daily-bread-section">
+        <!-- Title Section -->
+        <div class="text-center my-5">
+            <h2 class="text-white">
+                <v-icon>mdi-book-open</v-icon> Today's Daily Bread
+            </h2>
+        </div>
+
+        <!-- Quote Section -->
+        <div class="text-center watermark-secton">
+            <p class="my-3 text-white"><i>{{ formattedDate }}</i></p>
+            <p class="service-description text-white">
+                <i>
+                    “And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.”
+                </i>
+            </p>
+        </div>
+
+        <!-- Scripture Reference Section -->
+        <div class="text-center my-5">
+            <p class="service-description text-white text-bold">
+                Hebrews 10:24-25 (NIV)
+            </p>
+        </div>
+    </section>
+</v-container>
+<v-container fluid class="schedule-container">
     <!--  Program Schedule Section -->
     <div class="text-center my-1">
         <h2 class="section-title">
@@ -372,60 +374,73 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import home from '@/mixins/home';
 export default {
+    mixins: [home],
     data() {
         return {
-            latestVideo: null,
-            toggle: null,
-            showCalendar: false,
-            selectedDate: new Date(),
-            events: [{
-                    name: "Bible Study",
-                    start: "2024-09-10 18:00",
-                    end: "2024-09-10 20:00"
+            scriptureTitle: "Today's Daily Bread",
+            scripture: "Philippians 4:13 - I can do all things through Christ who strengthens me.",
+            message: "No matter what challenges you face today, remember that God gives you the strength to overcome.",
+            currentDate: new Date(),
+            slideModel: 0,
+            toggle: 'about',
+            services: [{
+                    title: 'Swahili Church',
+                    icon: 'mdi-account-group-outline',
+                    times: 'English: 0700hrs & 0930hrs\nSwahili: 1130hrs',
+                    image: require('@/assets/church1.webp'),
                 },
                 {
-                    name: "Midweek Service",
-                    start: "2024-09-11 18:00",
-                    end: "2024-09-11 20:00"
+                    title: 'International Church',
+                    icon: 'mdi-human-child',
+                    times: 'English: 0700hrs & 0930hrs\nSwahili: 1130hrs',
+                    image: require('@/assets/church2.jpg'),
                 },
                 {
-                    name: "Prayer Meeting",
-                    start: "2024-09-13 18:00",
-                    end: "2024-09-13 20:00"
+                    title: 'Teenagers Church',
+                    icon: 'mdi-human-male-female',
+                    times: '0900hrs & 1100hrs',
+                    image: require('@/assets/church3.jpg'),
                 },
                 {
-                    name: "Main Service",
-                    start: "2024-09-15 07:00",
-                    end: "2024-09-15 11:30"
+                    title: 'Deaf Church',
+                    icon: 'mdi-human-male-female',
+                    times: '1200hrs & 1400hrs',
+                    image: require('@/assets/church4.jpg'),
+                },
+                {
+                    title: 'Children Church',
+                    icon: 'mdi-human-male-child',
+                    times: '1500hrs & 1700hrs',
+                    image: require('@/assets/children.jpg'),
                 },
             ],
         };
     },
     mounted() {
-        this.fetchLatestVideo();
+        this.startAutoSlide();
+    },
+    computed: {
+        formattedDate() {
+            return this.currentDate.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+        },
     },
     methods: {
-        async fetchLatestVideo() {
-            try {
-                const apiKey = 'YOUR_YOUTUBE_API_KEY'; // Replace with your API key
-                const channelId = 'YOUR_CHANNEL_ID'; // Replace with your channel ID
-                const response = await axios.get(
-                    `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=1`
-                );
-
-                if (response.data.items.length > 0) {
-                    const video = response.data.items[0];
-                    this.latestVideo = {
-                        videoId: video.id.videoId,
-                        title: video.snippet.title,
-                    };
-                }
-            } catch (error) {
-                console.error('Failed to fetch the latest video:', error);
-            }
+        startAutoSlide() {
+            setInterval(() => {
+                this.slideModel = (this.slideModel + 1) % this.services.length;
+            }, 3000); // Slide every 4 seconds
+        },
+        handleToggle() {
+           
+                this.$router.push('/about'); // Redirect to the '/about' path
+          
         },
     },
 };
@@ -451,12 +466,7 @@ export default {
 
 .service-card {
     margin: 10px;
-    height: 200px;
-    /* Increased height */
     width: 100%;
-    /* Ensure it uses full width available */
-    max-width: 400px;
-    /* Increased max-width */
     background-color: #ffffff;
 }
 
@@ -477,7 +487,7 @@ export default {
     height: 0;
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
     border: 1px solid #ddd;
     margin: 20px 0;
 }
@@ -705,5 +715,102 @@ export default {
     /* Adjust as needed */
     z-index: 1;
     /* Ensure it appears on top */
+}
+
+.service-card {
+    max-width: 500px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+    /* background-color: #32dffd; */
+}
+
+.service-carousel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.custom-toggle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-toggle {
+    border-radius: 50px;
+}
+
+.icon-on-toggle {
+    margin-top: 10px;
+}
+
+.daily-bread-container {
+    position: relative;
+    background: #00ACC1;
+    /* Slightly opaque white background */
+    padding: 20px 40px;
+
+    overflow: hidden;
+}
+
+.schedule-container {
+    position: relative;
+    background: #E0F7FA;
+    /* Slightly opaque white background */
+    padding: 20px 40px;
+
+    overflow: hidden;
+}
+
+.daily-bread-section {
+    position: relative;
+    height: 100%;
+    z-index: 2;
+    /* Ensures content is above the background image */
+}
+
+.watermark-section {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.service-description {
+    font-size: 18px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.text-cyan {
+    color: #00ACC1;
+    /* Custom cyan color to match your theme */
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+/* Faded Logo Background */
+.daily-bread-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    /* Adjust size as needed */
+    height: 600px;
+    /* Adjust size as needed */
+    background-image: url('@/assets/tag.png');
+    /* Replace with your actual logo path */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translate(-50%, -50%);
+    opacity: 0.06;
+    /* Adjust opacity for a subtle faded look */
+    z-index: 1;
+    /* Behind the content */
 }
 </style>
