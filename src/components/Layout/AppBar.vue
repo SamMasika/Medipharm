@@ -70,7 +70,7 @@
             </v-list>
         </v-menu>
         <!-- Ministries Dropdown Menu -->
-        <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+        <!-- <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
                 <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/clusters') }" @click.prevent="selectLink('/clusters')">
                     Clusters
@@ -80,12 +80,12 @@
             <v-list>
                 <v-list-item v-for="(subitem, subindex) in clusters" :key="subindex" @click="selectLink(subitem.route)" class="nav-link">
                     <v-list-item-title>
-                        <!-- <v-icon class="mr-3">{{ subitem.icon }}</v-icon> -->
+                      
                         {{ subitem.label }}
                     </v-list-item-title>
                 </v-list-item>
             </v-list>
-        </v-menu>
+        </v-menu> -->
         <!-- Ministries Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
