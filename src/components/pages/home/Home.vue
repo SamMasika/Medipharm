@@ -605,6 +605,7 @@ export default {
     background-color: transparent; /* No background by default */
     border: 1px solid transparent; /* Invisible border by default */
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2); /* Default shadow for elevation effect */
+    border-radius: 8px; /* Rounded corners */
     
   }
 
