@@ -41,13 +41,13 @@
         <v-col cols="12">
             <v-alert v-model="alert" border="start" class="text-color daily-bread-container" variant="tonal">
                 <h3 class="my-5">Our Values</h3>
-                <v-typography variant="body-1">
+                <v-typography variant="body-1" class="values-list">
                     <ul>
                         <li>
                             <i class="mx-2">STEWARDHIP (1Cor 4:1-2)</i>: BRT as good stewards of Jesus Christ, we have to be trustworthy so as integrity given to each one of us can be used well to reach the intended targets in great care.
                         </li>
                         <li>
-                            <i class="mx-2">SERVANTHOOD </i>: BRT as servants of Jesus Christ we have being called to serve and not to be served. In that case, we have to serve God through sacrificing as well putting others forward. (Matthew 20:25-28, John 13:1-17, Ephesians 6:5-8, Philippians 2:5-8)
+                            <i class="mx-2">SERVANTHOOD</i>: BRT as servants of Jesus Christ we have being called to serve and not to be served. In that case, we have to serve God through sacrificing as well putting others forward. (Matthew 20:25-28, John 13:1-17, Ephesians 6:5-8, Philippians 2:5-8)
                         </li>
                         <li>
                             <i class="mx-2">SACRIFICE</i>: The Bible orders us to sacrifice our lives so as to build the Kingdom and body of Christ. In that case, the major issue in our ministry is not looking on what we get or what we will harvest but what to give and offer for the welfare of Christ’s body “Sacrificial service”. (Romans 12:1-2)
@@ -56,21 +56,19 @@
                             <i class="mx-2">LOVE</i>: Selfishness is an enemy of unity and solidarity, which can weaken great power of efficiency in performance. In that case, we have to fulfill our ministry as a team. We are organs and joints in one body that is Christ’s body so we should communicate what is true, to be well obedient and respecting one another in love bond. (1Corth 13; Romans 12:3-8; Ephesians 4:1-16; 1Peter 4:8-11) “Team based operation”
                         </li>
                         <li>
-                            <i class="mx-2">PUNCTUALITY</i>:Time is an important raw material in our performance. Every person should be on time and all things are to be done on time, in that case, every person should save time. (Ephesians 5:15-16)
-                        </li>
-
-                        <li>
-                            <i class="mx-2">RISK TAKING</i>:A true faith dares to do great things that are impossible in man’s intelligence, but are only able to God. Then we should have vision “faith and risk taking”. (Ephesians 3:20-21, Hebrews 11:6)
+                            <i class="mx-2">PUNCTUALITY</i>: Time is an important raw material in our performance. Every person should be on time and all things are to be done on time, in that case, every person should save time. (Ephesians 5:15-16)
                         </li>
                         <li>
-                            <i class="mx-2">CREATIVITY</i>:In a fast changing world, innovation and creativity in performance will help going together on time. In that case, effort and confidence are very important in area of work “innovation and creativity”. (Exodus 36:1-8)
+                            <i class="mx-2">RISK TAKING</i>: A true faith dares to do great things that are impossible in man’s intelligence, but are only able to God. Then we should have vision “faith and risk taking”. (Ephesians 3:20-21, Hebrews 11:6)
                         </li>
                         <li>
-                            <i class="mx-2">EXCELLENCE</i>:Since our major fulfillment is that; everything we do is all about glorifying God, everything to be done that we put on our hands; it must be done in Excellency. (1Corth 10:31). In that case be one should be aware that trustworthy and integrity are important pillars of excellence.
+                            <i class="mx-2">CREATIVITY</i>: In a fast changing world, innovation and creativity in performance will help going together on time. In that case, effort and confidence are very important in area of work “innovation and creativity”. (Exodus 36:1-8)
                         </li>
                         <li>
-                            <i class="mx-2">PRAYERS</i>:We great consideration is on prayers because we believe and accept that without the Lord Jesus we are unable to do anything (Luke 11:1-13, 1Thess 5:17-18, Ephesians 6:18, 1Chronicles 29:12). So with all of that you should not forget to pray for your work/job in always. We all are looking forward to REVIVAL.
-
+                            <i class="mx-2">EXCELLENCE</i>: Since our major fulfillment is that; everything we do is all about glorifying God, everything to be done that we put on our hands; it must be done in Excellency. (1Corth 10:31). In that case be one should be aware that trustworthy and integrity are important pillars of excellence.
+                        </li>
+                        <li>
+                            <i class="mx-2">PRAYERS</i>: We great consideration is on prayers because we believe and accept that without the Lord Jesus we are unable to do anything (Luke 11:1-13, 1Thess 5:17-18, Ephesians 6:18, 1Chronicles 29:12). So with all of that you should not forget to pray for your work/job in always. We all are looking forward to REVIVAL.
                         </li>
                     </ul>
                 </v-typography>
@@ -78,27 +76,26 @@
                     <h3 class="my-5">Our Purpose</h3>
                     <p>Bethel Revival Temple church is there, for reasons, which are; <strong><i>Worship</i></strong>, <strong><i>Fellowship</i></strong>, <strong><i>Evangelism</i></strong>, <strong><i>Ministry/service</i></strong>, <strong><i>Discipleship</i></strong>.</p>
                     <p class="my-3"><strong>Description on our reasons for being:</strong></p>
-                    <v-typography variant="body-1">
+                    <v-typography variant="body-1" class="purpose-list">
                         <ul>
                             <li>
                                 <i class="mx-2">Worship</i>: Is an act of showing sincere love to God, meeting up with the Power and anointment of Holy Spirit through Word of God, prayers, offerings, praising (singing) and holiness. <i>(John: 19-24; Hebrews 10:25; 1Corth 1:21; Ephesians 5:19; 1Thes 5:17-18; Romans 12:1; Psalms 150)</i>
                             </li>
                             <li>
-                                <i class="mx-2">Fellowship </i>: s to strengthen love, unity, caring and solidarity to all believers in all situations. <i>(Acts 2:42, 44; John 13:34,35; Romans 15:26; 2Corth 8:4; 1Corth 11:28-30; John 1:6-7 & Ephesians 4:2,3; Romans 12:5; 1Corth 12:12-27; Ephesians 2:19-22; 1Corth 13:1-8)</i>
+                                <i class="mx-2">Fellowship</i>: Is to strengthen love, unity, caring and solidarity to all believers in all situations. <i>(Acts 2:42, 44; John 13:34,35; Romans 15:26; 2Corth 8:4; 1Corth 11:28-30; John 1:6-7 & Ephesians 4:2,3; Romans 12:5; 1Corth 12:12-27; Ephesians 2:19-22; 1Corth 13:1-8)</i>
                             </li>
                             <li>
                                 <i class="mx-2">Evangelism</i>: Is preaching the good News of Jesus Christ. It is a responsibility of every church member. <i>(Acts 1:8; Matthew 28:19, 20; Romans 10:14 & 15:12; 2Corth 5:18, 20; 1Peter 2:9, 10; 1Corth 9:10-23; Hebrews 5:14)</i>
                             </li>
                             <li>
-                                <i class="mx-2">Ministry/service</i>: Is demonstrating the Love of God by all church members. All believers should use the gifts of Holy Spirit so as to serve in different services. <i>(Luke 4:18,19; John 13:3, 14; Matthew 25:37-40, 20:26-28; 1Corth 12:4-7; Romans 12:3-8; 1Corth 14:12; Zechariah 4:6, Ephesians 4:12, 1Peter 4:10-11 )</i>
+                                <i class="mx-2">Ministry/service</i>: Is demonstrating the Love of God by all church members. All believers should use the gifts of Holy Spirit so as to serve in different services. <i>(Luke 4:18,19; John 13:3, 14; Matthew 25:37-40, 20:26-28; 1Corth 12:4-7; Romans 12:3-8; 1Corth 14:12; Zechariah 4:6, Ephesians 4:12, 1Peter 4:10-11)</i>
                             </li>
                             <li>
-                                <i class="mx-2">Discipleship</i>:Is simply teaching the Word of God so as a Christian to grow up in salvation until to resemble with Christ and to be able to serve God effectively and efficiently. <i>(Matthew 28:19-20; Colossians 1:9-11; Ephesians 4:11-17; Luke 9:23,24; Acts 20:20,27; Hebrews 5:14)</i>
+                                <i class="mx-2">Discipleship</i>: Is simply teaching the Word of God so as a Christian to grow up in salvation until to resemble with Christ and to be able to serve God effectively and efficiently. <i>(Matthew 28:19-20; Colossians 1:9-11; Ephesians 4:11-17; Luke 9:23,24; Acts 20:20,27; Hebrews 5:14)</i>
                             </li>
                         </ul>
                     </v-typography>
                 </v-col>
-
             </v-alert>
         </v-col>
     </v-row>
@@ -324,5 +321,28 @@ export default {
 
 .activity-card {
     margin-bottom: 16px;
+}
+
+.values-list ul,
+.purpose-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.values-list li,
+.purpose-list li {
+    margin-bottom: 1.5em;
+}
+
+.values-list i,
+.purpose-list i {
+    font-style: italic;
+    margin-right: 0.5em;
+}
+
+.values-list p,
+.purpose-list p {
+    margin-bottom: 1em;
+    line-height: 1.6;
 }
 </style>

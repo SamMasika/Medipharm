@@ -377,12 +377,19 @@ export default {
             this.drawer = false;
         },
         selectLink(route) {
+            // Redirect all routes except '/' and '/about-us' to home page
+            const routesToRedirect = ['/', '/about'];
+            
+            if (!routesToRedirect.includes(route)) {
+                route = '/'; // Redirect to home page
+            }
+            
             this.selectedRoute = route;
             this.$router.push(route);
         },
         isSelected(route) {
             return this.selectedRoute === route;
-        },
+        }
     },
 };
 </script>
