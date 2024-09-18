@@ -21,7 +21,7 @@
 <!-- Row for Worship Title and Service Timetable -->
 <v-container fluid class="schedue-container">
     <v-row class="worship-section" justify="center">
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="10">
             <h2 class="text-center worship-title my-1"> Our Churches</h2>
             <v-slide-group v-model="slideModel" center-active class="service-carousel no-arrows" :continuous="false">
                 <v-slide-group-item v-for="(service, index) in services" :key="index">
