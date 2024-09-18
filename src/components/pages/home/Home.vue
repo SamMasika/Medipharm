@@ -9,8 +9,8 @@
                 <div class="video-container">
                     <iframe class="video-frame" src="https://www.youtube.com/embed/WRkDboupLx4" title="IBADA YA JUMAPILI _ 1_ 02.06.2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                <v-btn class="text-none custom-btn-color"  size="large" rounded="xl" flat>
-                    Watch all sermons
+                <v-btn class="text-none custom-view-color"  size="large" rounded="xl" flat>
+                  <v-icon size="30">mdi-youtube</v-icon>  Watch all sermons
                 </v-btn>
             </v-col>
         </v-row>
@@ -84,7 +84,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/fellowship.webp" height="300px" w cover>
-                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
+                        <v-chip class="chip-overlay custom-chip-color"  variant="flat" >
                             Fellowship
                         </v-chip>
                     </v-img>
@@ -599,6 +599,14 @@ export default {
 .custom-chip-color {
     background-color: #0097A7; /* cyan darken-2 */
     color: white; /* For text color */
+  }
+  .custom-view-color {
+    color:white !important; /* cyan darken-2 for text */
+    background-color: #0097A7; /* No background by default */
+    border: 1px solid transparent; /* Invisible border by default */
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2); /* Default shadow for elevation effect */
+    border-radius: 8px; /* Rounded corners */
+    
   }
   .custom-btn-color {
     color:#0097A7 !important; /* cyan darken-2 for text */
