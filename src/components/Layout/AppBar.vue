@@ -16,7 +16,7 @@
         <!-- About Us Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
-                <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/about') }" @click.prevent="selectLink('/about')">
+                <a v-bind="props" :class="{ 'nav-link': true,  }">
                     About Us
                     <v-icon class="ml-2">mdi-menu-down</v-icon>
                 </a>
@@ -30,8 +30,8 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-  <!-- Ministries Dropdown Menu -->
-  <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
+        <!-- Ministries Dropdown Menu -->
+        <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
                 <a v-bind="props" :class="{ 'nav-link': true, selected: isSelected('/churches') }" @click.prevent="selectLink('/churches')">
                     Churches
@@ -51,7 +51,6 @@
         <a href="/sermons" class="nav-link" :class="{ selected: isSelected('/sermons') }" @click.prevent="selectLink('/sermons')">
             Sermons
         </a>
-
 
         <!-- Ministries Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
@@ -226,7 +225,7 @@ export default {
                     route: '/ministries/women',
                     icon: 'mdi-human-female-female'
                 },
-               
+
             ],
             churches: [{
                     label: 'DO NOT PASS ME BY',
@@ -238,7 +237,7 @@ export default {
                     route: '/ministries/women',
                     icon: 'mdi-human-female-female'
                 },
-               
+
             ],
             clusters: [{
                     label: 'Cluster A',
@@ -373,15 +372,13 @@ export default {
     methods: {
         toggleDrawer() {
             this.drawer = !this.drawer;
-            this.ministriesOpen = false;
         },
         closeDrawer() {
             this.drawer = false;
-            this.ministriesOpen = false;
         },
         selectLink(route) {
             this.selectedRoute = route;
-            this.$router.push(route); // Navigate to the selected route
+            this.$router.push(route);
         },
         isSelected(route) {
             return this.selectedRoute === route;
@@ -424,11 +421,11 @@ export default {
 }
 
 .nav-link:hover {
-    color: #00ACC1;
+    color: #0097A7;
 }
 
 .nav-link.selected {
-    color: #00ACC1;
+    color: #0097A7;
 }
 
 .v-icon {
@@ -444,14 +441,21 @@ export default {
 }
 
 .v-menu .nav-link:hover {
-    color: #00ACC1;
+    color: #0097A7;
 }
 
 .v-navigation-drawer .nav-link:hover {
-    color: #00ACC1;
+    color: #0097A7;
 }
 
 .v-navigation-drawer .nav-link.selected {
-    color: #00ACC1;
+    color: #0097A7;
+}
+
+.myselected-link {
+    background-color: #0097A7;
+    /* Set your desired background color */
+    color: #ffffff;
+    /* Set your desired text color */
 }
 </style>

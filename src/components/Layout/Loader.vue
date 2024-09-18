@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .loader-overlay {
     position: fixed;
     top: 0;

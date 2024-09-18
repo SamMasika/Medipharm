@@ -121,7 +121,7 @@ export default {
 
 .nav-link:hover,
 .nav-link.selected {
-    color: #00ACC1;
+    color: #0097A7;
     /* Yellow color */
 }
 
@@ -141,23 +141,23 @@ export default {
 
 .v-menu .nav-link:hover,
 .v-menu .nav-link.selected {
-    color: #00ACC1;
+    color: #0097A7;
     /* Yellow color for selected/hovered menu items */
 }
 
 .v-navigation-drawer .nav-link:hover,
 .v-navigation-drawer .nav-link.selected {
-    color: #00ACC1;
+    color: #0097A7;
     /* Yellow color for hovered/selected drawer items */
 }
 
 .v-navigation-drawer .nav-link.selected .v-icon {
-    color: #00ACC1;
+    color: #0097A7;
     /* Optional: Change icon color to match */
 }
 
 .main-color {
-    background-color: #00ACC1;
+    background-color: #0097A7;
 }
 
 .vision-section {
@@ -191,6 +191,6 @@ export default {
 }
 
 .links-social .v-list-item:hover {
-    color: #00ACC1;
+    color: #0097A7;
 }
 </style>

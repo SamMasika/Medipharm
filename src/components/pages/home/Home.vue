@@ -1,7 +1,7 @@
 <template>
 <v-container fluid>
     <div class="text-center my-1">
-        <p style="font-size:medium">Worship with us in person or online every Sunday at 0700hrs (ENG), 0930hrs (ENG) and 1130hrs (SWA)</p>
+        <p style="font-size:medium"><i>Worship with us in person or online every Sunday</i> </p>
     </div>
     <div class="text-center my-1">
         <v-row justify="center">
@@ -9,7 +9,7 @@
                 <div class="video-container">
                     <iframe class="video-frame" src="https://www.youtube.com/embed/WRkDboupLx4" title="IBADA YA JUMAPILI _ 1_ 02.06.2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                <v-btn class="text-none text-white" color="cyan darken-2" size="large" rounded="xl" flat>
+                <v-btn class="text-none custom-btn-color"  size="large" rounded="xl" flat>
                     Watch all sermons
                 </v-btn>
             </v-col>
@@ -35,9 +35,9 @@
                             </v-chip>
                             <v-spacer></v-spacer>
                         </v-card-title>
-                        <v-card-text class="text-center " style="font-size:medium">
+                        <!-- <v-card-text class="text-center " style="font-size:medium">
                             <strong>{{ service.times }}</strong>
-                        </v-card-text>
+                        </v-card-text> -->
                     </v-card>
                 </v-slide-group-item>
             </v-slide-group>
@@ -51,9 +51,9 @@
             <v-row justify="center" class="my-2">
                 <v-col class="d-flex justify-center">
                     <div class="custom-toggle-container">
-                        <v-btn-toggle v-model="toggle" class="custom-toggle" >
-                            <v-btn value="about" class="text-none custom-btn custom-btn-left" @click="handleToggle">About Us</v-btn>
-                            <v-btn value="visit" class="text-none custom-btn custom-btn-right">Visit Us</v-btn>
+                        <v-btn-toggle v-model="toggle" class="custom-toggle">
+                            <v-btn value="about" class="text-none text-white custom-btn custom-btn-left" @click="handleToggle">About Us</v-btn>
+                            <v-btn value="visit" class="text-none custom-btn text-white custom-btn-right">Visit Us</v-btn>
                         </v-btn-toggle>
                         <v-icon class="icon-on-toggle" color="white">mdi-microphone</v-icon>
                     </div>
@@ -84,7 +84,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/fellowship.webp" height="300px" w cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Fellowship
                         </v-chip>
                     </v-img>
@@ -97,7 +97,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none" append-icon="mdi-chevron-double-right">Join Fellowship</v-btn>
+                        <v-btn text  class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Fellowship</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -108,7 +108,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/prayer.jpeg" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Prayer & Bible Study
                         </v-chip>
                     </v-img>
@@ -121,7 +121,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none" append-icon="mdi-chevron-double-right">Pray with Us</v-btn>
+                        <v-btn  class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Pray with Us</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -132,7 +132,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/giving.jpg" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Giving
                         </v-chip>
                     </v-img>
@@ -145,7 +145,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none" append-icon="mdi-chevron-double-right">Give</v-btn>
+                        <v-btn  class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Give</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -180,29 +180,48 @@
     </section>
 </v-container>
 <v-container fluid class="schedule-container">
-    <!--  Program Schedule Section -->
+    <!-- Program Schedule Section -->
     <div class="text-center my-1">
-        <h2 class="section-title">
-            <v-icon class="mx-3">mdi-calendar-month</v-icon>Program Schedule
+        <h2 class="section-title" ><v-icon class="mx-3 custom-icon-color">mdi-calendar-month</v-icon>Weekly Programs
         </h2>
     </div>
 
     <v-row justify="center" class="worship-section">
         <v-col cols="12" md="8">
             <div class="timeline">
+                <!-- Monday -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <v-icon color="white">mdi-calendar-month</v-icon>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-day">Jumatatu</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-group</v-icon>CA’s
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>10:00 - 12:00 Jioni
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tuesday -->
                 <div class="timeline-item">
                     <div class="timeline-dot">
                         <v-icon color="white">mdi-calendar-month</v-icon>
                     </div>
                     <div class="timeline-content">
-                        <h3 class="timeline-day">Tuesday, Sept 10, 2024</h3>
-                        <p class="timeline-program">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-book-open-page-variant-outline</v-icon>Bible Study
-                        </p>
-                        <span class="timeline-time">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-clock-time-four-outline</v-icon>1800hrs - 2000hrs
-                        </span>
+                        <h3 class="timeline-day">Jumanne</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-group</v-icon>WWK, CMF, Waongofu Wapya
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>10:00 - 12:00 Jioni
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -212,13 +231,73 @@
                         <v-icon color="white">mdi-calendar-month</v-icon>
                     </div>
                     <div class="timeline-content">
-                        <h3 class="timeline-day">Wednesday, Sept 11, 2024</h3>
-                        <p class="timeline-program">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-book-open-page-variant-outline</v-icon>Midweek Service
-                        </p>
-                        <span class="timeline-time">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-clock-time-four-outline</v-icon>1800hrs - 2000hrs
-                        </span>
+                        <h3 class="timeline-day">Jumatano</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-church</v-icon>Ibada ya Kwanza
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>12:00 - 01:00 Asubuhi
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-church</v-icon>Ibada ya Pili
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>09:00 - 11:00 Jioni
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-church</v-icon>Ibada ya Tatu
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>12:00 Jioni - 01:00 Usiku
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Walawi
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>01:00 Usiku - 03:00 Usiku
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thursday -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <v-icon color="white">mdi-calendar-month</v-icon>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-day">Alhamisi</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Gospel Choir, Living Word Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>12:00-4:00 Asubuhi
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Water Choir, Living Hope Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>9:00-12:00 Jioni
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-group</v-icon>Waongofu Wapya
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>10:00 - 12:00 Jioni
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -228,48 +307,109 @@
                         <v-icon color="white">mdi-calendar-month</v-icon>
                     </div>
                     <div class="timeline-content">
-                        <h3 class="timeline-day">Friday, Sept 13, 2024</h3>
-                        <p class="timeline-program">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-book-open-page-variant-outline</v-icon>Prayer Meeting
-                        </p>
-                        <span class="timeline-time">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-clock-time-four-outline</v-icon>1800hrs - 2000hrs
-                        </span>
+                        <h3 class="timeline-day">Ijumaa</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-frequently-asked-questions</v-icon>Mlima wa Maombi (Alfajiri & Jioni)
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>12:00 - 01:00 Asubuhi, 09:00 - 12:00 Jioni
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Victory Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>11:00 Jioni - 01:00 Usiku
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-weather-night</v-icon>Mkesha
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>03:00 Usiku - 11:00 Alfajiri
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Sunday -->
+                <!-- Saturday -->
                 <div class="timeline-item">
                     <div class="timeline-dot">
                         <v-icon color="white">mdi-calendar-month</v-icon>
                     </div>
                     <div class="timeline-content">
-                        <h3 class="timeline-day">Sunday, Sept 15, 2024</h3>
-                        <p class="timeline-program">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-book-open-page-variant-outline</v-icon>Main Service
-                        </p>
-                        <span class="timeline-time">
-                            <v-icon color="cyan darken-2" class="mx-3">mdi-clock-time-four-outline</v-icon>0700hrs (ENG), 0930hrs (ENG), 1130hrs (SWA)
-                        </span>
+                        <h3 class="timeline-day">Sartuday</h3>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Gospel Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>12:00 - 02:00 Asubuhi
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-church</v-icon>Victory Ibada
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>02:00 - 05:00 Asubuhi
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Word Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>02:00 - 04:00 Asubuhi
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Water Choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>04:00 - 06:00 Mchana
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Living Hope choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>06:00 - 07:00 Mchana
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-music</v-icon>Victory choir
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon  class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>07:00 - 08:00 Jioni
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon class="custom-icon-color mx-3">mdi-music</v-icon>Walawi Shagwe
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon class="custom-icon-color mx-3">mdi-clock-time-four-outline</v-icon>09:00 - 12:00 Jioni
+                            </p>
+                        </div>
+                        <div class="d-flex align-center" style="width: 100%;">
+                            <p class="timeline-program">
+                                <v-icon class="custom-icon-color mx-3">mdi-music</v-icon>Levites
+                            </p>
+                            <p class="timeline-time">
+                                <v-icon class="custom-icon-color mx-3">mdi-clock-time-four-outline</v-icon>09:00 - 12:00 Jioni
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
-            <!-- Show Calendar Button -->
-            <div class="text-center mt-4">
-                <v-btn color="primary" flat rounded="xl" @click="showCalendar = !showCalendar">
-                    <v-icon left>mdi-calendar-month</v-icon> View all services
-                </v-btn>
-            </div>
-
-            <!-- Calendar of Events -->
-            <v-expand-transition>
-                <v-row v-if="showCalendar" class="mt-4" justify="center">
-                    <v-col cols="12" md="8">
-                        <v-calendar v-model="selectedDate" color="cyan darken-2" events="events" event-color="green" :show-week="true" />
-                    </v-col>
-                </v-row>
-            </v-expand-transition>
         </v-col>
     </v-row>
 </v-container>
@@ -297,7 +437,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/construction.webp" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Construction
                         </v-chip>
                     </v-img>
@@ -310,7 +450,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none" append-icon="mdi-chevron-double-right">Get Involved</v-btn>
+                        <v-btn  class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Get Involved</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -321,7 +461,7 @@
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
                     <v-img src="@/assets/discipleship.webp" height="300px" cover>
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Discipleship Classes
                         </v-chip>
                     </v-img>
@@ -334,7 +474,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none" append-icon="mdi-chevron-double-right">Join a Class</v-btn>
+                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join a Class</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -347,7 +487,7 @@
                     <!-- Card image with chip overlay -->
                     <v-img src="@/assets/ministry.jpg" height="300px" cover class="position-relative">
                         <!-- Chip with text "Ministry" -->
-                        <v-chip class="chip-overlay text-white" variant="flat" color="cyan darken-2">
+                        <v-chip class="chip-overlay custom-chip-color" variant="flat" >
                             Ministries
                         </v-chip>
                     </v-img>
@@ -363,7 +503,7 @@
 
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text color="cyan darken-2" class="text-none text-bold" append-icon="mdi-chevron-double-right">
+                        <v-btn text  class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">
                             Explore Ministries
                         </v-btn>
                     </v-card-actions>
@@ -387,7 +527,7 @@ export default {
             slideModel: 0,
             toggle: 'about',
             services: [{
-                    title: 'Swahili Church',
+                    title: 'Main Church(Swahili Church)',
                     icon: 'mdi-account-group-outline',
                     times: 'English: 0700hrs & 0930hrs\nSwahili: 1130hrs',
                     image: require('@/assets/church1.webp'),
@@ -399,7 +539,7 @@ export default {
                     image: require('@/assets/church2.jpg'),
                 },
                 {
-                    title: 'Teenagers Church',
+                    title: 'Victory Church',
                     icon: 'mdi-human-male-female',
                     times: '0900hrs & 1100hrs',
                     image: require('@/assets/church3.jpg'),
@@ -439,18 +579,41 @@ export default {
             }, 3000); // Slide every 4 seconds
         },
         handleToggle() {
-           
-                this.$router.push('/about'); // Redirect to the '/about' path
-          
+
+            this.$router.push('/about'); // Redirect to the '/about' path
+
         },
     },
 };
 </script>
 
-<style scoped>
+<style>
 .text-center {
     text-align: center;
 }
+
+.custom-icon-color {
+    color:#0097A7;
+    /* cyan darken-2 */
+}
+.custom-chip-color {
+    background-color: #0097A7; /* cyan darken-2 */
+    color: white; /* For text color */
+  }
+  .custom-btn-color {
+    color:#0097A7 !important; /* cyan darken-2 for text */
+    background-color: transparent; /* No background by default */
+    border: 1px solid transparent; /* Invisible border by default */
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2); /* Default shadow for elevation effect */
+    
+  }
+
+  .custom-btn-color:hover {
+    background-color:#0097A7; /* cyan darken-2 background on hover */
+    color: white !important; /* Text color changes to white on hover */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Elevation effect on hover */
+     /* Optional: visible border on hover */
+  }
 
 .worship-section {
     margin-top: 10px;
@@ -531,13 +694,13 @@ export default {
 }
 
 .custom-btn-left {
-    background-color: #ff4b14;
+    background-color: #0097A7;
     /* Change to your preferred color */
     color: white;
 }
 
 .custom-btn-right {
-    background-color: #020202;
+    background-color: #000000;
     /* Change to your preferred color */
     color: white;
 }
@@ -626,7 +789,7 @@ export default {
     position: relative;
     margin: 20px 0;
     padding: 20px 0;
-    border-left: 3px solid #00acc1;
+    border-left: 3px solid #0097A7;
 }
 
 .timeline-item {
@@ -641,7 +804,7 @@ export default {
     top: 20px;
     width: 30px;
     height: 30px;
-    background-color: #00acc1;
+    background-color: #0097A7;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -661,20 +824,25 @@ export default {
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 5px;
-    color: #00acc1;
+    color: #0097A7;
 }
 
 .timeline-program {
     font-size: 16px;
     color: #333;
     margin: 0;
+    padding-top: 5px;
+    font-style: normal;
+    font-weight: 100;
+    flex: 1;
 }
 
 .timeline-time {
     display: block;
     font-size: 14px;
     color: #666;
-    margin-top: 5px;
+    font-style: normal;
+    margin-top: 0px;
 }
 
 .section-title {
@@ -749,7 +917,7 @@ export default {
 
 .daily-bread-container {
     position: relative;
-    background: #00ACC1;
+    background: #0097A7;
     /* Slightly opaque white background */
     padding: 20px 40px;
 
@@ -785,7 +953,7 @@ export default {
 }
 
 .text-cyan {
-    color: #00ACC1;
+    color: #0097A7;
     /* Custom cyan color to match your theme */
 }
 

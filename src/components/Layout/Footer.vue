@@ -1,13 +1,13 @@
 <template>
-<v-container class="vision-section" fluid>
+<v-container class="vision-section" fluid >
     <v-row justify="center">
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="10">
             <div class="text-center my-5">
                 <v-row justify="center">
                     <!-- Church Vision -->
                     <v-col cols="12" md="3" class="vision-content text-left">
                         <p style="font-size:medium">
-                            We aim to spread the love and teachings of Christ through our various programs and outreach initiatives. Join us in our mission to serve and support our community.
+                            Our mission is to be active disciples of Jesus Christ, who demonstrate the Power of the Holy Spirit to all nations.
                         </p>
                     </v-col>
 
@@ -17,7 +17,6 @@
                             <!-- Links -->
                             <v-col cols="auto">
                                 <v-list class="d-flex align-center links-list">
-                                    <v-list-item link href="/give">Give</v-list-item>
                                     <v-list-item link href="/careers">Careers</v-list-item>
                                     <v-list-item link href="/events">Events</v-list-item>
                                     <v-list-item link href="/privacy-policy">Privacy Policy</v-list-item>
@@ -30,7 +29,7 @@
                                     <v-list-item link href="https://twitter.com" target="_blank">
                                         <v-icon>mdi-twitter</v-icon>
                                     </v-list-item>
-                                    <v-list-item link href="https://wa.me" target="_blank">
+                                    <v-list-item link href="https://wa.me/255717135829" target="_blank">
                                         <v-icon>mdi-whatsapp</v-icon>
                                     </v-list-item>
                                     <!-- YouTube Link -->
@@ -69,7 +68,7 @@ export default {
 
 <style scoped>
 .footer {
-    background-color: #00acc1;
+    background-color: #0097A7;
     color: #ffffff;
     font-size: 14px;
     margin-top: 0;
@@ -110,6 +109,6 @@ export default {
 }
 
 .links-social .v-list-item:hover {
-    color: #00acc1;
+    color: #0097A7;
 }
 </style>
