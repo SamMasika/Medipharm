@@ -39,7 +39,7 @@
 <v-container>
     <v-row>
         <v-col cols="12">
-            <v-alert v-model="alert" border="start" class="text-color daily-bread-container" variant="tonal">
+            <v-alert v-model="alert" border="start" class="text-color daily-bread-containr" variant="tonal">
                 <h3 class="my-5">Our Values</h3>
                 <v-typography variant="body-1" class="values-list">
                     <ul>
