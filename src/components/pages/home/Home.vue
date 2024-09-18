@@ -19,7 +19,7 @@
     <!-- Row for Video and Button -->
 </v-container>
 <!-- Row for Worship Title and Service Timetable -->
-<v-container fluid class="schedule-container">
+<v-container fluid class="schedue-container">
     <v-row class="worship-section" justify="center">
         <v-col cols="12" md="8">
             <h2 class="text-center worship-title my-1"> Our Churches</h2>
@@ -987,6 +987,26 @@ export default {
     background-position: center;
     transform: translate(-50%, -50%);
     opacity: 0.06;
+    /* Adjust opacity for a subtle faded look */
+    z-index: 1;
+    /* Behind the content */
+}
+.schedule-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    /* Adjust size as needed */
+    height: 600px;
+    /* Adjust size as needed */
+    background-image: url('@/assets/schedul.png');
+    /* Replace with your actual logo path */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translate(-50%, -50%);
+    opacity: 0.04;
     /* Adjust opacity for a subtle faded look */
     z-index: 1;
     /* Behind the content */
