@@ -1,5 +1,5 @@
 <template>
-<v-container fluid>
+<v-container fluid class="">
     <div class="text-center my-1">
         <p style="font-size:medium"><i>Worship with us in person or online every Sunday</i> </p>
     </div>

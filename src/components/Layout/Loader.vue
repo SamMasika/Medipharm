@@ -1,8 +1,8 @@
 <template>
 <div v-if="loading" class="loader-overlay">
-  <div class="">
-    <v-img src="@/assets/tag.png" class="animated-logo"></v-img>
-  </div>
+    <div class="">
+        <v-img src="@/assets/tag.png" class="animated-logo"></v-img>
+    </div>
     <!-- Replace src with the correct path to your logo -->
 </div>
 </template>
@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .loader-overlay {
     position: fixed;
     top: 0;

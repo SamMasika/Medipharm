@@ -82,7 +82,7 @@ export default {
     background-color: #E0CFC2;
     padding: 40px 0 0 0;
     margin-bottom: 0;
-    margin-top: 50px;
+    margin-top: 0;
 }
 
 .vision-content p {
