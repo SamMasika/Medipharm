@@ -445,7 +445,7 @@
     </v-row>
 </v-container>
 
-<v-container>
+<v-container class="my-8">
     <!-- Section Title -->
     <div class="text-center my-5">
         <h2 class="section-title">Get Connected</h2>

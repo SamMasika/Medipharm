@@ -41,7 +41,7 @@ export default {
     },
     data: () => ({
         type: 'month',
-        types: ['month', 'week', 'day'],
+        types: ['MONTH', 'WEEK', 'DAY'],
         weekday: [0, 1, 2, 3, 4, 5, 6],
         weekdays: [{
                 title: 'Sun - Sat',
@@ -117,7 +117,7 @@ export default {
     /* Optional: add padding for better spacing */
     background-color: white;
     /* Optional: set a background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     /* Optional: add a subtle shadow */
 }
 </style>
