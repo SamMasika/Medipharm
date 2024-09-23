@@ -113,7 +113,7 @@
         </p>
     </div>
     <div class="text-center  ">
-        <p class="service-descripton text-cyan text-bold">
+        <p class="service-descripton bible-verse text-bold">
             <i>Ephesians 4:11-12 (NIV)</i>
         </p>
     </div>
@@ -124,7 +124,7 @@
         </v-avatar>
         <div class="text-center " style="padding:150px 70px;">
             <h3 class="my-1">Bishop Dr. Barnabas W. Mtokambali:</h3>
-            <p><i>SENIOR PASTOR: Worship, Leadership and Vision.</i></p>
+            <p class="text-color"><i>SENIOR PASTOR: Worship, Leadership and Vision.</i></p>
         </div>
     </div>
     <!-- Get Involved Cards -->
@@ -247,7 +247,7 @@ export default {
 
 <style scoped>
 .text-color {
-    color: #0097A7;
+    color:  #A82228;
 }
 
 .image-stack {

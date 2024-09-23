@@ -378,7 +378,7 @@ export default {
         },
         selectLink(route) {
             // Redirect all routes except '/' and '/about-us' to home page
-            const routesToRedirect = ['/', '/about'];
+            const routesToRedirect = ['/', '/about','/calendar'];
             
             if (!routesToRedirect.includes(route)) {
                 route = '/'; // Redirect to home page
@@ -428,11 +428,11 @@ export default {
 }
 
 .nav-link:hover {
-    color: #0097A7;
+    color: #A82228;
 }
 
 .nav-link.selected {
-    color: #0097A7;
+    color: #A82228;
 }
 
 .v-icon {
@@ -448,19 +448,19 @@ export default {
 }
 
 .v-menu .nav-link:hover {
-    color: #0097A7;
+    color: #A82228;
 }
 
 .v-navigation-drawer .nav-link:hover {
-    color: #0097A7;
+    color: #A82228;
 }
 
 .v-navigation-drawer .nav-link.selected {
-    color: #0097A7;
+    color: #A82228;
 }
 
 .myselected-link {
-    background-color: #0097A7;
+    background-color: #A82228;
     /* Set your desired background color */
     color: #ffffff;
     /* Set your desired text color */

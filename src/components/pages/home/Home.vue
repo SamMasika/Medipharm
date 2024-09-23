@@ -58,9 +58,10 @@
                         <v-card-title class="d-flex align-center">
                             <v-spacer></v-spacer>
                             <v-icon class="mx-5" size="40">{{ service.icon }}</v-icon>
-                            <v-chip color="cyan darken-2" size="small" variant="flat" class="text-white">
+                            <v-chip size="small" variant="flat" class="custom-chip-color">
                                 {{ service.title }}
                             </v-chip>
+
                             <v-spacer></v-spacer>
                         </v-card-title>
                     </v-card>
@@ -99,7 +100,7 @@
         </p>
     </div>
     <div class="text-center my-5 ">
-        <p class="service-descripton text-cyan text-bold">
+        <p class="service-descripton bible-verse text-bold">
             Hebrews 10:24-25 (NIV)
         </p>
     </div>
@@ -107,22 +108,22 @@
         <!-- Fellowship Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
                     <v-img src="@/assets/fellowship.webp" height="300px" w cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Fellowship
+                            Ushemasi
                         </v-chip>
                     </v-img>
                     <v-card-title>
                         <v-icon class="mx-4">mdi-handshake</v-icon>
-                        <span class="title">Fellowship</span>
+                        <span class="title">Ushemasi</span>
                     </v-card-title>
                     <v-card-text>
                         Join us for fellowship and build lasting relationships within our church community.
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Fellowship</v-btn>
+                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Ushemasi</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -131,7 +132,7 @@
         <!-- Prayer & Bible Study Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
                     <v-img src="@/assets/prayer.jpeg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Prayer & Bible Study
@@ -155,7 +156,7 @@
         <!-- Giving Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
                     <v-img src="@/assets/giving.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Giving
@@ -434,11 +435,11 @@
                 </div>
 
             </div>
-                <div class="d-flex justify-center">
-                    <v-btn class="text-none custom-view-color" rounded="xl" prepend-icon="mdi-calendar-month">
-                        View all Events
-                    </v-btn>
-                </div>
+            <div class="d-flex justify-center">
+                <v-btn class="text-none custom-view-color" rounded="xl" prepend-icon="mdi-calendar-month" @click="goToCalendar">
+                    View all Events
+                </v-btn>
+            </div>
 
         </v-col>
     </v-row>
@@ -447,7 +448,7 @@
 <v-container>
     <!-- Section Title -->
     <div class="text-center my-5">
-        <h2 class="section-title">Get Involved</h2>
+        <h2 class="section-title">Get Connected</h2>
     </div>
 
     <div class="text-center my-3 watermark-section">
@@ -456,27 +457,28 @@
         </p>
     </div>
     <div class="text-center my-5 ">
-        <p class="service-descripton text-cyan text-bold">
+        <p class="service-description bible-verse ">
             1 Peter 4:10 (NIV)
         </p>
     </div>
-    <!-- Get Involved Cards -->
+
+    <!-- Get Connected Cards -->
     <v-row>
-        <!-- Construction Activities Card -->
+        <!-- Worship Teams & Choir Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
-                    <v-img src="@/assets/construction.webp" height="300px" cover>
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                    <v-img src="@/assets/worship.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Construction
+                            Worship Teams & Choir
                         </v-chip>
                     </v-img>
                     <v-card-title>
-                        <v-icon class="mx-4">mdi-hammer</v-icon>
-                        <span class="title">Construction Activities</span>
+                        <v-icon class="mx-4">mdi-music</v-icon>
+                        <span class="title">Worship Teams & Choir</span>
                     </v-card-title>
                     <v-card-text>
-                        Join our efforts to maintain and improve our church facilities. Your skills and time are valuable!
+                        Join our worship teams and choir to use your musical talents in leading others in praise and worship.
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
@@ -486,56 +488,49 @@
             </v-hover>
         </v-col>
 
-        <!-- Discipleship Classes Card -->
+        <!-- Teaching Children Classes Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
-                    <v-img src="@/assets/discipleship.webp" height="300px" cover>
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                    <v-img src="@/assets/childrens.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Discipleship Classes
+                            Teaching Children
                         </v-chip>
                     </v-img>
                     <v-card-title>
-                        <v-icon class="mx-4">mdi-book-open-outline</v-icon>
-                        <span class="title">Discipleship Classes</span>
+                        <v-icon class="mx-4">mdi-teach</v-icon>
+                        <span class="title">Teaching Children Classes</span>
                     </v-card-title>
                     <v-card-text>
-                        Participate in our discipleship classes to grow in your faith and understanding of the scriptures.
+                        Use your passion for teaching by helping children grow in their understanding of God’s word.
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join a Class</v-btn>
+                        <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join the Team</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
         </v-col>
 
-        <!-- Ministries Card -->
+        <!-- Media Team Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 6">
-                    <!-- Card image with chip overlay -->
-                    <v-img src="@/assets/ministry.jpg" height="300px" cover class="position-relative">
-                        <!-- Chip with text "Ministry" -->
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                    <v-img src="@/assets/media.jpeg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Ministries
+                            Media Team
                         </v-chip>
                     </v-img>
-
                     <v-card-title>
-                        <v-icon class="mx-4">mdi-church</v-icon>
-                        <span class="title">In Ministries</span>
+                        <v-icon class="mx-4">mdi-video</v-icon>
+                        <span class="title">Media Team</span>
                     </v-card-title>
-
                     <v-card-text>
-                        Get involved with various ministries to serve and support our community. Discover how you can make a difference!
+                        Serve through media by managing sound, video, and technical aspects of our services.
                     </v-card-text>
-
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">
-                            Explore Ministries
-                        </v-btn>
+                        <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join the Media Team</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>
@@ -644,26 +639,29 @@ export default {
             }, 3000); // Slide every 4 seconds
         },
         handleToggle() {
-
             this.$router.push('/about'); // Redirect to the '/about' path
+        },
 
+        goToCalendar() {
+            this.$router.push('/calendar');
         },
     },
 };
 </script>
 
 <style>
+
 .text-center {
     text-align: center;
 }
 
 .custom-icon-color {
-    color: #0097A7;
+    color: #A82228;
     /* cyan darken-2 */
 }
 
 .custom-chip-color {
-    background-color: #0097A7;
+    background-color: #A82228;
     /* cyan darken-2 */
     color: white;
     /* For text color */
@@ -672,7 +670,7 @@ export default {
 .custom-view-color {
     color: white !important;
     /* cyan darken-2 for text */
-    background-color: #0097A7;
+    background-color: #A82228;
     /* No background by default */
     border: 1px solid transparent;
     /* Invisible border by default */
@@ -684,7 +682,7 @@ export default {
 }
 
 .custom-btn-color {
-    color: #0097A7 !important;
+    color: #800000 !important;
     /* cyan darken-2 for text */
     background-color: transparent;
     /* No background by default */
@@ -698,7 +696,7 @@ export default {
 }
 
 .custom-btn-color:hover {
-    background-color: #0097A7;
+    background-color: #A82228;
     /* cyan darken-2 background on hover */
     color: white !important;
     /* Text color changes to white on hover */
@@ -714,7 +712,7 @@ export default {
 
 .worship-section {
     margin-top: 10px;
-    background-color: #E0F7FA;
+    background-color: #E0CFC2;
     height: auto;
     /* Adjust height as needed */
 }
@@ -747,7 +745,7 @@ export default {
     /* Aspect ratio 16:9 */
     height: 0;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 12px;
     /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
     border: 1px solid #ddd;
     margin: 20px 0;
@@ -791,7 +789,7 @@ export default {
 }
 
 .custom-btn-left {
-    background-color: #0097A7;
+    background-color: #A82228;
     /* Change to your preferred color */
     color: white;
 }
@@ -886,7 +884,7 @@ export default {
     position: relative;
     margin: 20px 0;
     padding: 20px 0;
-    border-left: 3px solid #0097A7;
+    border-left: 3px solid #A82228;
 }
 
 .timeline-item {
@@ -901,7 +899,7 @@ export default {
     top: 20px;
     width: 30px;
     height: 30px;
-    background-color: #0097A7;
+    background-color: #A82228;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -914,14 +912,20 @@ export default {
     background-color: #ffffff;
     padding: 10px 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .timeline-day {
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 5px;
-    color: #0097A7;
+    color: #A82228;
+}
+.bible-verse {
+    font-size: 18px;
+    font-weight: bold;
+    color: #A82228;
+    font-style: italic;
 }
 
 .timeline-program {
@@ -1014,7 +1018,7 @@ export default {
 
 .daily-bread-container {
     position: relative;
-    background: #0097A7;
+    background: #A82228;
     /* Slightly opaque white background */
     padding: 20px 40px;
 
@@ -1023,7 +1027,7 @@ export default {
 
 .schedule-container {
     position: relative;
-    background: #E0F7FA;
+    background: #E0CFC2;
     /* Slightly opaque white background */
     padding: 20px 40px;
     margin-top: 0;
@@ -1053,7 +1057,7 @@ export default {
 }
 
 .text-cyan {
-    color: #0097A7;
+    color: #A82228;
     /* Custom cyan color to match your theme */
 }
 
@@ -1117,7 +1121,7 @@ export default {
 }
 
 .choir-rehearsal-panel:hover {
-    background-color: #0097A7;
+    background-color: #A82228;
     color: white;
 }
 

@@ -4,6 +4,7 @@ import Dashboard from '@/components/Layout/Dashboard.vue'
 import Master from '@/components/Layout/Master.vue'
 import Landing from '@/components/Layout/Landing.vue'
 import KnowUs from '@/components/pages/aboutus/KnowUs.vue'
+import Calendar from '@/components/pages/calendar/Calendar.vue'
 
 const routes = [
   
@@ -16,6 +17,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: KnowUs
+  },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: Calendar
   },
   {
     path: '/login',

@@ -10,7 +10,6 @@
                             Our mission is to be active disciples of Jesus Christ, who demonstrate the Power of the Holy Spirit to all nations.
                         </p>
                     </v-col>
-
                     <!-- Links and Social Media -->
                     <v-col cols="12" md="9" class="links-social">
                         <v-row class="d-flex align-center" justify="center">
@@ -68,7 +67,7 @@ export default {
 
 <style scoped>
 .footer {
-    background-color: #0097A7;
+    background-color:#800000;
     color: #ffffff;
     font-size: 14px;
     margin-top: 0;
@@ -80,7 +79,7 @@ export default {
 }
 
 .vision-section {
-    background-color: #E0F7FA;
+    background-color: #E0CFC2;
     padding: 40px 0 0 0;
     margin-bottom: 0;
     margin-top: 50px;
@@ -94,7 +93,7 @@ export default {
 .links-social .v-list {
     margin: 0;
     padding: 0;
-    background-color: #E0F7FA;
+    background-color: #E0CFC2;
     /* Matches the background color of the vision section */
     border-radius: 8px;
     /* Optional: adds rounded corners */
@@ -109,6 +108,6 @@ export default {
 }
 
 .links-social .v-list-item:hover {
-    color: #0097A7;
+    color:#A82228;
 }
 </style>

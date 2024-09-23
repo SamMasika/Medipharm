@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
 .v-app-bar {
@@ -121,7 +121,7 @@ export default {
 
 .nav-link:hover,
 .nav-link.selected {
-    color: #0097A7;
+    color: #A82228;
     /* Yellow color */
 }
 
@@ -141,23 +141,23 @@ export default {
 
 .v-menu .nav-link:hover,
 .v-menu .nav-link.selected {
-    color: #0097A7;
+    color: #A82228;
     /* Yellow color for selected/hovered menu items */
 }
 
 .v-navigation-drawer .nav-link:hover,
 .v-navigation-drawer .nav-link.selected {
-    color: #0097A7;
+    color: #A82228;
     /* Yellow color for hovered/selected drawer items */
 }
 
 .v-navigation-drawer .nav-link.selected .v-icon {
-    color: #0097A7;
+    color: #A82228;
     /* Optional: Change icon color to match */
 }
 
 .main-color {
-    background-color: #0097A7;
+    background-color: #A82228;
 }
 
 .vision-section {
@@ -191,6 +191,6 @@ export default {
 }
 
 .links-social .v-list-item:hover {
-    color: #0097A7;
+    color: #A82228;
 }
 </style>
