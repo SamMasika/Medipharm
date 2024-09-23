@@ -41,7 +41,7 @@ export default {
     },
     data: () => ({
         type: 'month',
-        types: ['MONTH', 'WEEK', 'DAY'],
+        types: ['month', 'week', 'day'],
         weekday: [0, 1, 2, 3, 4, 5, 6],
         weekdays: [{
                 title: 'Sun - Sat',
@@ -109,7 +109,6 @@ export default {
     margin-top: 0;
     /* Ensure footer has no margin on top */
 }
-
 .rounded-sheet {
     border-radius: 16px;
     /* Adjust the radius for rounded corners */
