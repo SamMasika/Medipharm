@@ -91,7 +91,7 @@
 <!-- Row for Getting Connected to the Church -->
 <v-container>
     <div class="text-center my-5 ">
-        <h2 class=" section-title">Get Connected to the Church</h2>
+        <h2 class=" section-title">Get Connected</h2>
     </div>
 
     <div class="text-center my-3 watermark-section">
@@ -448,7 +448,7 @@
 <v-container class="my-8">
     <!-- Section Title -->
     <div class="text-center my-5">
-        <h2 class="section-title">Get Connected</h2>
+        <h2 class="section-title">Get Involved</h2>
     </div>
 
     <div class="text-center my-3 watermark-section">
@@ -1113,15 +1113,19 @@ export default {
     align-items: center;
     cursor: pointer;
     padding: 10px;
-    /* border: 0.5px solid #ccc; */
     border-radius: 4px;
     font-weight: bold;
     background-color: #ffffff;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .choir-rehearsal-panel:hover {
     background-color: #A82228;
+    color: white;
+}
+
+/* Ensuring the icons also turn white on hover */
+.choir-rehearsal-panel:hover .custom-icon-color {
     color: white;
 }
 
