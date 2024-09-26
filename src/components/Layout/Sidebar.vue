@@ -49,13 +49,13 @@ export default {
 
 <style >
 .my-selected-item {
-    background-color: #37474F;
+    background-color:  #A82228;
     /* Set your desired background color */
     color: #ffffff;
     /* Set your desired text color */
 }
 
 .default-color {
-  color: #37474F; /* Set your desired default text color */
+  color:  #A82228; /* Set your desired default text color */
 }
 </style>

@@ -5,6 +5,7 @@ import Master from '@/components/Layout/Master.vue'
 import Landing from '@/components/Layout/Landing.vue'
 import KnowUs from '@/components/pages/aboutus/KnowUs.vue'
 import Calendar from '@/components/pages/calendar/Calendar.vue'
+import Sermons from '@/components/pages/sermons/Sermons.vue'
 
 const routes = [
   
@@ -22,6 +23,11 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: Calendar
+  },
+  {
+    path: '/sermons',
+    name: 'sermons',
+    component: Sermons
   },
   {
     path: '/login',

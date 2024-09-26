@@ -4,17 +4,20 @@
 <v-container fluid class="schedule-container">
     <v-row justify="center">
         <v-col cols="12" md="10">
-            <h2 class="text-center worship-title my-5">Our <i class="text-color">Calendar</i></h2>
+            <h2 class="text-center worship-title my-5">
+                Our <i class="text-color">Calendar</i>
+            </h2>
             <v-sheet border="rounded" class="rounded-sheet">
-                <div class="d-flex " height="54" tile>
+                <div class="d-flex" height="54" tile>
                     <v-select v-model="type" :items="types" class="ma-2" label="View Mode" variant="outlined" density="compact" rounded="lg" hide-details></v-select>
                     <v-select v-model="weekday" :items="weekdays" class="ma-2" label="Weekdays" variant="outlined" density="compact" rounded="lg" hide-details></v-select>
                 </div>
                 <v-calendar ref="calendar" v-model="value" :events="events" :view-mode="type" :weekdays="weekday">
+                    <!-- Display the event title and time -->
                     <template v-slot:event="{ event }">
-                        <div>
+                        <div class="event-item">
                             <strong>{{ event.title }}</strong>
-                            <div>
+                            <div class="event-time">
                                 {{ formatEventTime(event.start, event.end) }}
                             </div>
                         </div>
@@ -37,12 +40,12 @@ export default {
     components: {
         AppBar,
         Footer,
-        Loader
+        Loader,
     },
     data: () => ({
-        type: 'month',
-        types: ['month', 'week', 'day'],
-        weekday: [0, 1, 2, 3, 4, 5, 6],
+        type: 'month', // Default view mode
+        types: ['month', 'week', 'day'], // Calendar view modes
+        weekday: [0, 1, 2, 3, 4, 5, 6], // Default weekdays
         weekdays: [{
                 title: 'Sun - Sat',
                 value: [0, 1, 2, 3, 4, 5, 6]
@@ -60,9 +63,9 @@ export default {
                 value: [1, 3, 5]
             },
         ],
-        value: [new Date()],
-        events: [],
-        loading: true, // Add loading state
+        value: [new Date()], // Selected date
+        events: [], // Events data
+        loading: true, // Loader state
     }),
     mounted() {
         this.getEvents();
@@ -70,8 +73,8 @@ export default {
     methods: {
         async getEvents() {
             try {
-                const response = await axios.get('/events.json');
-                this.events = response.data.map(event => ({
+                const response = await axios.get('/events.json'); // API call for events
+                this.events = response.data.map((event) => ({
                     title: event.name,
                     start: new Date(event.start_date),
                     end: new Date(event.end_date),
@@ -81,22 +84,21 @@ export default {
             } catch (error) {
                 console.error('Error fetching events:', error);
             } finally {
-                this.loading = false; // Set loading to false after fetching
+                this.loading = false; // Hide loader after fetching
             }
         },
         formatEventTime(start, end) {
-            const startTime = start.toLocaleTimeString([], {
+            const options = {
                 hour: '2-digit',
-                minute: '2-digit'
-            });
-            const endTime = end.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            return `${startTime} - ${endTime}`;
+                minute: '2-digit',
+                hour12: true
+            };
+            const startTime = start.toLocaleTimeString([], options); // Format start time
+            const endTime = end.toLocaleTimeString([], options); // Format end time
+            return `${startTime} - ${endTime}`; // Return formatted time range
         },
     },
-}
+};
 </script>
 
 <style scoped>
@@ -109,6 +111,7 @@ export default {
     margin-top: 0;
     /* Ensure footer has no margin on top */
 }
+
 .rounded-sheet {
     border-radius: 16px;
     /* Adjust the radius for rounded corners */

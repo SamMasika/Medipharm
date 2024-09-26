@@ -7,9 +7,10 @@
         <v-row justify="center">
             <v-col cols="12" md="10">
                 <div class="video-container">
-                    <iframe class="video-frame" src="https://www.youtube.com/embed/WRkDboupLx4" title="IBADA YA JUMAPILI _ 1_ 02.06.2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe v-if="videoUrl" class="video-frame" :src="videoUrl"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p v-else>No videos available at the moment.</p>
                 </div>
-                <v-btn class="text-none custom-view-color" size="large" rounded="xl" flat>
+                <v-btn class="text-none custom-view-color" size="large" rounded="xl" flat @click="viewAllSermons">
                     <v-icon size="30">mdi-youtube</v-icon> Watch all sermons
                 </v-btn>
             </v-col>
@@ -77,8 +78,8 @@
             <v-row justify="center" class="my-2">
                 <v-col class="d-flex justify-center">
                     <div class="custom-toggle-container">
-                        <v-btn-toggle v-model="toggle" class="custom-toggle">
-                            <v-btn value="about" class="text-none text-white custom-btn custom-btn-left" @click="handleToggle">About Us</v-btn>
+                        <v-btn-toggle class="custom-toggle">
+                            <v-btn value="about" @click="handleToggle" class="text-none text-white custom-btn custom-btn-left" >About Us</v-btn>
                             <v-btn value="visit" class="text-none custom-btn text-white custom-btn-right">Visit Us</v-btn>
                         </v-btn-toggle>
                         <v-icon class="icon-on-toggle" color="white">mdi-microphone</v-icon>
@@ -556,6 +557,10 @@ export default {
             showChoirRehearsalsOnThursday: false,
             showChoirRehearsalsOnWednesday: false,
             showServicesOnWednesday: false,
+            apiKey: 'AIzaSyAz1tlEhLzaw9eifLlq3hY1CBS2R-1Vx4Q', // Replace with your actual API key
+            channelId: 'UCk6tDX_p3ZskmFygDUiAQmQ', // Replace with your actual Channel ID
+            videoUrl: '',
+            cachedVideoUrl: '',
             saturdayRehearsals: [{
                     name: 'Living Gospel Choir',
                     time: '06:00 AM - 08:00 AM'
@@ -621,6 +626,7 @@ export default {
     },
     mounted() {
         this.startAutoSlide();
+        this.fetchLatestVideo();
     },
     computed: {
         formattedDate() {
@@ -633,6 +639,30 @@ export default {
         },
     },
     methods: {
+        async fetchLatestVideo() {
+      if (this.cachedVideoUrl) {
+        this.videoUrl = this.cachedVideoUrl;
+        return;
+      }
+      try {
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.channelId}&eventType=completed&type=video&order=date&maxResults=1&key=${this.apiKey}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.items && data.items.length > 0) {
+          const videoId = data.items[0].id.videoId;
+          this.videoUrl = `https://www.youtube.com/embed/${videoId}`;
+          this.cachedVideoUrl = this.videoUrl;
+        } else {
+          console.error('No videos found for the given channel.');
+        }
+      } catch (error) {
+        console.error('Error fetching latest video:', error);
+        this.videoUrl = 'https://www.youtube.com/embed/FALLBACK_VIDEO_ID'; // Fallback video URL
+      }
+    },
+    viewAllSermons() {
+      this.$router.push('/sermons');
+    },
         startAutoSlide() {
             setInterval(() => {
                 this.slideModel = (this.slideModel + 1) % this.services.length;
@@ -650,7 +680,6 @@ export default {
 </script>
 
 <style>
-
 .text-center {
     text-align: center;
 }
@@ -921,6 +950,7 @@ export default {
     margin: 0 0 5px;
     color: #A82228;
 }
+
 .bible-verse {
     font-size: 18px;
     font-weight: bold;

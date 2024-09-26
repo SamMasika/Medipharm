@@ -2,7 +2,7 @@
 <v-app-bar app color="white" scroll-behavior="elevate">
     <v-app-bar-nav-icon @click="toggleDrawer" color="blue-grey lighten-1" class="d-md-none"></v-app-bar-nav-icon>
     <v-spacer></v-spacer>
-    <v-spacer></v-spacer>
+    <!-- <v-spacer></v-spacer> -->
     <v-img src="@/assets/tag.png" class="v-img"></v-img>
     <v-spacer></v-spacer>
 
@@ -30,6 +30,7 @@
                 </v-list-item>
             </v-list>
         </v-menu>
+      
         <!-- Ministries Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
@@ -47,11 +48,9 @@
                 </v-list-item>
             </v-list>
         </v-menu>
-        <!-- Sermons Link -->
         <a href="/sermons" class="nav-link" :class="{ selected: isSelected('/sermons') }" @click.prevent="selectLink('/sermons')">
             Sermons
         </a>
-
         <!-- Ministries Dropdown Menu -->
         <v-menu class="nav-link d-flex align-center" transition="scale-transition" open-on-hover bottom right>
             <template #activator="{ props }">
@@ -378,12 +377,12 @@ export default {
         },
         selectLink(route) {
             // Redirect all routes except '/' and '/about-us' to home page
-            const routesToRedirect = ['/', '/about','/calendar'];
-            
+            const routesToRedirect = ['/', '/about', '/calendar','/sermons'];
+
             if (!routesToRedirect.includes(route)) {
                 route = '/'; // Redirect to home page
             }
-            
+
             this.selectedRoute = route;
             this.$router.push(route);
         },
