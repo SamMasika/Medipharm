@@ -70,7 +70,7 @@
     <!-- Pagination Section (always visible) -->
     <v-row v-if="paginatedVideos.length > 0">
         <v-col cols="12" class="d-flex justify-center">
-            <v-pagination v-model="currentPage" rounded="circle" :length="totalPages" @input="changePage" total-visible="2"></v-pagination>
+            <v-pagination v-model="currentPage" rounded="circle" :length="totalPages" @input="changePage" total-visible="4"></v-pagination>
         </v-col>
     </v-row>
 </v-container>
