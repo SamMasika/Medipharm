@@ -22,13 +22,13 @@
                             Mwembesongo Street, Mji Mpya - Morogoro<br />
 
                             <v-icon class="mr-2 custom-icon-color">mdi-post-outline</v-icon>
-                            P.O.Box 3240, Morogoro, Tanzania<br />
+                            P.O.Box 2153, Morogoro, Tanzania<br />
 
                             <v-icon class="mr-2 custom-icon-color">mdi-phone</v-icon>
-                            +255 717 061 778<br />
+                            +2550757907899<br />
 
                             <v-icon class="mr-2 custom-icon-color">mdi-email</v-icon>
-                            <a href="mailto:info@brt.or.tz" class="email-link">info@brt.or.tz</a><br />
+                            <a href="mailto:info@brt.or.tz" class="email-link">bethelrevivaltemple@gmail.com</a><br />
 
                             <v-icon class="mr-2 custom-icon-color">mdi-web</v-icon>
                             <a href="http://www.brt.or.tz" target="_blank" class="website-link">www.brt.or.tz</a>
