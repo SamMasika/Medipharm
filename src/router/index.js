@@ -98,16 +98,6 @@ const router = createRouter({
   routes
 })
 
-// Global beforeEach guard
-router.beforeEach((to, from, next) => {
-  // Define the list of routes that have content
-  const contentRoutes = ['/dashboard', '/users-list', '/roles-list', '/clusters-list'];
 
-  if (!contentRoutes.includes(to.path)) {
-      next('/dashboard'); // Redirect to dashboard for routes without content
-  } else {
-      next(); // Allow the navigation if the route has content
-  }
-});
 
 export default router
