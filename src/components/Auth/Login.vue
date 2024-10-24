@@ -128,12 +128,12 @@ export default {
 
 <style scoped>
 .btn-color {
-    background-color: #E9D3CD !important;
-    color: #A82228 !important;
+    color:white !important;
+    background-color: #A82228 !important;
 }
 
 .btn-color .v-icon {
-    color: #A82228;
+    color:white;
     /* Set icon color */
 }
 .my-card {
