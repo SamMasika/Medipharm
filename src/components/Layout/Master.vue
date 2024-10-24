@@ -7,7 +7,7 @@
     </v-navigation-drawer>
     <v-app-bar app scroll-behavior="elevate" class="app-color">
         <v-app-bar-nav-icon @click="drawer = !drawer" :style="{ color: '#A82228' }" ></v-app-bar-nav-icon>
-        <h3 class="my-3">TAG-BRT CMS</h3>
+        <h3 class="my-3">BCMS</h3>
         <v-spacer></v-spacer>
         <!-- <v-btn icon @click="toggleTheme" variant="solo-filled">
             <v-icon>{{ darkTheme ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny' }}</v-icon>
