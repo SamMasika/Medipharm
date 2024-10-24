@@ -1,13 +1,13 @@
 <template>
 <Loader :loading="loading" v-if="loading" />
 <AppBar />
-<v-container class="my-8 sermon-container" fluid>
+<v-container class="my-8 back-container" fluid>
     <v-row class="d-flex" justify="center">
         <v-col cols="12" md="6" >
-    <div class="text-center my-8">
+    <div class="text-center my-8 ">
         <p class="sermon-title"> Online <i class="text-color"> worship experience</i>  </p>
     </div>
-    <div class="my-1">
+    <div class="my-1 about-container">
     <p class="text-center justify-text">Watch your favourite sermons or catch up on the ones that you missed. Browse our archive and watch videos on any of your devices.</p>
 </div>
 
@@ -182,7 +182,7 @@ export default {
 }
 .sermon-container {
     position: relative;
-    background: #E0CFC2;
+    background: #E9D3CD;
     /* Slightly opaque white background */
     padding: 20px 40px;
     margin-top: 0;

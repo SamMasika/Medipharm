@@ -1,65 +1,142 @@
 <template>
-<v-container>
+<Loader :loading="loading" v-if="loading" />
+<div v-else>
+    <AppBar />
+    <v-container class="my-5">
+        <v-card class=" my-card mx-auto pa-12 pb-8" elevation="0" max-width="448" rounded="lg" color="transparent">
+            <div class="d-flex justify-center">
+                <v-avatar size="150">
+                    <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
+                </v-avatar>
+            </div>
+            <h3 class="text-center my-3">BRT-CMS</h3>
+            <v-form @submit.prevent="submit" ref="form">
+                <div class="text-subtitle-1 text-medium-emphasis">Phone No.</div>
+                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Phone No." prepend-inner-icon="mdi-phone-outline" variant="outlined"  autocomplete></v-text-field>
 
-    <!-- <div> -->
-    <!-- <v-img
-        class="mx-auto "
-        max-width="228"
-        src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-lght.svg"
-      ></v-img> -->
-    <div class="text-center my-7">
+                <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+                    Password
+                    <a class="text-caption text-decoration-none text-blue-grey text-darken-3" href="#" rel="noopener noreferrer" target="_blank">
+                        Forgot login password?
+                    </a>
+                </div>
 
-        <h1 class="">Pypro</h1>
-    </div>
+                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock-outline" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined" ></v-text-field>
 
-    <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
-        <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+                <v-btn block type="submit" class="mb-8 my-5 btn-color" size="large" prepend-icon="mdi-arrow-right-bold" elevation="0">
+                    LOG IN
+                </v-btn>
+            </v-form>
 
-        <v-text-field density="compact" placeholder="Email address" prepend-inner-icon="mdi-email-outline" variant="outlined"></v-text-field>
-
-        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-            Password
-
-            <a class="text-caption text-decoration-none text-blue" href="#" rel="noopener noreferrer" target="_blank">
-                Forgot login password?</a>
-        </div>
-
-        <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'" density="compact" placeholder="Enter your password" prepend-inner-icon="mdi-lock-outline" variant="outlined" @click:append-inner="visible = !visible"></v-text-field>
-
-        <!-- <v-card class="mb-12" color="surface-variant" variant="tonal">
-            <v-card-text class="text-medium-emphasis text-caption">
-                Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three hours. If you must login now, you can also click "Forgot login password?" below to reset the login password.
+            <v-card-text class="text-center">
+                <!-- Sign up link can be added here if needed -->
             </v-card-text>
-        </v-card> -->
-
-        <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="dashboard()">
-            Log In
-        </v-btn>
-
-        <v-card-text class="text-center">
-            <a class="text-blue text-decoration-none" href="#" rel="noopener noreferrer" target="_blank">
-                Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
-            </a>
-        </v-card-text>
-    </v-card>
-    <!-- </div> -->
-</v-container>
+        </v-card>
+    </v-container>
+    <Footer />
+</div>
 </template>
 
-  
 <script>
+import AppBar from "@/components/Layout/AppBar.vue";
+import Footer from "@/components/Layout/Footer.vue";
+import Loader from '@/components/Layout/Loader.vue';
+import {
+    mapActions,
+    mapGetters
+} from 'vuex';
+
 export default {
-    data: () => ({
-        visible: false,
-    }),
+    components: {
+        AppBar,
+        Footer,
+        Loader
+    },
 
+    data() {
+        return {
+            visible: false,
+            loading: false,
+            form: {
+                phoneNumber: '',
+                password: ''
+            },
+            inputRules: [
+                v => v.length >= 2 || 'Minimum length is 2 characters'
+            ]
+        };
+    },
 
-    methods:{
-        dashboard(){
-            this.$router.replace({
-                        name: 'dashboard',
+    props: {
+        source: String
+    },
+
+    computed: {
+        emailRules() {
+            return [v => !!v || 'Email is required'];
+        },
+        passwordRules() {
+            return [v => !!v || 'Password required'];
+        },
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            username: 'auth/userName',
+        })
+    },
+
+    methods: {
+        ...mapActions({
+            login: 'auth/login'
+        }),
+
+        async submit() {
+            this.loading = true;
+            if (this.$refs.form.validate()) {
+                const errorMessage = await this.login(this.form);
+                if (errorMessage) {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: errorMessage,
+                        timer: 5000
+                    }).then(() => {
+                        location.reload(); // Reload after error
                     });
+                } else {
+                    this.$router.replace({
+                        name: 'dashboard'
+                    });
+                }
+            }
+            this.loading = false; // Ensure loading is false after validation check
         }
+    },
+
+    mounted() {
+        // Simulating an asynchronous operation; replace with your logic
+        setTimeout(() => {
+            this.loading = false; // Set loading to false after loading completes
+        }, 2000);
+    },
+
+    unmounted() {
+        this.loading = false; // Stop loading on component unmount
     }
-}
+};
 </script>
+
+<style scoped>
+.btn-color {
+    background-color: #E9D3CD !important;
+    color: #A82228 !important;
+}
+
+.btn-color .v-icon {
+    color: #A82228;
+    /* Set icon color */
+}
+.my-card {
+  border: 0.3px solid #d3d2d2; /* Change the color to your desired border color */
+  border-radius: 12px; /* Adjust radius if needed */
+}
+</style>

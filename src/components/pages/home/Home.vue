@@ -7,7 +7,7 @@
         <v-row justify="center">
             <v-col cols="12" md="10">
                 <div class="video-container">
-                    <iframe v-if="videoUrl" class="video-frame" :src="videoUrl"  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe v-if="videoUrl" class="video-frame" :src="videoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     <p v-else>No videos available at the moment.</p>
                 </div>
                 <v-btn class="text-none custom-view-color" size="large" rounded="xl" flat @click="viewAllSermons">
@@ -79,7 +79,7 @@
                 <v-col class="d-flex justify-center">
                     <div class="custom-toggle-container">
                         <v-btn-toggle class="custom-toggle">
-                            <v-btn value="about" @click="handleToggle" class="text-none text-white custom-btn custom-btn-left" >About Us</v-btn>
+                            <v-btn value="about" @click="handleToggle" class="text-none text-white custom-btn custom-btn-left">About Us</v-btn>
                             <v-btn value="visit" class="text-none custom-btn text-white custom-btn-right">Visit Us</v-btn>
                         </v-btn-toggle>
                         <v-icon class="icon-on-toggle" color="white">mdi-microphone</v-icon>
@@ -110,14 +110,14 @@
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
-                    <v-img src="@/assets/fellowship.webp" height="300px" w cover>
+                    <v-img src="@/assets/Connected/Deacon.jpg" height="300px" w cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Ushemasi
+                            Deacon
                         </v-chip>
                     </v-img>
                     <v-card-title>
                         <v-icon class="mx-4">mdi-handshake</v-icon>
-                        <span class="title">Ushemasi</span>
+                        <span class="title">Deacon</span>
                     </v-card-title>
                     <v-card-text>
                         Join us for fellowship and build lasting relationships within our church community.
@@ -134,7 +134,7 @@
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
-                    <v-img src="@/assets/prayer.jpeg" height="300px" cover>
+                    <v-img src="@/assets/Connected/Prayer2.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Prayer & Bible Study
                         </v-chip>
@@ -463,13 +463,13 @@
         </p>
     </div>
 
-    <!-- Get Connected Cards -->
+    <!-- Get Involved Cards -->
     <v-row>
         <!-- Worship Teams & Choir Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
-                    <v-img src="@/assets/worship.jpg" height="300px" cover>
+                    <v-img src="@/assets/Involved/Music.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Worship Teams & Choir
                         </v-chip>
@@ -493,7 +493,7 @@
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
-                    <v-img src="@/assets/childrens.jpg" height="300px" cover>
+                    <v-img src="@/assets/Involved/children.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Teaching Children
                         </v-chip>
@@ -517,7 +517,7 @@
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
                 <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
-                    <v-img src="@/assets/media.jpeg" height="300px" cover>
+                    <v-img src="@/assets/Involved/Media3.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Media Team
                         </v-chip>
@@ -595,31 +595,31 @@ export default {
                     title: 'Main Church(Swahili Church)',
                     icon: 'mdi-account-group-outline',
                     times: 'English: 0700hrs & 0930hrs\nSwahili: 1130hrs',
-                    image: require('@/assets/church1.webp'),
+                    image: require('@/assets/Churches/Main church.jpg'),
                 },
                 {
                     title: 'International Church',
                     icon: 'mdi-human-child',
                     times: 'English: 0700hrs & 0930hrs\nSwahili: 1130hrs',
-                    image: require('@/assets/church2.jpg'),
+                    image: require('@/assets/Churches/international church.jpg'),
                 },
                 {
                     title: 'Victory Church',
                     icon: 'mdi-human-male-female',
                     times: '0900hrs & 1100hrs',
-                    image: require('@/assets/church3.jpg'),
+                    image: require('@/assets/Churches/Victory church.jpg'),
                 },
                 {
                     title: 'Deaf Church',
                     icon: 'mdi-human-male-female',
                     times: '1200hrs & 1400hrs',
-                    image: require('@/assets/church4.jpg'),
+                    image: require('@/assets/Churches/Deaf church.jpg'),
                 },
                 {
                     title: 'Children Church',
                     icon: 'mdi-human-male-child',
                     times: '1500hrs & 1700hrs',
-                    image: require('@/assets/children.jpg'),
+                    image: require('@/assets/Churches/Children church.jpg'),
                 },
             ],
         };
@@ -640,29 +640,29 @@ export default {
     },
     methods: {
         async fetchLatestVideo() {
-      if (this.cachedVideoUrl) {
-        this.videoUrl = this.cachedVideoUrl;
-        return;
-      }
-      try {
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.channelId}&eventType=completed&type=video&order=date&maxResults=1&key=${this.apiKey}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          const videoId = data.items[0].id.videoId;
-          this.videoUrl = `https://www.youtube.com/embed/${videoId}`;
-          this.cachedVideoUrl = this.videoUrl;
-        } else {
-          console.error('No videos found for the given channel.');
-        }
-      } catch (error) {
-        console.error('Error fetching latest video:', error);
-        this.videoUrl = 'https://www.youtube.com/embed/FALLBACK_VIDEO_ID'; // Fallback video URL
-      }
-    },
-    viewAllSermons() {
-      this.$router.push('/sermons');
-    },
+            if (this.cachedVideoUrl) {
+                this.videoUrl = this.cachedVideoUrl;
+                return;
+            }
+            try {
+                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.channelId}&eventType=completed&type=video&order=date&maxResults=1&key=${this.apiKey}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.items && data.items.length > 0) {
+                    const videoId = data.items[0].id.videoId;
+                    this.videoUrl = `https://www.youtube.com/embed/${videoId}`;
+                    this.cachedVideoUrl = this.videoUrl;
+                } else {
+                    console.error('No videos found for the given channel.');
+                }
+            } catch (error) {
+                console.error('Error fetching latest video:', error);
+                this.videoUrl = 'https://www.youtube.com/embed/FALLBACK_VIDEO_ID'; // Fallback video URL
+            }
+        },
+        viewAllSermons() {
+            this.$router.push('/sermons');
+        },
         startAutoSlide() {
             setInterval(() => {
                 this.slideModel = (this.slideModel + 1) % this.services.length;
@@ -741,7 +741,7 @@ export default {
 
 .worship-section {
     margin-top: 10px;
-    background-color: #E0CFC2;
+    background-color: #E9D3CD;
     height: auto;
     /* Adjust height as needed */
 }
@@ -988,11 +988,6 @@ export default {
     /* Set minimum height to align all cards */
 }
 
-.title {
-    font-weight: bold;
-    font-size: 18px;
-}
-
 .v-btn {
     text-transform: none;
     font-size: 14px;
@@ -1057,11 +1052,10 @@ export default {
 
 .schedule-container {
     position: relative;
-    background: #E0CFC2;
+    background: #E9D3CD;
     /* Slightly opaque white background */
     padding: 20px 40px;
     margin-top: 0;
-
     overflow: hidden;
 }
 

@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '@/store'
 import Login from '@/components/Auth/Login.vue'
 import Dashboard from '@/components/Layout/Dashboard.vue'
 import Master from '@/components/Layout/Master.vue'
@@ -6,6 +7,11 @@ import Landing from '@/components/Layout/Landing.vue'
 import KnowUs from '@/components/pages/aboutus/KnowUs.vue'
 import Calendar from '@/components/pages/calendar/Calendar.vue'
 import Sermons from '@/components/pages/sermons/Sermons.vue'
+import Belief from '@/components/pages/aboutus/Beliefs.vue'
+import Contact from '@/components/pages/contactus/Contact.vue'
+import Users from '@/components/CMS/Users/Users.vue'
+import Roles from '@/components/CMS/Users/Roles.vue'
+import Clusters from '@/components/CMS/Clusters/Clusters.vue'
 
 const routes = [
   
@@ -20,9 +26,19 @@ const routes = [
     component: KnowUs
   },
   {
+    path: '/belief',
+    name: 'belief',
+    component: Belief
+  },
+  {
     path: '/calendar',
     name: 'calendar',
     component: Calendar
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: Contact
   },
   {
     path: '/sermons',
@@ -32,7 +48,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      if (store.getters['auth/authenticated']) {
+        return next({ name: 'dashboard' });
+      }
+      next();
+    }
   },
   {
     path: '/master',
@@ -43,15 +65,30 @@ const routes = [
         path: '/dashboard',
         name: 'dashboard',
         component: Dashboard,
-        // beforeEnter: (to, from, next) => {
-        //   if (!store.getters['auth/authenticated']) {
-        //     return next({ name: 'login' });
-        //   }
-        //   next();
-        // }
+        beforeEnter: (to, from, next) => {
+          if (!store.getters['auth/authenticated']) {
+            return next({ name: 'login' });
+          }
+          next();
+        }
+      },
+      {
+        path: '/users-list',
+        name: 'users-list',
+        component: Users
+      },
+      {
+        path: '/roles-list',
+        name: 'roles-list',
+        component: Roles
+      },
+      {
+        path: '/clusters-list',
+        name: 'clusters-list',
+        component: Clusters
       },
      
-      
+     
     ]
   }
 ]
@@ -60,5 +97,17 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+// Global beforeEach guard
+router.beforeEach((to, from, next) => {
+  // Define the list of routes that have content
+  const contentRoutes = ['/dashboard', '/users-list', '/roles-list', '/clusters-list'];
+
+  if (!contentRoutes.includes(to.path)) {
+      next('/dashboard'); // Redirect to dashboard for routes without content
+  } else {
+      next(); // Allow the navigation if the route has content
+  }
+});
 
 export default router

@@ -79,7 +79,7 @@ export default {
 }
 
 .vision-section {
-    background-color: #E0CFC2;
+    background-color: #E9D3CD;
     padding: 40px 0 0 0;
     margin-bottom: 0;
     margin-top: 0;
@@ -93,7 +93,7 @@ export default {
 .links-social .v-list {
     margin: 0;
     padding: 0;
-    background-color: #E0CFC2;
+    background-color: #E9D3CD;
     /* Matches the background color of the vision section */
     border-radius: 8px;
     /* Optional: adds rounded corners */
