@@ -9,7 +9,7 @@
                     <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
                 </v-avatar>
             </div>
-            <h3 class="text-center my-3">BRT-CMS</h3>
+            <h3 class="text-center my-3">BCMS</h3>
             <v-form @submit.prevent="submit" ref="form">
                 <div class="text-subtitle-1 text-medium-emphasis">Phone No.</div>
                 <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Phone No." prepend-inner-icon="mdi-phone-outline" variant="outlined"  autocomplete></v-text-field>
