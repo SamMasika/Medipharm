@@ -2,7 +2,7 @@
 <AppBar />
 <Loader :loading="loading" v-if="loading" />
 <v-container fluid class="back-container">
-    <v-row justify="center" class="align-center my-8">
+    <v-row justify="center" class="align-center my-3 mb-6">
         <v-col cols="12" md="7" class="d-flex align-center justify-center my-8">
             <v-row>
                 <v-col cols="12" md="6" class="image-stack-container my-8 d-flex justify-center">
