@@ -11,7 +11,7 @@ import Swal from 'sweetalert2'
 
 // require ('@/store/subscribe');
 const app = createApp(App);
-app.config.globalProperties.$swal = Swal;
+app.config.globalProperties.$swal = Swal;                                                                                                                             
 
 loadFonts();
 // axios.defaults.baseURL = 'http://localhost:8000/api';

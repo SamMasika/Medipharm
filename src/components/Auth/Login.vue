@@ -3,7 +3,7 @@
 <div v-else>
     <AppBar />
     <v-container class="my-5">
-        <v-card class=" my-card mx-auto pa-12 pb-8" elevation="0" max-width="448" rounded="lg" color="transparent">
+        <v-card class=" my-card mx-auto pa-12 pb-8 mb-8" elevation="0" max-width="448" rounded="lg" color="transparent">
             <div class="d-flex justify-center">
                 <v-avatar size="150">
                     <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />

@@ -80,14 +80,17 @@ export default {
 
 .vision-section {
     background-color: #E9D3CD;
-    padding: 40px 0 0 0;
+    padding: 6px 0; /* Further reduced padding */
     margin-bottom: 0;
     margin-top: 0;
 }
 
+
 .vision-content p {
-    font-size: 16px;
+    font-size: 14px; /* Reduced font size */
     color: #333;
+    margin: 0; /* Ensure no extra margin */
+    padding: 0; /* Ensure no extra padding */
 }
 
 .links-social .v-list {
