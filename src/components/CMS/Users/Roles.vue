@@ -5,27 +5,16 @@
             <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
             Roles & Permissions
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="900">
+            <v-dialog v-model="dialog" max-width="500">
                 <template v-slot:activator="{ props: activatorProps }">
                     <v-btn class="text-none font-weight-regular text-color" prepend-icon="mdi-plus" text="Add Role" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add User">
+                <v-card prepend-icon="mdi-plus" title="Add Role">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Name*" v-model="user.name" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Email*" v-model="user.email" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Phone No.*" v-model="user.phoneNumber" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Membership No.*" v-model="user.membershipNumber" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12">
+                                    <v-text-field label="Name*" v-model="role.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -112,7 +101,6 @@ export default {
         return {
             search: "",
             roles: [],
-            user: {},
             dialog: false,
             userEditDialog: false,
             userEdit: {},
@@ -124,7 +112,7 @@ export default {
             isLoading: false,
             UserToDelete: {},
             UserToActivate: {},
-            role: [],
+            role: {},
             selectedRole: {},
             searchRole: "",
             headers: [{
@@ -207,18 +195,22 @@ export default {
         },
         addRole() {
             const data = {
-                ...this.user,
+                ...this.role,
             };
-            axios.post('/users/create', data, {
+            axios.post('/roles/create', data, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
                 })
-                .then(response => this.showAlert(response.data.meta.message, 'success'), location.reload())
+                .then(response => {
+                    this.showAlert(response.data.meta.message, 'success');
+                    this.dialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload the window after success
+                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateUser
         editRole(item) {
             this.userEdit = item
             this.userEditDialog = true
