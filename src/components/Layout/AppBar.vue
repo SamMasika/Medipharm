@@ -38,7 +38,7 @@
         <a href="/sermons" class="nav-link" :class="{ selected: isSelected('/sermons') }" @click.prevent="selectLink('/sermons')">Sermons</a>
 
         <!-- Fellowships Dropdown Menu -->
-        <v-menu open-on-hover bottom>
+        <!-- <v-menu open-on-hover bottom>
             <template #activator="{ props }">
                 <a v-bind="props" class="nav-link">Fellowships<v-icon class="ml-2">mdi-menu-down</v-icon></a>
             </template>
@@ -47,7 +47,7 @@
                     <v-list-item-title>{{ item.label }}</v-list-item-title>
                 </v-list-item>
             </v-list>
-        </v-menu>
+        </v-menu> -->
 
         <!-- Ministries Dropdown Menu -->
         <v-menu open-on-hover bottom>
@@ -168,18 +168,34 @@ export default {
                 },
 
             ],
-            churches: [{
-                    label: 'DO NOT PASS ME BY',
-                    route: '/ministries/youth',
-                    icon: 'mdi-human-male-female'
-                },
-                {
-                    label: 'PASTORS’ CHILDREN FELLOWSHIP (PCF)',
-                    route: '/ministries/women',
-                    icon: 'mdi-human-female-female'
-                },
-
-            ],
+        
+            churches :[
+    {
+        label: 'Main Church (Swahili Church)',
+        route: '/churches/main',
+        icon: 'mdi-account-group-outline'
+    },
+    {
+        label: 'International Church',
+        route: '/churches/international',
+        icon: 'mdi-human-child'
+    },
+    {
+        label: 'Victory Church',
+        route: '/churches/victory',
+        icon: 'mdi-human-male-female'
+    },
+    {
+        label: 'Deaf Church',
+        route: '/churches/deaf',
+        icon: 'mdi-human-male-female'
+    },
+    {
+        label: 'Children Church',
+        route: '/churches/children',
+        icon: 'mdi-human-male-child'
+    }
+],
             clusters: [{
                     label: 'Cluster A',
                     route: '/ministries/youth',
