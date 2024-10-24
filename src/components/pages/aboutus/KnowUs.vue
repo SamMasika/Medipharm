@@ -147,10 +147,10 @@
                 <v-alert v-model="alert" border="start" class="text-color about-container mx-8" variant="tonal">
                     <h3 class="my-5">Our beliefs</h3>
                     <p>
-                        This “Pillar of Truth” contains the 16 doctrines of the Assemblies of God. These are non-negotiable tenets of faith that all Assemblies of God churches adhere to. Four of these, Salvation, the Baptism in the Holy Spirit, Divine Healing, and the Second Coming of Christ are considered Cardinal Doctrines which are essential to the church’s core mission of reaching the world for Christ.
+                        This “Foundations of Faith” contains the 16 doctrines of the Assemblies of God. These are non-negotiable tenets of faith that all Assemblies of God churches adhere to. Four of these, Salvation, the Baptism in the Holy Spirit, Divine Healing, and the Second Coming of Christ are considered Cardinal Doctrines which are essential to the church’s core mission of reaching the world for Christ.
                     </p>
                     <div class="my-8">
-                        <v-btn class="custom-view-color" rounded="xl" append-icon="mdi-menu-right" @click="goToBelief">Our Pillar of Truth</v-btn>
+                        <v-btn class="custom-view-color" rounded="xl" append-icon="mdi-menu-right" @click="goToBelief">Our Foundations of Faith</v-btn>
                     </div>
                 </v-alert>
             </v-col>

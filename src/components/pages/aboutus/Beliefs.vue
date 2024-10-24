@@ -1,19 +1,20 @@
 <template>
-<AppBar />
 <Loader :loading="loading" v-if="loading" />
+<div v-else>
+    <AppBar />
 <v-container fluid class="back-container">
     <v-row justify="center" class="my-8">
         <v-col cols="12" md="7">
             <div>
                 <div class="header-section">
                     <div class="image-stack d-flex">
-                        <v-img :aspect-ratio="1" class="stacked-image bg-white" src="@/assets/mtokambali.jpg" width="70%" height="80%" cover></v-img>
-                        <v-img :aspect-ratio="1" class="stacked-image bg-white" src="@/assets/mtokambali.jpg" width="100%" height="100%" cover></v-img>
+                        <v-img :aspect-ratio="1" class="stacked-image bg-white" src="@/assets/mtokambali.jpg" width="70%" height="50%" cover></v-img>
+                        <v-img :aspect-ratio="1" class="stacked-image bg-white" src="@/assets/mtokambali.jpg" width="100%" height="90%" cover></v-img>
                     </div>
                     <div class="about-container">
-                        <h2 class="my-">Pillar of <i class="text-color">Truths</i> </h2>
+                        <h2 class="my-">Our Foundations of  <i class="text-color">Faith</i> </h2>
                         <p class="description my-8">
-                          The Bible is our all-sufficient rule for faith and practice. This Pillars of Truth is intended simply as a basis of fellowship among us (i.e., that we all speak the same thing, 1 Corinthians 1:10; Acts 2:42). The phraseology employed in this Statement is not inspired nor contended for, but the truth set forth is held to be essential to a full-gospel ministry. No claim is made that it covers all Biblical truth, only that it covers our need as to these fundamental doctrines.
+                          The Bible is our all-sufficient rule for faith and practice. These Foundations of Faith is intended simply as a basis of fellowship among us (i.e., that we all speak the same thing, 1 Corinthians 1:10; Acts 2:42). The phraseology employed in this Statement is not inspired nor contended for, but the truth set forth is held to be essential to a full-gospel ministry. No claim is made that it covers all Biblical truth, only that it covers our need as to these fundamental doctrines.
                         </p>
                     </div>
                 </div>
@@ -226,13 +227,16 @@ Hebrews 12:14 · 1 Peter 1:14-16 · 1 Thessalonians 5:23 · 1 John 2:6
 
 </v-container>
 <Footer />
+</div>
 </template>
 
 <script>
 import AppBar from "@/components/Layout/AppBar.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import Loader from '@/components/Layout/Loader.vue';
+import loaderSet from '@/mixins/loaderSet.js'
 export default {
+    mixins:[loaderSet],
     components: {
         AppBar,
         Footer,

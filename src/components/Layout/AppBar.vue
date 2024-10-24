@@ -332,7 +332,7 @@ export default {
             this.drawer = !this.drawer;
         },
         selectLink(route) {
-            const routesToRedirect = ['/', '/about', '/calendar','/sermons','/contact','/login'];
+            const routesToRedirect = ['/', '/about', '/calendar','/sermons','/contact','/login','/belief'];
 
 if (!routesToRedirect.includes(route)) {
     route = '/'; // Redirect to home page
