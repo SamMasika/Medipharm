@@ -146,7 +146,13 @@ export default {
                         icon: 'mdi-file-document'
                     },
                 ],
-                'Finance Management': [{
+                'Finance Management': [
+                    {
+                        text: 'Offerings',
+                        path: '/donations',
+                        icon: 'mdi-hand-heart'
+                    },
+                {
                         text: 'Income Management',
                         path: '/income-management',
                         icon: 'mdi-cash'
@@ -166,11 +172,7 @@ export default {
                         path: '/financial-reports',
                         icon: 'mdi-file-chart'
                     },
-                    {
-                        text: 'Offerings',
-                        path: '/donations',
-                        icon: 'mdi-hand-heart'
-                    },
+                  
                     // {
                     //     text: 'Bank Reconciliation',
                     //     path: '/bank-reconciliation',
@@ -205,7 +207,7 @@ export default {
                     {
                         text: 'Churches',
                         path: '/events',
-                        icon: 'mdi-calendar'
+                        icon: 'mdi-church'
                     },
                    
                 ]

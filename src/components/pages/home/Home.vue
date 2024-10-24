@@ -124,7 +124,7 @@
                     </v-card-text>
                     <v-card-actions class="d-flex flex-column justify-end">
                         <v-spacer></v-spacer>
-                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Ushemasi</v-btn>
+                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Deacon</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-hover>

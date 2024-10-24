@@ -153,7 +153,7 @@ export default {
                 },
                 {
                     label: 'Our Belief',
-                    route: '/about/our-belief'
+                    route: '/belief'
                 }
             ],
             fellowships: [{
