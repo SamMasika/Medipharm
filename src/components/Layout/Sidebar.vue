@@ -29,6 +29,19 @@
                 <v-list-item-title>{{ title }}</v-list-item-title>
             </v-list-item>
         </v-list>
+        <v-list density="compact" nav class="my-5 mt-5">
+            <v-list-item v-for="([title, icon], i) in Leaders" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
+                <template v-slot:prepend>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ props }">
+                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
+                        </template>
+                        <span>{{ title }}</span>
+                    </v-tooltip>
+                </template>
+                <v-list-item-title>{{ title }}</v-list-item-title>
+            </v-list-item>
+        </v-list>
 
         <v-list density="compact" nav class="my-5 mt-5">
             <v-list-item v-for="([title, icon], i) in Finance" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
@@ -88,10 +101,13 @@ export default {
             hoverItem: null, // Track hovered item
             selectedQuickLink: this.$route.path, // Set the selected quick link to the current route path
             dashboard: [
-                ['Dashboard', 'mdi-home']
+                ['Home', 'mdi-home']
             ],
             Contents: [
                 ['Membership Management', 'mdi-file-chart-outline']
+            ],
+            Leaders: [
+                ['Leaders Management', 'mdi-lead-pencil']
             ],
             Finance: [
                 ['Finance Management', 'mdi-cash']
@@ -100,31 +116,13 @@ export default {
                 ['System Configurations', 'mdi-wrench']
             ],
             quickLinks: {
-                Dashboard: [{
+                Home: [{
                         text: 'Dashboard',
                         path: '/dashboard',
                         icon: 'mdi-view-dashboard'
                     },
-                    {
-                        text: 'Total Members',
-                        path: '/members',
-                        icon: 'mdi-account-multiple'
-                    },
-                    {
-                        text: 'Donations This Month',
-                        path: '/donations-report',
-                        icon: 'mdi-hand-heart'
-                    },
-                    {
-                        text: 'Upcoming Events',
-                        path: '/events',
-                        icon: 'mdi-calendar'
-                    },
-                    {
-                        text: 'Recent Activities',
-                        path: '/activity-log',
-                        icon: 'mdi-history'
-                    }
+                   
+                   
                 ],
                 'Membership Management': [{
                         text: 'View Members',
@@ -132,25 +130,21 @@ export default {
                         icon: 'mdi-account-group'
                     },
                     {
-                        text: 'Add Member',
-                        path: '/add-member',
-                        icon: 'mdi-account-plus'
-                    },
-                    {
                         text: 'Membership Reports',
                         path: '/membership-reports',
                         icon: 'mdi-file-document'
                     },
-                    {
-                        text: 'Membership Renewal',
-                        path: '/membership-renewal',
-                        icon: 'mdi-refresh'
+                ],
+                'Leaders Management': [{
+                        text: 'View Leaders',
+                        path: '/members',
+                        icon: 'mdi-account-group'
                     },
                     {
-                        text: 'Member Categories',
-                        path: '/member-categories',
-                        icon: 'mdi-format-list-bulleted'
-                    }
+                        text: 'Leadership Reports',
+                        path: '/membership-reports',
+                        icon: 'mdi-file-document'
+                    },
                 ],
                 'Finance Management': [{
                         text: 'Income Management',
@@ -162,31 +156,31 @@ export default {
                         path: '/expense-tracking',
                         icon: 'mdi-currency-usd-off'
                     },
-                    {
-                        text: 'Budgeting',
-                        path: '/budgeting',
-                        icon: 'mdi-calculator'
-                    },
+                    // {
+                    //     text: 'Budgeting',
+                    //     path: '/budgeting',
+                    //     icon: 'mdi-calculator'
+                    // },
                     {
                         text: 'Financial Reports',
                         path: '/financial-reports',
                         icon: 'mdi-file-chart'
                     },
                     {
-                        text: 'Donations & Offerings',
+                        text: 'Offerings',
                         path: '/donations',
                         icon: 'mdi-hand-heart'
                     },
-                    {
-                        text: 'Bank Reconciliation',
-                        path: '/bank-reconciliation',
-                        icon: 'mdi-bank'
-                    },
-                    {
-                        text: 'Audit Logs',
-                        path: '/audit-logs',
-                        icon: 'mdi-file-document-outline'
-                    }
+                    // {
+                    //     text: 'Bank Reconciliation',
+                    //     path: '/bank-reconciliation',
+                    //     icon: 'mdi-bank'
+                    // },
+                    // {
+                    //     text: 'Audit Logs',
+                    //     path: '/audit-logs',
+                    //     icon: 'mdi-file-document-outline'
+                    // }
                 ],
                 'System Configurations': [{
                         text: 'Users',
@@ -202,7 +196,18 @@ export default {
                         text: 'Clusters',
                         path: '/clusters-list',
                         icon: 'mdi-account-group-outline'
-                    }
+                    },
+                    {
+                        text: 'Calendar',
+                        path: '/events',
+                        icon: 'mdi-calendar'
+                    },
+                    {
+                        text: 'Churches',
+                        path: '/events',
+                        icon: 'mdi-calendar'
+                    },
+                   
                 ]
             },
         };
