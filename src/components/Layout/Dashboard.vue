@@ -5,7 +5,7 @@
             <v-card class="dashboard-card" @click="navigateTo('view-members')">
                 <v-card-title class="card-title">
                     <v-icon color="primary" size="28">mdi-account</v-icon>
-                    <span class="ml-1">View Members</span>
+                    <span class="ml-1">Number of Members</span>
                 </v-card-title>
                 <v-card-text class="card-text">
                     1500

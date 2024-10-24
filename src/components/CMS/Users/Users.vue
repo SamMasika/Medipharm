@@ -219,7 +219,7 @@ export default {
                 this.isLoading = false;
             }
         },
-        addRole() {
+        addUser() {
             const data = {
                 ...this.user,
             };
