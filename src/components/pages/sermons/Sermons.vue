@@ -1,6 +1,7 @@
 <template>
 <Loader :loading="loading" v-if="loading" />
-<AppBar />
+<div v-else>
+    <AppBar />
 <v-container class="my-8 back-container" fluid>
     <v-row class="d-flex" justify="center">
         <v-col cols="12" md="6" >
@@ -75,14 +76,16 @@
     </v-row>
 </v-container>
 <Footer v-if="paginatedVideos.length > 0" class="footer" />
+    </div>
 </template>
 
 <script>
 import Footer from '@/components/Layout/Footer.vue';
 import Loader from '@/components/Layout/Loader.vue';
 import AppBar from '@/components/Layout/AppBar.vue';
-
+import loaderSet from '@/mixins/loaderSet.js'
 export default {
+    mixins:[loaderSet],
     components: {
         AppBar,
         Footer,

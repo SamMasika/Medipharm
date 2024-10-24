@@ -164,8 +164,9 @@
 import AppBar from "@/components/Layout/AppBar.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import Loader from '@/components/Layout/Loader.vue';
-
+import loaderSet from '@/mixins/loaderSet.js'
 export default {
+    mixins:[loaderSet],
     components: {
         AppBar,
         Footer,
@@ -175,7 +176,6 @@ export default {
         return {
             alert: true, // You can set this to false if you don't want the alert to be shown by default
             slideModel: 0,
-            loading: true, // Initial loading state
             pastors: [{
                     name: "Yona Mganga",
                     description: "Ministry & Administration, Mission, Churches Building; Family & Marriage; all church departments.",
@@ -257,10 +257,7 @@ export default {
     },
     mounted() {
         // Simulate loading delay for demonstration
-        setTimeout(() => {
-            this.loading = false; // Set loading to false once the page is ready
-        }, 2000); // Adjust this delay as necessary
-
+     
         this.startAutoSlide();
     },
 };

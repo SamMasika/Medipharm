@@ -109,7 +109,7 @@
         <!-- Fellowship Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/Connected/Deacon.jpg" height="300px" w cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Deacon
@@ -133,7 +133,7 @@
         <!-- Prayer & Bible Study Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/Connected/Prayer2.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Prayer & Bible Study
@@ -157,7 +157,7 @@
         <!-- Giving Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/giving.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Giving
@@ -468,7 +468,7 @@
         <!-- Worship Teams & Choir Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/Involved/Music.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Worship Teams & Choir
@@ -492,7 +492,7 @@
         <!-- Teaching Children Classes Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/Involved/children.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Teaching Children
@@ -516,7 +516,7 @@
         <!-- Media Team Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 5">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
                     <v-img src="@/assets/Involved/Media3.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Media Team
@@ -732,6 +732,14 @@ export default {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
     /* Elevation effect on hover */
     /* Optional: visible border on hover */
+}
+.involved-card {
+    transition: box-shadow 0.3s ease;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100px;
+    /* Maintain reduced height of the cards */
 }
 
 .custom-icon-color:hover {
@@ -985,6 +993,10 @@ export default {
 .activity-card {
     margin: 10px;
     min-height: 100%;
+    transition: box-shadow 0.3s ease;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* Set minimum height to align all cards */
 }
 

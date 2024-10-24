@@ -41,12 +41,14 @@
 import AppBar from "@/components/Layout/AppBar.vue";
 import Footer from "@/components/Layout/Footer.vue";
 import Loader from '@/components/Layout/Loader.vue';
+import loaderSet from '@/mixins/loaderSet.js'
 import {
     mapActions,
     mapGetters
 } from 'vuex';
 
 export default {
+    mixins:[loaderSet],
     components: {
         AppBar,
         Footer,
@@ -56,7 +58,6 @@ export default {
     data() {
         return {
             visible: false,
-            loading: false,
             form: {
                 phoneNumber: '',
                 password: ''

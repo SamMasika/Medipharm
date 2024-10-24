@@ -80,7 +80,7 @@ export default {
 
 .vision-section {
     background-color: #E9D3CD;
-    padding: 6px 0; /* Further reduced padding */
+    padding: 30px 0; /* Further reduced padding */
     margin-bottom: 0;
     margin-top: 0;
 }
