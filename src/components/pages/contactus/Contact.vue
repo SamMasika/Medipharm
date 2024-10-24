@@ -2,12 +2,12 @@
 <AppBar />
 <Loader :loading="loading" v-if="loading" />
 <v-container fluid class="back-container">
-    <v-row justify="center" class=" align-center my-8">
+    <v-row justify="center" class="align-center my-8">
         <v-col cols="12" md="7" class="d-flex align-center justify-center my-8">
             <v-row>
                 <v-col cols="12" md="6" class="image-stack-container my-8 d-flex justify-center">
                     <!-- Image for medium and larger devices -->
-                    <v-img class="stacked-image " src="@/assets/mtokambali.jpg" max-height="250px" max-width="45%" cover aspect-ratio="16/9" />
+                    <v-img class="stacked-image" src="@/assets/mtokambali.jpg" max-height="250px" max-width="45%" cover aspect-ratio="16/9" />
                     <!-- Centered image for small devices -->
                     <v-img class="stacked-image d-none d-md-flex" src="@/assets/mtokambali.jpg" max-height="300px" max-width="58%" cover aspect-ratio="16/9" />
                 </v-col>
@@ -52,7 +52,7 @@
 </v-container>
 
 <v-container fluid class="map-container">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.948454401867!2d37.66298931529257!3d-6.816612295072708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185d9b90e05810a9%3A0x609071a58a3ea708!2sBethel%20Revival%20Temple!5e0!3m2!1sen!2stz!4v1695835557925!5m2!1sen!2stz" width="100%" height="700px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map-iframe"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.948454401867!2d37.66298931529257!3d-6.816612295072708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185d9b90e05810a9%3A0x609071a58a3ea708!2sBethel%20Revival%20Temple!5e0!3m2!1sen!2stz!4v1695835557925!5m2!1sen!2stz" width="100%" height="600px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map-iframe"></iframe>
 </v-container>
 
 <Footer />
@@ -105,10 +105,12 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .map-container {
     max-width: 100%;
     padding: 0;
+    margin-bottom: 0;
+    /* Ensure no space below the map */
 }
 
 .contact-form-container {
@@ -125,7 +127,8 @@ h2 {
 
 .map-iframe {
     width: 100%;
-    height: 300px;
+    height: 600px;
+    /* Increased height */
     border: 0;
     border-radius: 0;
 }
