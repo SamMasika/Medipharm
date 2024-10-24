@@ -219,17 +219,22 @@ export default {
                 this.isLoading = false;
             }
         },
-        addUser() {
+        addRole() {
             const data = {
                 ...this.user,
             };
             axios.post('/users/create', data, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
                 })
-                .then(response => this.showAlert(response.data.meta.message, 'success'), location.reload())
+                .then(response => {
+                    this.showAlert(response.data.meta.message, 'success');
+                    this.dialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload the window after success
+                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         //UpdateUser
