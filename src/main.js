@@ -10,7 +10,6 @@ import { loadFonts } from './plugins/webfontloader'
 import Swal from 'sweetalert2'
 
 // require ('@/store/subscribe');
-
 const app = createApp(App);
 app.config.globalProperties.$swal = Swal;
 
