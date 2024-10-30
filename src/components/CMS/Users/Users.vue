@@ -227,29 +227,29 @@ export default {
             user: {},
             tab: 'option-1', // Set the initial tab to show roles by default
             rolesHeaders: [{
-                    text: 'Role ID',
+                    title: 'Role ID',
                     value: 'id'
                 },
                 {
-                    text: 'Role Name',
+                    title: 'Role Name',
                     value: 'name'
                 },
                 {
-                    text: 'Actions',
+                    title: 'Actions',
                     value: 'actions',
                     sortable: false
                 },
             ],
             permissionsHeaders: [{
-                    text: 'Permission ID',
+                    title: 'Permission ID',
                     value: 'id'
                 },
                 {
-                    text: 'Permission Name',
+                    title: 'Permission Name',
                     value: 'name'
                 },
                 {
-                    text: 'Actions',
+                    title: 'Actions',
                     value: 'actions',
                     sortable: false
                 },
