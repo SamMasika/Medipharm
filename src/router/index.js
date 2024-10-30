@@ -10,8 +10,10 @@ import Sermons from '@/components/pages/sermons/Sermons.vue'
 import Belief from '@/components/pages/aboutus/Beliefs.vue'
 import Contact from '@/components/pages/contactus/Contact.vue'
 import Users from '@/components/CMS/Users/Users.vue'
-import Roles from '@/components/CMS/Users/Roles.vue'
+import Roles from '@/components/CMS/Roles/Roles.vue'
 import Clusters from '@/components/CMS/Clusters/Clusters.vue'
+import RoleDetails from '@/components/CMS/Roles/RoleDetails.vue'
+import Event from '@/components/CMS/Events/Event.vue'
 
 const routes = [
   
@@ -83,9 +85,19 @@ const routes = [
         component: Roles
       },
       {
+        path: '/roles-details',
+        name: 'roles-details',
+        component: RoleDetails
+      },
+      {
         path: '/clusters-list',
         name: 'clusters-list',
         component: Clusters
+      },
+      {
+        path: '/events-list',
+        name: 'events-list',
+        component: Event
       },
      
      

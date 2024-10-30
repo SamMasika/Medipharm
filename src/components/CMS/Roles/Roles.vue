@@ -1,13 +1,10 @@
 <template>
 <v-container fluid>
-    <v-card flat>
-        <v-toolbar class="toolbar">
-            <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
-            Roles & Permissions
-            <v-spacer></v-spacer>
+    <v-row justify="end">
+        <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="500">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular text-color" prepend-icon="mdi-plus" text="Add Role" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Role" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
                 <v-card prepend-icon="mdi-plus" title="Add Role">
                     <v-form>
@@ -22,11 +19,19 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn color="blue" type="submit" text="Save" class="text-none" variant="flat" @click="addRole" rounded="xl"></v-btn>
+                            <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="addRole" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
+        </v-col>
+    </v-row>
+    <v-card flat>
+        <v-toolbar class="toolbar">
+            <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
+            Roles & Permissions
+            <v-spacer></v-spacer>
+           
         </v-toolbar>
         <v-row justify="end" class="mt-2">
             <v-col cols="12" md="4" class="d-flex justify-end">
@@ -45,13 +50,14 @@
                         </template>
                         <!-- List for actions -->
                         <v-list>
-                            <v-list-item @click="editUser(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
-                                </template>
-                                <v-list-item-title>Edit</v-list-item-title>
-                            </v-list-item>
-
+                            <router-link to="/roles-details" style="text-decoration:none;">
+                                <v-list-item>
+                                    <template v-slot:prepend>
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </template>
+                                    <v-list-item-title>Edit</v-list-item-title>
+                                </v-list-item>
+                            </router-link>
                             <v-list-item @click="deleteDialog(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
@@ -82,7 +88,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn color="blue" type="submit" text="Ok" class="text-none" variant="flat" @click="UserToDelete" rounded="xl"></v-btn>
+                <v-btn  type="submit" text="Ok" class="text-none button-color" variant="flat" @click="UserToDelete" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -143,38 +149,6 @@ export default {
             username: 'auth/userName',
 
         }),
-
-        filteredRoles() {
-            if (!this.searchRole) {
-                return this.role;
-            }
-            const keyword = this.searchRole.toLowerCase();
-            return this.role.filter((role) =>
-                role.name.toLowerCase().includes(keyword)
-            );
-        },
-        likesAllRole() {
-            return this.selectedRole.length === this.role.length
-        },
-        likesSomeRole() {
-            return this.selectedRole.length > 0 && !this.likesAllRole
-        },
-        icon() {
-            if (this.likesAllRole) return 'mdi-close-box'
-            if (this.likesSomeRole) return 'mdi-minus-box'
-            return 'mdi-checkbox-blank-outline'
-        },
-
-        permissionsToUpdate() {
-            // Find the permissions that were removed (unchecked)
-            const removedPermissions = this.userEdit.role.filter(role => !this.selectedRole.includes(role));
-            // Find the permissions that were added (checked)
-            const addedPermissions = this.selectedRole.filter(role => !this.userEdit.role.includes(role));
-            return {
-                removed: removedPermissions,
-                added: addedPermissions,
-            };
-        },
     },
     methods: {
         async fetchData() {
@@ -353,7 +327,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .header {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;

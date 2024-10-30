@@ -1,13 +1,12 @@
 <template>
 <v-container fluid>
-    <v-card flat>
-        <v-toolbar class="toolbar">
-            <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
-            Users
-            <v-spacer></v-spacer>
+    <!-- User Management Header and Add User Dialog -->
+    <v-row justify="end">
+        <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="900">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular text-color" prepend-icon="mdi-plus" text="Add User" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add User" variant="flat" v-bind="activatorProps" rounded="xl">
+                    </v-btn>
                 </template>
                 <v-card prepend-icon="mdi-plus" title="Add User">
                     <v-form>
@@ -33,72 +32,183 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn color="blue" type="submit" text="Save" class="text-none" variant="flat" @click="addUser" rounded="xl"></v-btn>
+                            <v-btn color="blue" text="Save" class="text-none" variant="flat" @click="addUser" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
+        </v-col>
+    </v-row>
+
+    <!-- User Table with Actions and Search -->
+    <v-card flat>
+        <v-toolbar class="toolbar">
+            <v-icon icon="mdi-account-group" class="mx-5" size="40"></v-icon>&nbsp; Users
+            <v-spacer></v-spacer>
         </v-toolbar>
         <v-row justify="end" class="mt-2">
             <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }"></v-text-field>
+                <v-text-field v-model="search" label="Search" rounded="lg" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }">
+                </v-text-field>
             </v-col>
         </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="users" :search="search" :items-per-page="10">
-                <!-- Actions slot for custom menu with 3 dots -->
+            <v-data-table :headers="headers" :items="users" :search="search" :items-per-page="10" v-model:expanded="expanded" sho-expand>
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-menu transition="slide-x-transition">
                         <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">
-                                mdi-dots-vertical
-                            </v-icon>
+                            <v-icon v-bind="props">mdi-dots-vertical</v-icon>
                         </template>
-                        <!-- List for actions -->
                         <v-list>
                             <v-list-item @click="editUser(item)">
                                 <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
+                                    <v-icon>mdi-pencil</v-icon>
                                 </template>
                                 <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>
-
                             <v-list-item @click="deleteDialog(item)">
                                 <template v-slot:prepend>
-                                    <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
+                                    <v-icon>mdi-delete</v-icon>
                                 </template>
-                                <v-list-item-title>Diactivate</v-list-item-title>
+                                <v-list-item-title>Deactivate</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
                 </template>
+               <!-- Expanded row content with attractive user details section -->
+        <template v-slot:expanded-row="{ columns, item }">
+            <tr>
+                <td :colspan="columns.length">
+                    <v-card flat class="expanded-card mx-5 my-5">
+                        <v-row>
+                            <v-col cols="12" md="3" class="user-avatar-section d-flex align-center justify-center">
+                                <v-avatar size="100" class="mb-4">
+                                    <v-icon color="blue-grey " size="100">mdi-account</v-icon>
+                                </v-avatar>
+                                <v-chip color="green" dark v-if="item.status === 'Active'">Active</v-chip>
+                                <v-chip color="red" dark v-else>Inactive</v-chip>
+                            </v-col>
 
-                <template v-slot:[`item.status`]="{ item }">
+                            <v-col cols="12" md="9">
+                                <v-card flat class="user-details-card pa-4">
+                                    <v-card-title class="font-weight-bold grey--text text--darken-3">User Details</v-card-title>
+                                    <v-divider></v-divider>
 
-                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
+                                    <v-row class="mt-4">
+                                        <v-col cols="12" sm="6">
+                                            <p><strong>Name:</strong> {{ item.name }}</p>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <p><strong>Phone No.:</strong> {{ item.phoneNumber }}</p>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <p><strong>Membership No.:</strong> {{ item.membershipNumber }}</p>
+                                        </v-col>
+                                        <v-col cols="12" sm="6">
+                                            <p><strong>Status:</strong> {{ item.status }}</p>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                            </v-col>
+                        </v-row>
 
-                </template>
+                        <!-- Tabs for Roles and Permissions -->
+                        <v-tabs v-model="tab" color="tertiary" grow>
+                            <v-tab value="option-1">
+                                <v-icon left>mdi-account</v-icon>
+                                Roles
+                            </v-tab>
+                            <v-tab value="option-2">
+                                <v-icon left>mdi-lock</v-icon>
+                                Permissions
+                            </v-tab>
+                        </v-tabs>
+
+                        <!-- Tab Contents for Roles and Permissions -->
+                        <v-card flat class="tab-content">
+                            <v-card-text v-if="tab === 'option-1'">
+                                <v-data-table :headers="rolesHeaders" :items="item.roles" dense class="elevation-1">
+                                    <template v-slot:[`item.permissions`]="{ item: role }">
+                                        <ul>
+                                            <li v-for="permission in role.permissions" :key="permission.id">{{ permission.name }}</li>
+                                        </ul>
+                                    </template>
+                                    <template v-slot:[`item.actions`]="{ item }">
+                                        <v-menu transition="slide-x-transition">
+                                            <template v-slot:activator="{ props }">
+                                                <v-icon v-bind="props">mdi-dots-vertical</v-icon>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item @click="editRole(item)">
+                                                    <template v-slot:prepend>
+                                                        <v-icon>mdi-pencil</v-icon>
+                                                    </template>
+                                                    <v-list-item-title>Edit</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click="deleteRole(item)">
+                                                    <template v-slot:prepend>
+                                                        <v-icon>mdi-delete</v-icon>
+                                                    </template>
+                                                    <v-list-item-title>Delete</v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+                                    </template>
+                                </v-data-table>
+                            </v-card-text>
+
+                            <v-card-text v-if="tab === 'option-2'">
+                                <v-data-table :headers="permissionsHeaders" :items="permissions(item.roles)" dense class="elevation-1">
+                                    <template v-slot:[`item.actions`]="{ item }">
+                                        <v-menu transition="slide-x-transition">
+                                            <template v-slot:activator="{ props }">
+                                                <v-icon v-bind="props">mdi-dots-vertical</v-icon>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item @click="editPermission(item)">
+                                                    <template v-slot:prepend>
+                                                        <v-icon>mdi-pencil</v-icon>
+                                                    </template>
+                                                    <v-list-item-title>Edit</v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item @click="deletePermission(item)">
+                                                    <template v-slot:prepend>
+                                                        <v-icon>mdi-delete</v-icon>
+                                                    </template>
+                                                    <v-list-item-title>Delete</v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+                                    </template>
+                                </v-data-table>
+                            </v-card-text>
+                        </v-card>
+                    </v-card>
+                </td>
+            </tr>
+        </template>
             </v-data-table>
+
         </v-card-text>
     </v-card>
 
+    <!-- Confirmation Dialog for Deactivation -->
     <v-dialog v-model="confirmDialogVisible" max-width="400">
         <v-card class="rounded-lg" elevation="24">
-            <v-card-title class=" text-h5 white--text text-center my-1">
+            <v-card-title class="text-h5 white--text text-center my-1">
                 <v-icon size="80" color="red">mdi-lock-open-variant</v-icon>
             </v-card-title>
-            <v-card-text class=" text-center ">
+            <v-card-text class="text-center">
                 Are you sure you want to delete <b>"{{ UserToDelete.name }}"</b>?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn color="blue" type="submit" text="Ok" class="text-none" variant="flat" @click="UserToDelete" rounded="xl"></v-btn>
+                <v-btn color="blue" text="Ok" class="text-none" variant="flat" @click="deleteRole" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
     </v-dialog>
-
 </v-container>
 </template>
 
@@ -107,27 +217,52 @@ import axios from "axios";
 import {
     mapGetters
 } from 'vuex';
+
 export default {
     data() {
         return {
             search: "",
+            expanded: [],
             users: [],
             user: {},
+            tab: 'option-1', // Set the initial tab to show roles by default
+            rolesHeaders: [{
+                    text: 'Role ID',
+                    value: 'id'
+                },
+                {
+                    text: 'Role Name',
+                    value: 'name'
+                },
+                {
+                    text: 'Actions',
+                    value: 'actions',
+                    sortable: false
+                },
+            ],
+            permissionsHeaders: [{
+                    text: 'Permission ID',
+                    value: 'id'
+                },
+                {
+                    text: 'Permission Name',
+                    value: 'name'
+                },
+                {
+                    text: 'Actions',
+                    value: 'actions',
+                    sortable: false
+                },
+            ],
             dialog: false,
-            userEditDialog: false,
-            userEdit: {},
-            Roledialog: false,
-            dialogDelete: false,
             confirmDialogVisible: false,
-            activateConfirm: false,
-            deactivateConfirm: false,
-            isLoading: false,
             UserToDelete: {},
-            UserToActivate: {},
-            role: [],
-            selectedRole: {},
-            searchRole: "",
             headers: [{
+                    title: '',
+                    value: 'data-table-expand',
+                    align: 'start',
+                },
+                {
                     title: "Name",
                     value: "name",
                     sortable: false,
@@ -153,230 +288,79 @@ export default {
                     sortable: false,
                 },
             ],
+
         };
-    },
-    watch: {
-        'user.confirm_password'(newValue) {
-            this.passwordErrorMessages = [];
-            if (newValue !== this.user.password) {
-                this.passwordErrorMessages.push('Passwords do not match');
-            }
-        },
     },
     computed: {
         ...mapGetters({
             authenticated: 'auth/authenticated',
             username: 'auth/userName',
-
         }),
-
-        filteredRoles() {
-            if (!this.searchRole) {
-                return this.role;
-            }
-            const keyword = this.searchRole.toLowerCase();
-            return this.role.filter((role) =>
-                role.name.toLowerCase().includes(keyword)
-            );
-        },
-        likesAllRole() {
-            return this.selectedRole.length === this.role.length
-        },
-        likesSomeRole() {
-            return this.selectedRole.length > 0 && !this.likesAllRole
-        },
-        icon() {
-            if (this.likesAllRole) return 'mdi-close-box'
-            if (this.likesSomeRole) return 'mdi-minus-box'
-            return 'mdi-checkbox-blank-outline'
-        },
-
-        permissionsToUpdate() {
-            // Find the permissions that were removed (unchecked)
-            const removedPermissions = this.userEdit.role.filter(role => !this.selectedRole.includes(role));
-            // Find the permissions that were added (checked)
-            const addedPermissions = this.selectedRole.filter(role => !this.userEdit.role.includes(role));
-            return {
-                removed: removedPermissions,
-                added: addedPermissions,
-            };
-        },
     },
     methods: {
         async fetchData() {
-            this.isLoading = true;
             try {
                 const response = await axios.get("/users/list", {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
                     },
                 });
-
                 this.users = response.data.data.data;
             } catch (error) {
                 this.showAlert(error.response.data.meta.message, 'error');
-            } finally {
-                this.isLoading = false;
             }
         },
         addUser() {
-            const data = {
-                ...this.user,
-            };
-            axios.post('/users/create', data, {
+            axios.post('/users/create', this.user, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
-                    }
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                    },
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.dialog = false; // Close the dialog after success
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                    this.dialog = false;
+                    this.fetchData();
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
-        },
-        //UpdateUser
-        editRole(item) {
-            this.userEdit = item
-            this.userEditDialog = true
-        },
-        updateUser() {
-            const {
-                id,
-                name,
-                email,
-                phone
-            } = this.userEdit;
-            const selectedRoles = this.selectedRole[id] || []; // Get the selected roles for the specific role
-
-            axios
-                .put("/user-update/" + this.userEdit.id, {
-
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
-                    },
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    roles: selectedRoles,
-                })
-                .then((response) => {
-                    console.log(response)
-                    this.$swal
-                        .fire({
-                            icon: 'success',
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                        .then(() => {
-                            // Handle success case
-                            this.userEditDialog = false;
-                            // Optionally, you can refresh the data after successful update
-                            this.fetchData();
-                        });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'API call failed!',
-                        text: error.message,
-                    });
-                    this.userEditDialog = false;
-                });
-        },
-        activateUser() {
-            axios.put(`user-activate/${this.UserToActivate.id}`)
-                .then(response => {
-                    // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.users.indexOf(this.UserToActivate);
-                    if (index > -1) {
-                        this.users.splice(index, 1);
-                    }
-                    this.deactivateConfirm = false;
-                    this.activateConfirm = false;
-                    this.$swal.fire({
-                            icon: 'success',
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                        .then(() => {
-                            // Refresh the page
-                            window.location.reload();
-                        });
-                })
-                .catch(error => {
-                    // API call failed, show error message
-                    this.activateConfirm = false;
-                    this.deactivateConfirm = false;
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'API call failed!',
-                        text: error.message
-                    });
-                });
-        },
-
-        activateDialog(item) {
-            this.UserToActivate = item;
-            this.activateConfirm = true;
-        },
-        deactivateDialog(item) {
-            this.UserToActivate = item;
-            this.deactivateConfirm = true;
-        },
-
-        deleteRole() {
-            axios.delete(`user-delete/${this.UserToDelete.id}`)
-                .then(response => {
-                    // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.users.indexOf(this.UserToDelete);
-                    if (index > -1) {
-                        this.users.splice(index, 1);
-                    }
-                    this.confirmDialogVisible = false;
-                    this.$swal.fire({
-                            icon: 'success',
-                            title: response.data.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                        .then(() => {
-                            // Refresh the page
-                            window.location.reload();
-                        });
-                })
-                .catch(error => {
-                    // API call failed, show error message
-                    this.confirmDialogVisible = false;
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: 'API call failed!',
-                        text: error.message
-                    });
-                });
         },
         deleteDialog(item) {
             this.UserToDelete = item;
             this.confirmDialogVisible = true;
         },
-
-        showAlert(message, type) {
-            this.$swal.fire({
-                icon: type,
-                title: message,
-                showConfirmButton: false,
-                timer: 2000,
-            });
+        permissions(roles) {
+            return roles.flatMap(role => role.permissions);
         },
+
+        editRole(role) {
+            // Logic to edit role
+            console.log("Editing role:", role);
+        },
+
+        editPermission(permission) {
+            // Logic to edit permission
+            console.log("Editing permission:", permission);
+        },
+        deletePermission(permission) {
+            // Logic to delete permission
+            console.log("Deleting permission:", permission);
+        },
+
+        deleteRole() {
+            axios.delete(`/user-delete/${this.UserToDelete.id}`)
+                .then(response => {
+                    this.confirmDialogVisible = false;
+                    this.fetchData();
+                    this.showAlert(response.data.message, 'success');
+                })
+                .catch(error => {
+                    this.confirmDialogVisible = false;
+                    this.showAlert(error.message, 'error');
+                });
+        }
     },
     mounted() {
         this.fetchData();
-    },
+    }
 };
 </script>
 
@@ -412,7 +396,7 @@ export default {
 }
 
 .datatable-header {
-    background-color: #1976d2 !important;
+    background-color: #A82228 !important;
     color: white !important;
 }
 
@@ -423,5 +407,29 @@ export default {
 .toolbar {
     background-color: #A82228;
     color: white;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.expanded-card {
+    background: #f9f9f9;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.user-avatar-section {
+    border-right: 1px solid #e0e0e0;
+}
+
+.user-details-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content {
+    padding: 16px;
 }
 </style>

@@ -90,92 +90,121 @@
     </v-row>
 </v-container>
 <!-- Row for Getting Connected to the Church -->
-<v-container>
-    <div class="text-center my-5 ">
-        <h2 class=" section-title">Get Connected</h2>
-    </div>
+<v-container fluid>
+    <v-row justify="center">
+        <v-col cols="12" md="10">
 
-    <div class="text-center my-3 watermark-section">
-        <p class="service-description ">
-            <i> “And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.”</i>
-        </p>
-    </div>
-    <div class="text-center my-5 ">
-        <p class="service-descripton bible-verse text-bold">
-            Hebrews 10:24-25 (NIV)
-        </p>
-    </div>
-    <v-row>
-        <!-- Fellowship Card -->
-        <v-col cols="12" md="4">
-            <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
-                    <v-img src="@/assets/Connected/Deacon.jpg" height="300px" w cover>
-                        <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Deacon
-                        </v-chip>
-                    </v-img>
-                    <v-card-title>
-                        <v-icon class="mx-4">mdi-handshake</v-icon>
-                        <span class="title">Deacon</span>
-                    </v-card-title>
-                    <v-card-text>
-                        Join us for fellowship and build lasting relationships within our church community.
-                    </v-card-text>
-                    <v-card-actions class="d-flex flex-column justify-end">
-                        <v-spacer></v-spacer>
-                        <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Deacon</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-hover>
-        </v-col>
+            <div class="text-center my-5 ">
+                <h2 class=" section-title">Get Connected</h2>
+            </div>
 
-        <!-- Prayer & Bible Study Card -->
-        <v-col cols="12" md="4">
-            <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
-                    <v-img src="@/assets/Connected/Prayer2.jpg" height="300px" cover>
-                        <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Prayer & Bible Study
-                        </v-chip>
-                    </v-img>
-                    <v-card-title>
-                        <v-icon class="mx-4">mdi-book-open-variant</v-icon>
-                        <span class="title">Prayer & Bible Study</span>
-                    </v-card-title>
-                    <v-card-text>
-                        Engage in prayer and Bible study sessions to grow spiritually and deepen your understanding of the Word.
-                    </v-card-text>
-                    <v-card-actions class="d-flex flex-column justify-end">
-                        <v-spacer></v-spacer>
-                        <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Pray with Us</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-hover>
-        </v-col>
+            <div class="text-center my-3 watermark-section">
+                <p class="service-description ">
+                    <i> “And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.”</i>
+                </p>
+            </div>
+            <div class="text-center my-5 ">
+                <p class="service-descripton bible-verse text-bold">
+                    Hebrews 10:24-25 (NIV)
+                </p>
+            </div>
+            <v-row>
+                <!-- Fellowship Card -->
 
-        <!-- Giving Card -->
-        <v-col cols="12" md="4">
-            <v-hover v-slot="{ isHovering, props }">
-                <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
-                    <v-img src="@/assets/giving.jpg" height="300px" cover>
-                        <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                            Giving
-                        </v-chip>
-                    </v-img>
-                    <v-card-title>
-                        <v-icon class="mx-4">mdi-cash</v-icon>
-                        <span class="title">Giving</span>
-                    </v-card-title>
-                    <v-card-text>
-                        Support the church and its missions through your generous giving.
-                    </v-card-text>
-                    <v-card-actions class="d-flex flex-column justify-end">
-                        <v-spacer></v-spacer>
-                        <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Give</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-hover>
+                <v-col cols="12" md="3">
+                    <v-hover v-slot="{ isHovering, props }">
+                        <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
+                            <v-img src="@/assets/Connected/Deacon.jpg" height="300px" w cover>
+                                <v-chip class="chip-overlay custom-chip-color" variant="flat">
+                                    Deacon
+                                </v-chip>
+                            </v-img>
+                            <v-card-title>
+                                <v-icon class="mx-4">mdi-handshake</v-icon>
+                                <span class="title">Deacon</span>
+                            </v-card-title>
+                            <v-card-text>
+                                Join us for fellowship and build lasting relationships within our church community.
+                            </v-card-text>
+                            <v-card-actions class="d-flex flex-column justify-end">
+                                <v-spacer></v-spacer>
+                                <v-btn text class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Join Deacon</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-hover>
+                </v-col>
+
+                <!-- Prayer & Bible Study Card -->
+                <v-col cols="12" md="3">
+                    <v-hover v-slot="{ isHovering, props }">
+                        <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
+                            <v-img src="@/assets/Connected/Prayer2.jpg" height="300px" cover>
+                                <v-chip class="chip-overlay custom-chip-color" variant="flat">
+                                    Prayers 
+                                </v-chip>
+                            </v-img>
+                            <v-card-title>
+                                <v-icon class="mx-4">mdi-cellphone-wireless</v-icon>
+                                <span class="title">Prayers </span>
+                            </v-card-title>
+                            <v-card-text>
+                                Engage in prayer sessions to grow spiritually and deepen your relationships with God.
+                            </v-card-text>
+                            <v-card-actions class="d-flex flex-column justify-end">
+                                <v-spacer></v-spacer>
+                                <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Pray with Us</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-hover>
+                </v-col>
+                <!-- Prayer & Bible Study Card -->
+                <v-col cols="12" md="3">
+                    <v-hover v-slot="{ isHovering, props }">
+                        <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
+                            <v-img src="@/assets/Connected/Deacon.jpg" height="300px" cover>
+                                <v-chip class="chip-overlay custom-chip-color" variant="flat">
+                                Bible Study
+                                </v-chip>
+                            </v-img>
+                            <v-card-title>
+                                <v-icon class="mx-4">mdi-book-open-variant</v-icon>
+                                <span class="title">Bible Study</span>
+                            </v-card-title>
+                            <v-card-text>
+                                Engage in Bible study sessions to grow spiritually and deepen your understanding of the Word.
+                            </v-card-text>
+                            <v-card-actions class="d-flex flex-column justify-end">
+                                <v-spacer></v-spacer>
+                                <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Engage in Bible Study</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-hover>
+                </v-col>
+
+                <!-- Giving Card -->
+                <v-col cols="12" md="3">
+                    <v-hover v-slot="{ isHovering, props }">
+                        <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
+                            <v-img src="@/assets/giving.jpg" height="300px" cover>
+                                <v-chip class="chip-overlay custom-chip-color" variant="flat">
+                                    Giving
+                                </v-chip>
+                            </v-img>
+                            <v-card-title>
+                                <v-icon class="mx-4">mdi-cash</v-icon>
+                                <span class="title">Giving</span>
+                            </v-card-title>
+                            <v-card-text>
+                                Support the church and its missions through your generous giving.
+                            </v-card-text>
+                            <v-card-actions class="d-flex flex-column justify-end">
+                                <v-spacer></v-spacer>
+                                <v-btn class="text-none custom-btn-color" append-icon="mdi-chevron-double-right">Give</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-hover>
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 </v-container>
@@ -434,7 +463,55 @@
 
                     </div>
                 </div>
+                <!-- Sunday -->
+                <div class="timeline-item">
+                    <div class="timeline-dot">
+                        <v-icon color="white">mdi-calendar-month</v-icon>
+                    </div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-day">Sunday</h3>
 
+                        <v-hover v-slot:default="{ props }">
+                            <div v-bind="props" class="choir-rehearsal-panel" @click="showServicesOnSunday = !showServicesOnSunday">
+                                <v-icon class="mx-3 custom-icon-color">mdi-church</v-icon>
+                                <span>Services</span>
+                                <v-spacer></v-spacer>
+                                <v-icon class="ml-3 custom-icon-color" v-if="!showServicesOnSunday">mdi-menu-down</v-icon>
+                                <v-icon class="ml-3 custom-icon-color" v-if="showServicesOnSunday">mdi-menu-up</v-icon>
+                            </div>
+                            <v-expand-transition>
+                                <div v-if="showServicesOnSunday" class="choir-rehearsals-list">
+                                    <div class="d-flex align-center">
+                                        <p class="timeline-program">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-church</v-icon>First Service
+                                        </p>
+                                        <p class="timeline-time">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>06:00 AM - 07:00 AM
+                                        </p>
+                                    </div>
+                                    <div class="d-flex align-center">
+                                        <p class="timeline-program">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-church</v-icon> Second Service
+                                        </p>
+                                        <p class="timeline-time">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>03:00 PM - 05:00 PM
+                                        </p>
+                                    </div>
+                                    <div class="d-flex align-center">
+                                        <p class="timeline-program">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-church</v-icon>Third Service
+                                        </p>
+                                        <p class="timeline-time">
+                                            <v-icon class="mx-3 custom-icon-color">mdi-clock-time-four-outline</v-icon>06:00 PM - 07:00 PM
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </v-expand-transition>
+                        </v-hover>
+                       
+                    </div>
+                </div>
             </div>
             <div class="d-flex justify-center">
                 <v-btn class="text-none custom-view-color" rounded="xl" prepend-icon="mdi-calendar-month" @click="goToCalendar">
@@ -468,7 +545,7 @@
         <!-- Worship Teams & Choir Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
                     <v-img src="@/assets/Involved/Music.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Worship Teams & Choir
@@ -492,7 +569,7 @@
         <!-- Teaching Children Classes Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
                     <v-img src="@/assets/Involved/children.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Teaching Children
@@ -516,7 +593,7 @@
         <!-- Media Team Card -->
         <v-col cols="12" md="4">
             <v-hover v-slot="{ isHovering, props }">
-                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 2">
+                <v-card class="activity-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
                     <v-img src="@/assets/Involved/Media3.jpg" height="300px" cover>
                         <v-chip class="chip-overlay custom-chip-color" variant="flat">
                             Media Team
@@ -557,6 +634,7 @@ export default {
             showChoirRehearsalsOnThursday: false,
             showChoirRehearsalsOnWednesday: false,
             showServicesOnWednesday: false,
+            showServicesOnSunday: false,
             apiKey: 'AIzaSyAz1tlEhLzaw9eifLlq3hY1CBS2R-1Vx4Q', // Replace with your actual API key
             channelId: 'UCk6tDX_p3ZskmFygDUiAQmQ', // Replace with your actual Channel ID
             videoUrl: '',
@@ -733,6 +811,7 @@ export default {
     /* Elevation effect on hover */
     /* Optional: visible border on hover */
 }
+
 .involved-card {
     transition: box-shadow 0.3s ease;
     border-radius: 8px;
@@ -869,7 +948,7 @@ export default {
 
 .title {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 18px !important;
 }
 
 .v-btn {

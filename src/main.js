@@ -9,16 +9,19 @@ import '@mdi/font/css/materialdesignicons.css'
 import { loadFonts } from './plugins/webfontloader'
 import Swal from 'sweetalert2'
 
-// require ('@/store/subscribe');
+
+require ('@/store/subscribe')
+
 const app = createApp(App);
-app.config.globalProperties.$swal = Swal;                                                                                                                             
+
+app.config.globalProperties.$swal = Swal;
 
 loadFonts();
-// axios.defaults.baseURL = 'http://localhost:8000/api';
+// axios.defaults.baseURL = 'http://localhost:8000/api/Shule';
 axios.defaults.baseURL='http://41.59.228.237/brt-cms/public/api/'
 
-// Initialize store and mount app
-store.dispatch('auth/initializeStore').then(() => {
+// Dispatch auth attempt and mount app after authentication attempt
+store.dispatch('auth/attempt', localStorage.getItem('access_token')).then(() => {
   app.use(store);
   app.use(router);
   app.use(vuetify);

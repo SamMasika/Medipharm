@@ -1,54 +1,14 @@
 <template>
 <v-container fluid class="my-5">
     <v-row align="center" justify="center" dense>
-        <v-col cols="12" md="3">
-            <v-card class="dashboard-card" @click="navigateTo('view-members')">
+        <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
+            <v-card class="dashboard-card" @click="navigateTo(card.route)">
                 <v-card-title class="card-title">
-                    <v-icon color="primary" size="28">mdi-account</v-icon>
-                    <span class="ml-1">Number of Members</span>
+                    <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
+                    <span class="ml-1">{{ card.title }}</span>
                 </v-card-title>
                 <v-card-text class="card-text">
-                    1500
-                    <!-- Placeholder for member count -->
-                </v-card-text>
-            </v-card>
-        </v-col>
-
-        <v-col cols="12" md="3">
-            <v-card class="dashboard-card" @click="navigateTo('donations-report')">
-                <v-card-title class="card-title">
-                    <v-icon color="success" size="28">mdi-hand-heart</v-icon>
-                    <span class="ml-1">Donations Report</span>
-                </v-card-title>
-                <v-card-text class="card-text">
-                    2500 TZS
-                    <!-- Placeholder for total donations -->
-                </v-card-text>
-            </v-card>
-        </v-col>
-
-        <v-col cols="12" md="3">
-            <v-card class="dashboard-card" @click="navigateTo('events')">
-                <v-card-title class="card-title">
-                    <v-icon color="warning" size="28">mdi-calendar</v-icon>
-                    <span class="ml-1">Upcoming Events</span>
-                </v-card-title>
-                <v-card-text class="card-text">
-                    3
-                    <!-- Placeholder for number of upcoming events -->
-                </v-card-text>
-            </v-card>
-        </v-col>
-
-        <v-col cols="12" md="3">
-            <v-card class="dashboard-card" @click="navigateTo('clusters-deacons')">
-                <v-card-title class="card-title">
-                    <v-icon color="info" size="28">mdi-account-group</v-icon>
-                    <span class="ml-1">Clusters/Deacons</span>
-                </v-card-title>
-                <v-card-text class="card-text">
-                    5
-                    <!-- Placeholder for number of clusters/deacons -->
+                    {{ card.value }}
                 </v-card-text>
             </v-card>
         </v-col>
@@ -56,8 +16,43 @@
 </v-container>
 </template>
 
+  
+  
 <script>
 export default {
+    data() {
+        return {
+            dashboardCards: [{
+                    title: 'Number of Members',
+                    icon: 'mdi-account',
+                    iconColor: 'primary',
+                    value: '1500',
+                    route: 'view-members'
+                },
+                {
+                    title: 'Donations Report',
+                    icon: 'mdi-hand-heart',
+                    iconColor: 'success',
+                    value: '2500 TZS',
+                    route: 'donations-report'
+                },
+                {
+                    title: 'Upcoming Events',
+                    icon: 'mdi-calendar',
+                    iconColor: 'warning',
+                    value: '3',
+                    route: 'events'
+                },
+                {
+                    title: 'Clusters/Deacons',
+                    icon: 'mdi-account-group',
+                    iconColor: 'info',
+                    value: '5',
+                    route: 'clusters-deacons'
+                },
+            ]
+        };
+    },
     methods: {
         navigateTo(route) {
             this.$router.push(`/${route}`); // Adjust the route based on your routing setup
@@ -65,15 +60,18 @@ export default {
     }
 }
 </script>
-
+  
+  
 <style scoped>
 .dashboard-card {
     transition: box-shadow 0.3s ease;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 100px;
-    /* Maintain reduced height of the cards */
+    height: auto;
+    /* Allow the height to adjust based on content */
+    padding: 16px;
+    /* Add some padding for better aesthetics */
 }
 
 .dashboard-card:hover {

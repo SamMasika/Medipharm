@@ -3,14 +3,14 @@
 <div v-else>
     <AppBar />
     <v-container fluid class="back-container">
-        <v-row justify="center" class="align-center my-8">
-            <v-col cols="12" md="7" class="d-flex align-center justify-center my-8">
+        <v-row justify="center" class="align-center my-5">
+            <v-col cols="12" md="7" class="d-flex align-center justify-center my-5">
                 <v-row>
-                    <v-col cols="12" md="4" class="image-stack-container my-8 d-flex justify-center">
+                    <v-col cols="12" md="4" class="image-stack-container mt-8 d-flex justify-center">
                         <!-- Image for medium and larger devices -->
                         <!-- <v-img class="stacked-image" src="@/assets/mtokambali.jpg" max-height="180px" max-width="45%" cover aspect-ratio="16/9" /> -->
                         <!-- Centered image for small devices -->
-                        <v-img class="stacked-image d-none d-md-flex d-lg-flex" src="@/assets/mtokambali.jpg" max-height="350px" max-width="100%" cover aspect-ratio="16/9" />
+                        <v-img class="stacked-image d-none d-md-flex d-lg-flex" src="@/assets/mtokambali.jpg" max-height="380px" max-width="100%" cover aspect-ratio="16/9" />
                     </v-col>
                     <v-col cols="12" md="8" class="contact-info-container belief-container">
                         <h2 class="my-">Who<i class="text-color"> We Are</i></h2>
@@ -108,7 +108,7 @@
             </p>
         </div>
         <div class="text-center d-flex">
-            <v-avatar size="480" color="blue-grey-lighten-5">
+            <v-avatar size="480" color="">
                 <v-img src="@/assets/mtoka.png" alt="Senior Pastor" class="my-3" cover  style="object-fit: cover; display: flex; align-items: center; justify-content: center;"></v-img>
             </v-avatar>
             <div class="text-center" style="padding: 150px 70px;">
@@ -124,7 +124,7 @@
                     <v-slide-group-item v-for="(pastor, index) in pastors" :key="index">
                         <v-card class="service-card ma-4 card-bordered" width="300px" elevation="0" rounded="lg">
                             <v-card-title class="d-flex justify-center my-3">
-                                <v-avatar size="250" color="blue-grey-lighten-5">
+                                <v-avatar size="250" >
                                     <v-img :src="pastor.image" alt="Pastor Image" class="uniform-img" cover style="object-fit: cover; display: flex; align-items: center; justify-content: center;">
                                     </v-img>
                                 </v-avatar>
@@ -219,7 +219,7 @@ export default {
                 },
                 {
                     name: "Athanas Hiluka",
-                    description: "Discipleship and literature, radio ministry, & Cluster B. ",
+                    description: "Discipleship and literature, radio ministry, & Cluster B.",
                     image: require("@/assets/pastors/Athanas Hiluka.png"),
                 },
                 {

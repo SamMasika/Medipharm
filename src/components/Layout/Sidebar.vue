@@ -44,7 +44,46 @@
         </v-list>
 
         <v-list density="compact" nav class="my-5 mt-5">
+            <v-list-item v-for="([title, icon], i) in ChurchPrograms" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
+                <template v-slot:prepend>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ props }">
+                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
+                        </template>
+                        <span>{{ title }}</span>
+                    </v-tooltip>
+                </template>
+                <v-list-item-title>{{ title }}</v-list-item-title>
+            </v-list-item>
+        </v-list>
+        <!-- <v-list density="compact" nav class="my-5 mt-5">
+            <v-list-item v-for="([title, icon], i) in BulkSMS" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
+                <template v-slot:prepend>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ props }">
+                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
+                        </template>
+                        <span>{{ title }}</span>
+                    </v-tooltip>
+                </template>
+                <v-list-item-title>{{ title }}</v-list-item-title>
+            </v-list-item>
+        </v-list> -->
+        <v-list density="compact" nav class="my-5 mt-5">
             <v-list-item v-for="([title, icon], i) in Finance" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
+                <template v-slot:prepend>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ props }">
+                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
+                        </template>
+                        <span>{{ title }}</span>
+                    </v-tooltip>
+                </template>
+                <v-list-item-title>{{ title }}</v-list-item-title>
+            </v-list-item>
+        </v-list>
+        <v-list density="compact" nav class="my-5 mt-5">
+            <v-list-item v-for="([title, icon], i) in Reports" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
                 <template v-slot:prepend>
                     <v-tooltip bottom>
                         <template v-slot:activator="{ props }">
@@ -104,16 +143,25 @@ export default {
                 ['Home', 'mdi-home']
             ],
             Contents: [
-                ['Membership Management', 'mdi-file-chart-outline']
+                ['Members Management', 'mdi-account-group']
             ],
             Leaders: [
-                ['Leaders Management', 'mdi-lead-pencil']
+                ['Leaders Management', 'mdi-account-group-outline']
             ],
             Finance: [
-                ['Finance Management', 'mdi-cash']
+                ['Finance ', 'mdi-cash']
             ],
             Settings: [
                 ['System Configurations', 'mdi-wrench']
+            ],
+            Reports: [
+                ['Reports', 'mdi-file-document']
+            ],
+            ChurchPrograms: [
+                ['Church Programs', 'mdi-calendar']
+            ],
+            BulkSMS: [
+                ['Bulk SMS', 'mdi-message-text']
             ],
             quickLinks: {
                 Home: [{
@@ -121,8 +169,7 @@ export default {
                         path: '/dashboard',
                         icon: 'mdi-view-dashboard'
                     },
-                   
-                   
+
                 ],
                 'Membership Management': [{
                         text: 'View Members',
@@ -146,13 +193,12 @@ export default {
                         icon: 'mdi-file-document'
                     },
                 ],
-                'Finance Management': [
-                    {
+                'Finance Management': [{
                         text: 'Offerings',
                         path: '/donations',
                         icon: 'mdi-hand-heart'
                     },
-                {
+                    {
                         text: 'Income Management',
                         path: '/income-management',
                         icon: 'mdi-cash'
@@ -172,7 +218,7 @@ export default {
                         path: '/financial-reports',
                         icon: 'mdi-file-chart'
                     },
-                  
+
                     // {
                     //     text: 'Bank Reconciliation',
                     //     path: '/bank-reconciliation',
@@ -183,6 +229,39 @@ export default {
                     //     path: '/audit-logs',
                     //     icon: 'mdi-file-document-outline'
                     // }
+                ],
+                Reports: [{
+                        text: 'Service Reports',
+                        path: '/service-reports',
+                        icon: 'mdi-calendar-check'
+                    },
+                    {
+                        text: 'Financial Reports',
+                        path: '/financial-reports',
+                        icon: 'mdi-file-chart'
+                    },
+                ],
+                'Church Programs': [{
+                        text: 'Weekly Services',
+                        path: '/weekly-services',
+                        icon: 'mdi-calendar-multiple'
+                    },
+                    {
+                        text: 'Special Events',
+                        path: '/special-events',
+                        icon: 'mdi-calendar-star'
+                    },
+                ],
+                'Bulk SMS': [{
+                        text: 'Send Bulk SMS',
+                        path: '/send-bulk-sms',
+                        icon: 'mdi-message-plus'
+                    },
+                    {
+                        text: 'SMS Reports',
+                        path: '/sms-reports',
+                        icon: 'mdi-file-document'
+                    },
                 ],
                 'System Configurations': [{
                         text: 'Users',
@@ -200,16 +279,16 @@ export default {
                         icon: 'mdi-account-group-outline'
                     },
                     {
-                        text: 'Calendar',
-                        path: '/events',
+                        text: 'Events',
+                        path: '/events-list',
                         icon: 'mdi-calendar'
                     },
-                    {
-                        text: 'Churches',
-                        path: '/events',
-                        icon: 'mdi-church'
-                    },
-                   
+                    // {
+                    //     text: 'Churches',
+                    //     path: '/events',
+                    //     icon: 'mdi-church'
+                    // },
+
                 ]
             },
         };

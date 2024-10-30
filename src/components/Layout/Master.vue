@@ -109,6 +109,9 @@ export default {
         darkTheme: true, // true for dark theme, false for light theme
         selectedItem: null,
     }),
+    created() {
+    this.$store.dispatch("auth/attempt");
+  },
     methods: {
         ...mapActions({
             logoutAction: 'auth/logout'

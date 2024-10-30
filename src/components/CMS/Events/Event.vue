@@ -2,21 +2,29 @@
 <v-container fluid>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="600">
+            <v-dialog v-model="dialog" max-width="700">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Cluster" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Event" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Cluster">
+                <v-card prepend-icon="mdi-plus" title="Add Event">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="cluster.name" required variant="outlined" density="compact"></v-text-field>
+                                    <v-text-field label="Name*" v-model="event.name" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field type="date" label="Start Date*" v-model="event.startDate" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field type="date" label="End Date*" v-model="event.endDate" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="cluster.description" required variant="outlined" density="compact"></v-text-field>
+                                    <v-textarea label="Description (Optional)" v-model="event.description" row-height="25" rows="3" variant="outlined" auto-grow shaped></v-textarea>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -24,7 +32,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="addCluster" rounded="xl"></v-btn>
+                            <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="addEvent" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
@@ -34,7 +42,7 @@
     <v-card flat>
         <v-toolbar class="toolbar">
             <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
-            Clusters
+            Events
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-row justify="end" class="mt-2">
@@ -43,7 +51,7 @@
             </v-col>
         </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="clusters" :search="search" :items-per-page="10">
+            <v-data-table :headers="headers" :items="events" :search="search" :items-per-page="10">
                 <!-- Actions slot for custom menu with 3 dots -->
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-menu transition="slide-x-transition">
@@ -54,7 +62,7 @@
                         </template>
                         <!-- List for actions -->
                         <v-list>
-                            <v-list-item @click="editCluster(item)">
+                            <v-list-item @click="editEvent(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                                 </template>
@@ -76,29 +84,38 @@
                     <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
 
                 </template>
+                <template v-slot:[`item.startDate`]="{ item }">
+                    {{ formatDate(item.startDate) }}
+                </template>
+                <template v-slot:[`item.endDate`]="{ item }">
+                    {{ formatDate(item.endDate) }}
+                </template>
             </v-data-table>
         </v-card-text>
     </v-card>
-    <v-dialog v-model="clusterEditDialog" max-width="600">
-        <v-card prepend-icon="mdi-plus" title="Update Cluster">
+    <v-dialog v-model="eventEditDialog" max-width="800">
+        <v-card prepend-icon="mdi-plus" title="Update event">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="clusterEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Name*" v-model="eventEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="clusterEdit.description" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field type="date" label="Start Date*" v-model="eventEdit.startDate" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field type="date" label="Start Date*" v-model="eventEdit.endDate" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="clusterEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateCluster" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="eventEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateEvent" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -109,12 +126,12 @@
                 <v-icon size="80" color="red">mdi-delete</v-icon>
             </v-card-title>
             <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ clusterToDelete.name }}"</b>?
+                Are you sure you want to delete <b>"{{ eventToDelete.name }}"</b>?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn  type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteCluster" rounded="xl"></v-btn>
+                <v-btn  type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteEvent" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -128,30 +145,31 @@ export default {
     data() {
         return {
             search: "",
-            clusters: [],
-            cluster: {},
+            events: [],
+            event: {},
             dialog: false,
-            clusterEditDialog: false,
-            clusterEdit: {},
+            eventEditDialog: false,
+            eventEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
-            clusterToDelete: {},
+            eventToDelete: {},
             headers: [{
-                    title: "Name",
+                    title: "Event Name",
                     value: "name",
                     sortable: false,
                 },
                 {
-                    title: "Description",
-                    value: "description",
+                    title: "Start Date",
+                    value: "startDate",
                     sortable: false,
                 },
                 {
-                    title: "Status",
-                    value: "status",
+                    title: "End Date",
+                    value: "endDate",
                     sortable: false,
                 },
+
                 {
                     title: "Actions",
                     value: "actions",
@@ -162,26 +180,34 @@ export default {
     },
 
     methods: {
+        formatDate(date) {
+            if (!date) return '';
+            return new Intl.DateTimeFormat('en-GB', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            }).format(new Date(date));
+        },
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/clusters/list", {
+                const response = await axios.get("/calendar-event/list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
                 });
-                this.clusters = response.data.data.data;
+                this.events = response.data.data.data;
             } catch (error) {
                 this.showAlert(error.response.data.meta.message, 'error');
             } finally {
                 this.isLoading = false;
             }
         },
-        addCluster() {
+        addEvent() {
             const data = {
-                ...this.cluster,
+                ...this.event,
             };
-            axios.post('/clusters/create', data, {
+            axios.post('/caledar-event/create', data,{
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -195,20 +221,20 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateCluster
-        editCluster(item) {
-            this.clusterEdit = item
-            this.clusterEditDialog = true
+        //UpdateEvent
+        editEvent(item) {
+            this.eventEdit = item
+            this.eventEditDialog = true
         },
-        updateCluster() {
+        updateEvent() {
             const {
                 id, // Add id here
                 name,
                 description,
-            } = this.clusterEdit;
+            } = this.eventEdit;
 
             axios
-                .post("/clusters/update", {
+                .post("/events/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
@@ -219,24 +245,24 @@ export default {
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.clusterEditDialog = false; // Close the dialog after success
+                    this.eventEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
                     this.showAlert(error.response.data.meta.message, 'error');
-                    this.clusterEditDialog = false;
+                    this.eventEditDialog = false;
                 });
         },
 
-        deleteCluster() {
-            axios.delete(`clusters/delete/${this.clusterToDelete.id}`)
+        deleteEvent() {
+            axios.delete(`events/delete/${this.eventToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.clusters.indexOf(this.clusterToDelete);
+                    const index = this.events.indexOf(this.eventToDelete);
                     if (index > -1) {
-                        this.clusters.splice(index, 1);
+                        this.events.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.meta.message, 'success');
@@ -248,7 +274,7 @@ export default {
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         deleteDialog(item) {
-            this.clusterToDelete = item;
+            this.eventToDelete = item;
             this.confirmDialogVisible = true;
         },
 
@@ -267,7 +293,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .header {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;
@@ -305,6 +331,10 @@ export default {
 
 .text-color {
     color: #A82228;
+}
+.button-color {
+    background-color: #002147 !important;
+    color: white !important;
 }
 
 .toolbar {
