@@ -48,7 +48,7 @@
         </v-toolbar>
         <v-row justify="end" class="mt-2">
             <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="lg" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }">
+                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }">
                 </v-text-field>
             </v-col>
         </v-row>
@@ -113,7 +113,7 @@
                         </v-row>
 
                         <!-- Tabs for Roles and Permissions -->
-                        <v-tabs v-model="tab" color="tertiary" grow>
+                        <v-tabs v-model="tab" color="primary" grow>
                             <v-tab value="option-1">
                                 <v-icon left>mdi-account</v-icon>
                                 Roles

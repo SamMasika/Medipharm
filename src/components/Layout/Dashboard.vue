@@ -1,6 +1,6 @@
 <template>
-<v-container fluid class="my-5">
-    <v-row align="center" justify="center" dense>
+<v-container fluid class="">
+    <v-row align="center" justify="center" dense >
         <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
             <v-card class="dashboard-card" @click="navigateTo(card.route)">
                 <v-card-title class="card-title">
@@ -16,9 +16,10 @@
 </v-container>
 </template>
 
-  
-  
 <script>
+import {
+    mapGetters,
+} from 'vuex';
 export default {
     data() {
         return {
@@ -53,6 +54,12 @@ export default {
             ]
         };
     },
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+        }),
+    },
     methods: {
         navigateTo(route) {
             this.$router.push(`/${route}`); // Adjust the route based on your routing setup
@@ -60,8 +67,7 @@ export default {
     }
 }
 </script>
-  
-  
+
 <style scoped>
 .dashboard-card {
     transition: box-shadow 0.3s ease;

@@ -1,358 +1,213 @@
 <template>
-<v-app>
-    <!-- First Navigation Drawer with Avatar and Main Menu -->
-    <v-navigation-drawer permanent rail>
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in dashboard" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
+<v-navigation-drawer app :model-value="drawer" @update:model-value="$emit('update:drawer', $event)" width="160" class="d-flex align-center">
+    <div class="d-flex justify-center">
+        <v-avatar size="130" class="mt-5">
+            <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
+        </v-avatar>
+    </div>
+    <v-divider class="my-3"></v-divider>
+    <v-list>
+        <v-list-item v-for="(item, index) in menuItems" :key="index" link class="menu-item" :class="{ 'highlight': isOuterActive(item.title) }" @click.stop="openDrawer(item.title)">
+            <v-list-item-icon>
+                <v-icon color="">{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content class="text-center">
+                <v-list-item-title class="item-title">
+                    {{ item.title }}
+                </v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+    </v-list>
+</v-navigation-drawer>
 
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in Contents" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in Leaders" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
+<!-- Secondary Drawer -->
+<v-navigation-drawer v-model="currentDrawer" temporary>
+    <v-list density="compact" nav class="mt-5">
+        <!-- Dynamic content based on currentDrawer -->
+        <template v-if="currentDrawer === 'Home'">
+            <v-list-item prepend-icon="mdi-view-dashboard" :class="{ 'highlight': isActive('/dashboard') }" @click="navigateTo('/dashboard')" title="Dashboard" class="second-item-title" value="dashboard"></v-list-item>
+        </template>
 
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in ChurchPrograms" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
-        <!-- <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in BulkSMS" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list> -->
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in Finance" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in Reports" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
-                </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
+        <template v-if="currentDrawer === 'Members Management'">
+            <v-list-item prepend-icon="mdi-account-plus" :class="{ 'highlight': isActive('/add-member') }" @click="navigateTo('/add-member')" title="Add Member" class="second-item-title" value="add-member"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-search" :class="{ 'highlight': isActive('/view-members') }" @click="navigateTo('/view-members')" title="View Members" class="second-item-title" value="view-members"></v-list-item>
+        </template>
 
-        <v-list density="compact" nav class="my-5 mt-5">
-            <v-list-item v-for="([title, icon], i) in Settings" :key="i" @click="selectItem(title)" :class="['nav-item', 'list-item-spacing', { 'selected-item': selectedItem === title, 'hover-item': hoverItem === title }]" @mouseover="hoverItem = title" @mouseleave="hoverItem = null">
-                <template v-slot:prepend>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ props }">
-                            <v-icon size="25" v-bind="props">{{ icon }}</v-icon>
-                        </template>
-                        <span>{{ title }}</span>
-                    </v-tooltip>
+        <template v-if="currentDrawer === 'Leaders Management'">
+            <v-list-item prepend-icon="mdi-account-tie" :class="{ 'highlight': isActive('/add-leader') }" @click="navigateTo('/add-leader')" title="Add Leader" class="second-item-title" value="add-leader"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-check" :class="{ 'highlight': isActive('/view-leaders') }" @click="navigateTo('/view-leaders')" title="View Leaders" class="second-item-title" value="view-leaders"></v-list-item>
+        </template>
+
+        <template v-if="currentDrawer === 'Finance'">
+            <v-list-item prepend-icon="mdi-currency-usd" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="View Finances" value="view-finances"></v-list-item>
+            <v-list-item prepend-icon="mdi-currency-plus" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Add Transaction" value="add-transaction"></v-list-item>
+        </template>
+
+        <template v-if="currentDrawer === 'System Configurations'">
+            <v-list-item prepend-icon="mdi-cog" :class="{ 'highlight': isActive('/settings') }" @click="navigateTo('/settings')" class="second-item-title" value="settings">Settings</v-list-item>
+            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
+                <template v-slot:activator="{ props }">
+                    <v-list-item v-bind="props" link prepend-icon="mdi-account-group" class="second-item-title">User Management</v-list-item>
                 </template>
-                <v-list-item-title>{{ title }}</v-list-item-title>
-            </v-list-item>
-        </v-list>
-    </v-navigation-drawer>
-
-    <!-- Second Navigation Drawer with Scrollable Content and Prepended Icons -->
-    <v-navigation-drawer permanent class="drawer-custom">
-        <div class="d-flex justify-center">
-            <v-avatar size="150" class="mt-5">
-                <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
-            </v-avatar>
-        </div>
-        <v-divider class="mt-4"></v-divider>
-
-        <v-sheet class="pa-4">
-            <v-list class="mt-3">
-                <v-list-item rounded="lg" v-for="(item, i) in dynamicQuickLinks" :key="i" @click="navigate(item.path)" :class="['quick-link', 'list-item-spacing', { 'selected-item': selectedQuickLink === item.path, 'hover-item': hoverItem === item.text }]" @mouseover="hoverItem = item.text" @mouseleave="hoverItem = null">
-                    <v-icon class="mr-3">{{ item.icon || 'mdi-link' }}</v-icon>
-                    {{ item.text }}
-                </v-list-item>
-            </v-list>
-        </v-sheet>
-    </v-navigation-drawer>
-</v-app>
+                <v-list-item v-for="(user, i) in Users" :key="i" :title="user[0]" :prepend-icon="user[1]" :to="user[2]" :value="user[0]" :class="{ 'highlight': isActive(user[2]) }"></v-list-item>
+            </v-list-group>
+            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
+                <template v-slot:activator="{ props }">
+                    <v-list-item v-bind="props" link prepend-icon="mdi-church" class="second-item-title">Church Settings</v-list-item>
+                </template>
+                <v-list-item v-for="(church, i) in churches" :key="i" :title="church[0]" :prepend-icon="church[1]" :to="church[2]" :value="church[0]" :class="{ 'highlight': isActive(church[2]) }"></v-list-item>
+            </v-list-group>
+        </template>
+    </v-list>
+</v-navigation-drawer>
 </template>
 
 <script>
+import sidebar from '@/mixins/sidebar';
+
 export default {
+    props: {
+        drawer: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    mixins: [sidebar],
     data() {
         return {
-            selectedItem: this.getSelectedItem(), // Get initial selected item based on the current route
-            hoverItem: null, // Track hovered item
-            selectedQuickLink: this.$route.path, // Set the selected quick link to the current route path
-            dashboard: [
-                ['Home', 'mdi-home']
+            currentDrawer: null,
+            usersGroup: false,
+            Users: [
+                ['Users', 'mdi-account-group-outline', '/users-list'],
+                ['Roles', 'mdi-account-group-outline', '/roles-list'],
             ],
-            Contents: [
-                ['Members Management', 'mdi-account-group']
+            churches: [
+                ['Clusters', 'mdi-account-group-outline', '/clusters-list'],
+                ['Zones', 'mdi-account-group-outline', '/zones-list'],
             ],
-            Leaders: [
-                ['Leaders Management', 'mdi-account-group-outline']
+            menuItems: [{
+                    title: 'Home',
+                    icon: 'mdi-home',
+                    routes: ['/dashboard']
+                },
+                {
+                    title: 'Members Management',
+                    icon: 'mdi-account-group',
+                    routes: ['/add-member', '/view-members']
+                },
+                {
+                    title: 'Leaders Management',
+                    icon: 'mdi-account-group-outline',
+                    routes: ['/add-leader', '/view-leaders']
+                },
+                {
+                    title: 'Finance',
+                    icon: 'mdi-cash',
+                    routes: ['/view-finances', '/add-transaction']
+                },
+                {
+                    title: 'Church Programs',
+                    icon: 'mdi-calendar',
+                    routes: ['/church-programs']
+                },
+                {
+                    title: 'Reports',
+                    icon: 'mdi-file-document',
+                    routes: ['/reports']
+                },
+                // {
+                //     title: 'Bulk SMS',
+                //     icon: 'mdi-message-text',
+                //     routes: ['/bulk-sms']
+                // },
+                {
+                    title: 'System Configurations',
+                    icon: 'mdi-wrench',
+                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list']
+                },
             ],
-            Finance: [
-                ['Finance ', 'mdi-cash']
-            ],
-            Settings: [
-                ['System Configurations', 'mdi-wrench']
-            ],
-            Reports: [
-                ['Reports', 'mdi-file-document']
-            ],
-            ChurchPrograms: [
-                ['Church Programs', 'mdi-calendar']
-            ],
-            BulkSMS: [
-                ['Bulk SMS', 'mdi-message-text']
-            ],
-            quickLinks: {
-                Home: [{
-                        text: 'Dashboard',
-                        path: '/dashboard',
-                        icon: 'mdi-view-dashboard'
-                    },
-
-                ],
-                'Membership Management': [{
-                        text: 'View Members',
-                        path: '/members',
-                        icon: 'mdi-account-group'
-                    },
-                    {
-                        text: 'Membership Reports',
-                        path: '/membership-reports',
-                        icon: 'mdi-file-document'
-                    },
-                ],
-                'Leaders Management': [{
-                        text: 'View Leaders',
-                        path: '/members',
-                        icon: 'mdi-account-group'
-                    },
-                    {
-                        text: 'Leadership Reports',
-                        path: '/membership-reports',
-                        icon: 'mdi-file-document'
-                    },
-                ],
-                'Finance Management': [{
-                        text: 'Offerings',
-                        path: '/donations',
-                        icon: 'mdi-hand-heart'
-                    },
-                    {
-                        text: 'Income Management',
-                        path: '/income-management',
-                        icon: 'mdi-cash'
-                    },
-                    {
-                        text: 'Expense Tracking',
-                        path: '/expense-tracking',
-                        icon: 'mdi-currency-usd-off'
-                    },
-                    // {
-                    //     text: 'Budgeting',
-                    //     path: '/budgeting',
-                    //     icon: 'mdi-calculator'
-                    // },
-                    {
-                        text: 'Financial Reports',
-                        path: '/financial-reports',
-                        icon: 'mdi-file-chart'
-                    },
-
-                    // {
-                    //     text: 'Bank Reconciliation',
-                    //     path: '/bank-reconciliation',
-                    //     icon: 'mdi-bank'
-                    // },
-                    // {
-                    //     text: 'Audit Logs',
-                    //     path: '/audit-logs',
-                    //     icon: 'mdi-file-document-outline'
-                    // }
-                ],
-                Reports: [{
-                        text: 'Service Reports',
-                        path: '/service-reports',
-                        icon: 'mdi-calendar-check'
-                    },
-                    {
-                        text: 'Financial Reports',
-                        path: '/financial-reports',
-                        icon: 'mdi-file-chart'
-                    },
-                ],
-                'Church Programs': [{
-                        text: 'Weekly Services',
-                        path: '/weekly-services',
-                        icon: 'mdi-calendar-multiple'
-                    },
-                    {
-                        text: 'Special Events',
-                        path: '/special-events',
-                        icon: 'mdi-calendar-star'
-                    },
-                ],
-                'Bulk SMS': [{
-                        text: 'Send Bulk SMS',
-                        path: '/send-bulk-sms',
-                        icon: 'mdi-message-plus'
-                    },
-                    {
-                        text: 'SMS Reports',
-                        path: '/sms-reports',
-                        icon: 'mdi-file-document'
-                    },
-                ],
-                'System Configurations': [{
-                        text: 'Users',
-                        path: '/users-list',
-                        icon: 'mdi-account-multiple'
-                    },
-                    {
-                        text: 'Roles & Permissions',
-                        path: '/roles-list',
-                        icon: 'mdi-shield-lock'
-                    },
-                    {
-                        text: 'Clusters',
-                        path: '/clusters-list',
-                        icon: 'mdi-account-group-outline'
-                    },
-                    {
-                        text: 'Events',
-                        path: '/events-list',
-                        icon: 'mdi-calendar'
-                    },
-                    // {
-                    //     text: 'Churches',
-                    //     path: '/events',
-                    //     icon: 'mdi-church'
-                    // },
-
-                ]
-            },
         };
     },
-    created() {
-        this.selectedItem = this.getSelectedItem(); // Set selectedItem after component creation
-    },
-    computed: {
-        dynamicQuickLinks() {
-            return this.quickLinks[this.selectedItem] || [];
-        },
-    },
     methods: {
-        selectItem(item) {
-            this.selectedItem = item; // Update selected item
-            this.selectedQuickLink = this.$route.path; // Keep the selected quick link updated
+        openDrawer(title) {
+            this.currentDrawer = this.currentDrawer === title ? null : title;
+            this.usersGroup = false;
         },
-        navigate(path) {
-            this.selectedQuickLink = path; // Update selected quick link
-            this.$router.push(path); // Navigate using Vue Router
+        navigateTo(route) {
+            this.$router.push(route);
         },
-        getSelectedItem() {
-            if (!this.quickLinks) {
-                return 'Dashboard'; // Default item if quickLinks is not defined
-            }
-            // Iterate through the quickLinks to find the corresponding menu item for the current route
-            for (const [item, links] of Object.entries(this.quickLinks)) {
-                for (const link of links) {
-                    if (link.path === this.$route.path) {
-                        return item; // Return the main menu item
-                    }
-                }
-            }
-            return 'Dashboard'; // Default item if no match is found
+        isActive(route) {
+            return this.$route.path === route;
         },
-
-    },
-    watch: {
-        '$route'(to) {
-            // Update selected item and quick link when route changes
-            this.selectedItem = this.getSelectedItem();
-            this.selectedQuickLink = to.path;
+        isOuterActive(title) {
+            const item = this.menuItems.find((item) => item.title === title);
+            return item ? item.routes.some((route) => this.isActive(route)) : false;
         },
     },
 };
 </script>
 
 <style scoped>
-.selected-item {
-    background-color: #E9D3CD;
-    color: #A82228;
+.v-navigation-drawer {
+    width: 160px;
+    padding: 8px;
 }
 
-.hover-item {
-    background-color: #E9D3CD;
-    color: #A82228;
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    text-align: center;
 }
 
-.drawer-custom {
-    background-color: #ffffff !important;
+.menu-item:hover,
+.highlight {
+    background-color: #e9d3cd;
+    color: #a82228;
 }
 
-.nav-item {
-    cursor: pointer;
+.v-list-item-icon {
+    font-size: 32px;
+    color: #505050;
+    margin-bottom: 8px;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #303030;
+    text-align: center;
+    line-height: 1.3;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.second-item-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #303030;
+    line-height: 1.3;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .v-navigation-drawer {
+        width: 130px;
+    }
+
+    .item-title {
+        font-size: 12px;
+    }
+
+    .v-list-item-icon {
+        font-size: 24px;
+    }
 }
 
 .list-item-spacing {
