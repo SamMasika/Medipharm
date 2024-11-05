@@ -32,7 +32,7 @@
         </v-col>
     </v-row>
     <v-card flat>
-        <v-toolbar class="toolbar">
+        <v-toolbar >
             <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
             Clusters
             <v-spacer></v-spacer>

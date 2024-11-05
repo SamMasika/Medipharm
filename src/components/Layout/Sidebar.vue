@@ -9,7 +9,7 @@
     <v-list>
         <v-list-item v-for="(item, index) in menuItems" :key="index" link class="menu-item" :class="{ 'highlight': isOuterActive(item.title) }" @click.stop="openDrawer(item.title)">
             <v-list-item-icon>
-                <v-icon color="" >{{ item.icon }}</v-icon>
+                <v-icon color="">{{ item.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content class="text-center">
                 <v-list-item-title class="item-title">
@@ -92,6 +92,7 @@ export default {
             churches: [
                 ['Clusters', 'mdi-account-group-outline', '/clusters-list'],
                 ['Zones', 'mdi-account-group-outline', '/zones-list'],
+                ['Events', 'mdi-calendar-multiple', '/events-list'],
             ],
             menuItems: [{
                     title: 'Home',
@@ -131,7 +132,7 @@ export default {
                 {
                     title: 'System Configurations',
                     icon: 'mdi-wrench',
-                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list']
+                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list','/events-list']
                 },
             ],
         };

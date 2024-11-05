@@ -8,7 +8,11 @@
                     <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add User" variant="flat" v-bind="activatorProps" rounded="xl">
                     </v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add User">
+                <v-card  >
+                    <v-toolbar>
+                        <v-icon icon="mdi-plus" class="mx-5" size="40"></v-icon>&nbsp; Add User
+                        <v-spacer></v-spacer>
+                    </v-toolbar>
                     <v-form>
                         <v-card-text>
                             <v-row dense>
@@ -32,7 +36,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn color="blue" text="Save" class="text-none" variant="flat" @click="addUser" rounded="xl"></v-btn>
+                            <v-btn text="Save" class="text-none button-color" variant="flat" @click="addUser" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
@@ -42,7 +46,7 @@
 
     <!-- User Table with Actions and Search -->
     <v-card flat>
-        <v-toolbar class="toolbar">
+        <v-toolbar>
             <v-icon icon="mdi-account-group" class="mx-5" size="40"></v-icon>&nbsp; Users
             <v-spacer></v-spacer>
         </v-toolbar>
@@ -75,118 +79,118 @@
                         </v-list>
                     </v-menu>
                 </template>
-               <!-- Expanded row content with attractive user details section -->
-        <template v-slot:expanded-row="{ columns, item }">
-            <tr>
-                <td :colspan="columns.length">
-                    <v-card flat class="expanded-card mx-5 my-5">
-                        <v-row>
-                            <v-col cols="12" md="3" class="user-avatar-section d-flex align-center justify-center">
-                                <v-avatar size="100" class="mb-4">
-                                    <v-icon color="blue-grey " size="100">mdi-account</v-icon>
-                                </v-avatar>
-                                <v-chip color="green" dark v-if="item.status === 'Active'">Active</v-chip>
-                                <v-chip color="red" dark v-else>Inactive</v-chip>
-                            </v-col>
+                <!-- Expanded row content with attractive user details section -->
+                <template v-slot:expanded-row="{ columns, item }">
+                    <tr>
+                        <td :colspan="columns.length">
+                            <v-card flat class="expanded-card mx-5 my-5">
+                                <v-row>
+                                    <v-col cols="12" md="3" class="user-avatar-section d-flex align-center justify-center">
+                                        <v-avatar size="100" class="mb-4">
+                                            <v-icon color="blue-grey " size="100">mdi-account</v-icon>
+                                        </v-avatar>
+                                        <v-chip color="green" dark v-if="item.status === 'Active'">Active</v-chip>
+                                        <v-chip color="red" dark v-else>Inactive</v-chip>
+                                    </v-col>
 
-                            <v-col cols="12" md="9">
-                                <v-card flat class="user-details-card pa-4">
-                                    <v-card-title class="font-weight-bold grey--text text--darken-3">User Details</v-card-title>
-                                    <v-divider></v-divider>
+                                    <v-col cols="12" md="9">
+                                        <v-card flat class="user-details-card pa-4">
+                                            <v-card-title class="font-weight-bold grey--text text--darken-3">User Details</v-card-title>
+                                            <v-divider></v-divider>
 
-                                    <v-row class="mt-4">
-                                        <v-col cols="12" sm="6">
-                                            <p><strong>Name:</strong> {{ item.name }}</p>
-                                        </v-col>
-                                        <v-col cols="12" sm="6">
-                                            <p><strong>Phone No.:</strong> {{ item.phoneNumber }}</p>
-                                        </v-col>
-                                        <v-col cols="12" sm="6">
-                                            <p><strong>Membership No.:</strong> {{ item.membershipNumber }}</p>
-                                        </v-col>
-                                        <v-col cols="12" sm="6">
-                                            <p><strong>Status:</strong> {{ item.status }}</p>
-                                        </v-col>
-                                    </v-row>
+                                            <v-row class="mt-4">
+                                                <v-col cols="12" sm="6">
+                                                    <p><strong>Name:</strong> {{ item.name }}</p>
+                                                </v-col>
+                                                <v-col cols="12" sm="6">
+                                                    <p><strong>Phone No.:</strong> {{ item.phoneNumber }}</p>
+                                                </v-col>
+                                                <v-col cols="12" sm="6">
+                                                    <p><strong>Membership No.:</strong> {{ item.membershipNumber }}</p>
+                                                </v-col>
+                                                <v-col cols="12" sm="6">
+                                                    <p><strong>Status:</strong> {{ item.status }}</p>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+
+                                <!-- Tabs for Roles and Permissions -->
+                                <v-tabs v-model="tab" color="primary" grow>
+                                    <v-tab value="option-1">
+                                        <v-icon left>mdi-account</v-icon>
+                                        Roles
+                                    </v-tab>
+                                    <v-tab value="option-2">
+                                        <v-icon left>mdi-lock</v-icon>
+                                        Permissions
+                                    </v-tab>
+                                </v-tabs>
+
+                                <!-- Tab Contents for Roles and Permissions -->
+                                <v-card flat class="tab-content">
+                                    <v-card-text v-if="tab === 'option-1'">
+                                        <v-data-table :headers="rolesHeaders" :items="item.roles" dense class="elevation-1">
+                                            <template v-slot:[`item.permissions`]="{ item: role }">
+                                                <ul>
+                                                    <li v-for="permission in role.permissions" :key="permission.id">{{ permission.name }}</li>
+                                                </ul>
+                                            </template>
+                                            <template v-slot:[`item.actions`]="{ item }">
+                                                <v-menu transition="slide-x-transition">
+                                                    <template v-slot:activator="{ props }">
+                                                        <v-icon v-bind="props">mdi-dots-vertical</v-icon>
+                                                    </template>
+                                                    <v-list>
+                                                        <v-list-item @click="editRole(item)">
+                                                            <template v-slot:prepend>
+                                                                <v-icon>mdi-pencil</v-icon>
+                                                            </template>
+                                                            <v-list-item-title>Edit</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="deleteRole(item)">
+                                                            <template v-slot:prepend>
+                                                                <v-icon>mdi-delete</v-icon>
+                                                            </template>
+                                                            <v-list-item-title>Delete</v-list-item-title>
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </v-menu>
+                                            </template>
+                                        </v-data-table>
+                                    </v-card-text>
+
+                                    <v-card-text v-if="tab === 'option-2'">
+                                        <v-data-table :headers="permissionsHeaders" :items="permissions(item.roles)" dense class="elevation-1">
+                                            <template v-slot:[`item.actions`]="{ item }">
+                                                <v-menu transition="slide-x-transition">
+                                                    <template v-slot:activator="{ props }">
+                                                        <v-icon v-bind="props">mdi-dots-vertical</v-icon>
+                                                    </template>
+                                                    <v-list>
+                                                        <v-list-item @click="editPermission(item)">
+                                                            <template v-slot:prepend>
+                                                                <v-icon>mdi-pencil</v-icon>
+                                                            </template>
+                                                            <v-list-item-title>Edit</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="deletePermission(item)">
+                                                            <template v-slot:prepend>
+                                                                <v-icon>mdi-delete</v-icon>
+                                                            </template>
+                                                            <v-list-item-title>Delete</v-list-item-title>
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </v-menu>
+                                            </template>
+                                        </v-data-table>
+                                    </v-card-text>
                                 </v-card>
-                            </v-col>
-                        </v-row>
-
-                        <!-- Tabs for Roles and Permissions -->
-                        <v-tabs v-model="tab" color="primary" grow>
-                            <v-tab value="option-1">
-                                <v-icon left>mdi-account</v-icon>
-                                Roles
-                            </v-tab>
-                            <v-tab value="option-2">
-                                <v-icon left>mdi-lock</v-icon>
-                                Permissions
-                            </v-tab>
-                        </v-tabs>
-
-                        <!-- Tab Contents for Roles and Permissions -->
-                        <v-card flat class="tab-content">
-                            <v-card-text v-if="tab === 'option-1'">
-                                <v-data-table :headers="rolesHeaders" :items="item.roles" dense class="elevation-1">
-                                    <template v-slot:[`item.permissions`]="{ item: role }">
-                                        <ul>
-                                            <li v-for="permission in role.permissions" :key="permission.id">{{ permission.name }}</li>
-                                        </ul>
-                                    </template>
-                                    <template v-slot:[`item.actions`]="{ item }">
-                                        <v-menu transition="slide-x-transition">
-                                            <template v-slot:activator="{ props }">
-                                                <v-icon v-bind="props">mdi-dots-vertical</v-icon>
-                                            </template>
-                                            <v-list>
-                                                <v-list-item @click="editRole(item)">
-                                                    <template v-slot:prepend>
-                                                        <v-icon>mdi-pencil</v-icon>
-                                                    </template>
-                                                    <v-list-item-title>Edit</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="deleteRole(item)">
-                                                    <template v-slot:prepend>
-                                                        <v-icon>mdi-delete</v-icon>
-                                                    </template>
-                                                    <v-list-item-title>Delete</v-list-item-title>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-
-                            <v-card-text v-if="tab === 'option-2'">
-                                <v-data-table :headers="permissionsHeaders" :items="permissions(item.roles)" dense class="elevation-1">
-                                    <template v-slot:[`item.actions`]="{ item }">
-                                        <v-menu transition="slide-x-transition">
-                                            <template v-slot:activator="{ props }">
-                                                <v-icon v-bind="props">mdi-dots-vertical</v-icon>
-                                            </template>
-                                            <v-list>
-                                                <v-list-item @click="editPermission(item)">
-                                                    <template v-slot:prepend>
-                                                        <v-icon>mdi-pencil</v-icon>
-                                                    </template>
-                                                    <v-list-item-title>Edit</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="deletePermission(item)">
-                                                    <template v-slot:prepend>
-                                                        <v-icon>mdi-delete</v-icon>
-                                                    </template>
-                                                    <v-list-item-title>Delete</v-list-item-title>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-                        </v-card>
-                    </v-card>
-                </td>
-            </tr>
-        </template>
+                            </v-card>
+                        </td>
+                    </tr>
+                </template>
             </v-data-table>
 
         </v-card-text>
