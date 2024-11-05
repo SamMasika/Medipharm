@@ -9,7 +9,7 @@
     <v-list>
         <v-list-item v-for="(item, index) in menuItems" :key="index" link class="menu-item" :class="{ 'highlight': isOuterActive(item.title) }" @click.stop="openDrawer(item.title)">
             <v-list-item-icon>
-                <v-icon color="">{{ item.icon }}</v-icon>
+                <v-icon color="" :style="{ color: '#A82228' }">{{ item.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content class="text-center">
                 <v-list-item-title class="item-title">
@@ -44,7 +44,6 @@
         </template>
 
         <template v-if="currentDrawer === 'System Configurations'">
-            <v-list-item prepend-icon="mdi-cog" :class="{ 'highlight': isActive('/settings') }" @click="navigateTo('/settings')" class="second-item-title" value="settings">Settings</v-list-item>
             <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
                 <template v-slot:activator="{ props }">
                     <v-list-item v-bind="props" link prepend-icon="mdi-account-group" class="second-item-title">User Management</v-list-item>
@@ -53,7 +52,7 @@
             </v-list-group>
             <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
                 <template v-slot:activator="{ props }">
-                    <v-list-item v-bind="props" link prepend-icon="mdi-church" class="second-item-title">Church Settings</v-list-item>
+                    <v-list-item v-bind="props" link prepend-icon="mdi-cog" class="second-item-title">Church Settings</v-list-item>
                 </template>
                 <v-list-item v-for="(church, i) in churches" :key="i" :title="church[0]" :prepend-icon="church[1]" :to="church[2]" :value="church[0]" :class="{ 'highlight': isActive(church[2]) }"></v-list-item>
             </v-list-group>

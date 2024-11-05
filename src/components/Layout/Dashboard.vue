@@ -1,8 +1,8 @@
 <template>
 <v-container fluid class="">
-    <v-row align="center" justify="center" dense >
+    <v-row align="center" justify="center" dense>
         <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
-            <v-card class="dashboard-card" @click="navigateTo(card.route)">
+            <v-card class="dashboard-card" >
                 <v-card-title class="card-title">
                     <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
                     <span class="ml-1">{{ card.title }}</span>
