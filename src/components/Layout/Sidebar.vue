@@ -1,7 +1,7 @@
 <template>
 <v-navigation-drawer app :model-value="drawer" @update:model-value="$emit('update:drawer', $event)" width="160" class="d-flex align-center">
     <div class="d-flex justify-center">
-        <v-avatar size="130" class="mt-5">
+        <v-avatar size="110" class="mt-5">
             <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
         </v-avatar>
     </div>
