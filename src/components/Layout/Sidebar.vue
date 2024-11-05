@@ -9,7 +9,7 @@
     <v-list>
         <v-list-item v-for="(item, index) in menuItems" :key="index" link class="menu-item" :class="{ 'highlight': isOuterActive(item.title) }" @click.stop="openDrawer(item.title)">
             <v-list-item-icon>
-                <v-icon color="" :style="{ color: '#A82228' }">{{ item.icon }}</v-icon>
+                <v-icon color="" >{{ item.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content class="text-center">
                 <v-list-item-title class="item-title">
