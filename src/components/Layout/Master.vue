@@ -36,7 +36,7 @@
         <router-view></router-view>
     </v-main>
 
-    <v-footer app>
+    <v-footer app theme="light">
         <v-container>
             <v-row class="text-center">
                 <v-col> <strong> © {{ new Date().getFullYear() }} TAG Bethel Revival Temple-Morogoro. All rights reserved.</strong> </v-col>

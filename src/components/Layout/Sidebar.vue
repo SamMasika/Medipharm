@@ -39,8 +39,17 @@
         </template>
 
         <template v-if="currentDrawer === 'Finance'">
-            <v-list-item prepend-icon="mdi-currency-usd" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="View Finances" value="view-finances"></v-list-item>
-            <v-list-item prepend-icon="mdi-currency-plus" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Add Transaction" value="add-transaction"></v-list-item>
+            <v-list-item prepend-icon="mdi-hand-heart" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Offerings" value="view-finances"></v-list-item>
+            <v-list-item prepend-icon="mdi-cash" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Income Management" value="add-transaction"></v-list-item>
+            <v-list-item prepend-icon="mdi-currency-usd-off" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Expense Tracking" value="add-transaction"></v-list-item>
+        </template>
+        <template v-if="currentDrawer === 'Church Programs'">
+            <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Weekly Services" value="view-finances"></v-list-item>
+            <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Special Events" value="add-transaction"></v-list-item>
+        </template>
+        <template v-if="currentDrawer === 'Reports'">
+            <v-list-item prepend-icon="mdi-calendar-check" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Service Reports" value="view-finances"></v-list-item>
+            <v-list-item prepend-icon="mdi-file-chart" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Financial Reports" value="add-transaction"></v-list-item>
         </template>
 
         <template v-if="currentDrawer === 'System Configurations'">
