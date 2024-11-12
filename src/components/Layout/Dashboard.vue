@@ -2,7 +2,7 @@
 <v-container fluid class="">
     <v-row align="center" justify="center" dense>
         <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
-            <v-card class="dashboard-card" >
+            <v-card class="dashboard-card">
                 <v-card-title class="card-title">
                     <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
                     <span class="ml-1">{{ card.title }}</span>
@@ -12,7 +12,11 @@
                 </v-card-text>
             </v-card>
         </v-col>
+				<v-col>
+						<apex></apex>
+				</v-col>
     </v-row>
+  
 </v-container>
 </template>
 
@@ -20,7 +24,11 @@
 import {
     mapGetters,
 } from 'vuex';
+import Apex from './Apex.vue';
 export default {
+    components: {
+        Apex
+    },
     data() {
         return {
             dashboardCards: [{
@@ -87,7 +95,7 @@ export default {
 .card-title {
     display: flex;
     align-items: center;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
     /* Increased font size for the title */
 }

@@ -19,7 +19,6 @@
         </v-list-item>
     </v-list>
 </v-navigation-drawer>
-
 <!-- Secondary Drawer -->
 <v-navigation-drawer v-model="currentDrawer" temporary>
     <v-list density="compact" nav class="mt-5">
@@ -132,7 +131,7 @@ export default {
                 {
                     title: 'System Configurations',
                     icon: 'mdi-wrench',
-                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list','/events-list']
+                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list', '/events-list']
                 },
             ],
         };
@@ -168,7 +167,7 @@ export default {
     align-items: center;
     padding: 12px 0;
     margin-bottom: 10px;
-    border-radius: 8px;
+    border-radius: 8px !important;
     transition: background-color 0.3s;
     text-align: center;
 }
@@ -196,7 +195,7 @@ export default {
 }
 
 .second-item-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: #303030;
     line-height: 1.3;

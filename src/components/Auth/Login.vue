@@ -12,7 +12,7 @@
             <h3 class="text-center my-3">BCMS</h3>
             <v-form @submit.prevent="submit" ref="form">
                 <div class="text-subtitle-1 text-medium-emphasis">Phone No.</div>
-                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Phone No." prepend-inner-icon="mdi-phone-outline" variant="outlined"  autocomplete></v-text-field>
+                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Phone No." prepend-inner-icon="mdi-phone-outline" variant="outlined" autocomplete></v-text-field>
 
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
                     Password
@@ -21,7 +21,7 @@
                     </a>
                 </div>
 
-                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock-outline" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined" ></v-text-field>
+                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock-outline" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined"></v-text-field>
 
                 <v-btn block type="submit" class="mb-8 my-5 btn-color" size="large" prepend-icon="mdi-arrow-right-bold" elevation="0">
                     LOG IN
@@ -48,7 +48,7 @@ import {
 } from 'vuex';
 
 export default {
-    mixins:[loaderSet],
+    mixins: [loaderSet],
     components: {
         AppBar,
         Footer,
@@ -128,16 +128,20 @@ export default {
 
 <style scoped>
 .btn-color {
-    color:white !important;
+    color: white !important;
     background-color: #A82228 !important;
 }
 
 .btn-color .v-icon {
-    color:white;
+    color: white;
+	
     /* Set icon color */
 }
+
 .my-card {
-  border: 0.3px solid #d3d2d2; /* Change the color to your desired border color */
-  border-radius: 12px; /* Adjust radius if needed */
+    border: 0.3px solid #d3d2d2;
+    /* Change the color to your desired border color */
+    border-radius: 12px;
+    /* Adjust radius if needed */
 }
 </style>

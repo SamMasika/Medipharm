@@ -1,24 +1,29 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router' // Import router from './router.js'
-import store from './store'
-import axios from 'axios'
-import vuetify from './plugins/vuetify'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import '@mdi/font/css/materialdesignicons.css'
-import { loadFonts } from './plugins/webfontloader'
-import Swal from 'sweetalert2'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router'; // Import router from './router.js'
+import store from './store';
+import axios from 'axios';
+import vuetify from './plugins/vuetify';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import '@mdi/font/css/materialdesignicons.css';
+import { loadFonts } from './plugins/webfontloader';
+import Swal from 'sweetalert2';
+import ApexCharts from 'apexcharts';
+import VueApexCharts from 'vue3-apexcharts';
 
-
-require ('@/store/subscribe')
+require ('@/store/subscribe');
 
 const app = createApp(App);
 
 app.config.globalProperties.$swal = Swal;
+app.config.globalProperties.$apexcharts = ApexCharts; // Declare ApexCharts globally
+
+// Register VueApexCharts globally as a component
+app.component('apexchart', VueApexCharts);
 
 loadFonts();
 // axios.defaults.baseURL = 'http://localhost:8000/api/Shule';
-axios.defaults.baseURL='http://41.59.228.237/brt-cms/public/api/'
+axios.defaults.baseURL='http://41.59.228.237/brt-cms/public/api/';
 
 // Dispatch auth attempt and mount app after authentication attempt
 store.dispatch('auth/attempt', localStorage.getItem('access_token')).then(() => {
