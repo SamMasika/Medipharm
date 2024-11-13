@@ -4,43 +4,83 @@
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="700">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Event" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Event" variant="flat" v-bind="activatorProps" rounded="xl">
+                        Add Event
+                    </v-btn>
                 </template>
+
                 <v-card prepend-icon="mdi-plus" title="Add Event">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
+                                <v-col cols="12">
                                     <v-text-field label="Name*" v-model="event.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
+
+                            <!-- Radio Group for Event Occurrence -->
                             <v-row dense>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field type="date" label="Start Date*" v-model="event.startDate" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field type="date" label="End Date*" v-model="event.endDate" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12">
+                                    <v-radio-group v-model="event.allDay" row density="compact" label="Is it happening today?">
+                                        <v-radio label="Yes" :value="true"></v-radio>
+                                        <v-radio label="No" :value="false"></v-radio>
+                                    </v-radio-group>
                                 </v-col>
                             </v-row>
+
+                            <!-- Date and Time Fields -->
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
+                                <v-col cols="12" sm="4">
+                                    <v-text-field type="date" label="Start Date*" v-model="event.startDate" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12" sm="4">
+                                    <v-text-field type="time" label="Start Time*" v-model="event.startTime" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+
+                                <!-- Conditionally Display End Date and Time Fields if 'No' is Selected -->
+                                <v-col v-if="!event.allDay" cols="12" sm="4">
+                                    <v-text-field type="date" label="End Date*" v-model="event.endDate" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+
+                                <v-col  cols="12" sm="4">
+                                    <v-text-field type="time" label="End Time*" v-model="event.endTime" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <!-- Description Field -->
+                            <v-row dense>
+                                <v-col cols="12">
                                     <v-textarea label="Description (Optional)" v-model="event.description" row-height="25" rows="3" variant="outlined" auto-grow shaped></v-textarea>
                                 </v-col>
                             </v-row>
+
+                            <!-- Color Picker -->
+                            <v-row dense>
+                                <v-col cols="12">
+                                    <v-text-field label="Event Color" readonly v-model="event.color" variant="outlined" density="compact"  @click="colorPickerDialog = true"></v-text-field>
+                                    <v-menu v-model="colorPickerDialog" offset-y>
+                                        <v-color-picker v-model="event.color" hide-mode-switch swatches swatches-max-height="200"></v-color-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
                         </v-card-text>
+
                         <v-divider></v-divider>
+
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="addEvent" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addEvent" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
+
         </v-col>
     </v-row>
     <v-card flat>
-        <v-toolbar >
+        <v-toolbar>
             <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
             Events
             <v-spacer></v-spacer>
@@ -115,7 +155,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text="Close" class="text-none" variant="tonal" @click="eventEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn  type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateEvent" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateEvent" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -131,7 +171,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn  type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteEvent" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteEvent" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -146,12 +186,22 @@ export default {
         return {
             search: "",
             events: [],
-            event: {},
+            event: {
+                name: '',
+                startDate: '',
+                endDate: '',
+                startTime: '',
+                endTime: '',
+                description: '',
+                color: '#0F7BE1',
+                allDay: false
+            },
             dialog: false,
             eventEditDialog: false,
             eventEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
+            colorPickerDialog: false,
             isLoading: false,
             eventToDelete: {},
             headers: [{
@@ -165,8 +215,18 @@ export default {
                     sortable: false,
                 },
                 {
+                    title: "Start Time",
+                    value: "startTime",
+                    sortable: false,
+                },
+                {
                     title: "End Date",
                     value: "endDate",
+                    sortable: false,
+                },
+                {
+                    title: "End Time",
+                    value: "endTime",
                     sortable: false,
                 },
 
@@ -204,20 +264,25 @@ export default {
             }
         },
         addEvent() {
-            const data = {
-                ...this.event,
+            const eventData = {
+                name: this.event.name,
+                startDate: this.event.startDate,
+                endDate: this.event.endDate,
+                allDay: this.event.allDay,
+                startTime: this.event.allDay ? null : this.event.startTime,
+                endTime: this.event.allDay ? null : this.event.endTime,
+                description: this.event.description,
+                color: this.event.color,
             };
-            axios.post('/caledar-event/create', data,{
+            axios.post('/calendar-event/create', eventData, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
                     }
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.dialog = false; // Close the dialog after success
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                    this.dialog = false;
+                    this.fetchEvents(); // Refetch the events instead of reloading the page
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
@@ -257,7 +322,7 @@ export default {
         },
 
         deleteEvent() {
-            axios.delete(`events/delete/${this.eventToDelete.id}`)
+            axios.delete(`calendar-event/delete/${this.eventToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
                     const index = this.events.indexOf(this.eventToDelete);
@@ -293,7 +358,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .header {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;
@@ -332,6 +397,7 @@ export default {
 .text-color {
     color: #A82228;
 }
+
 .button-color {
     background-color: #002147 !important;
     color: white !important;

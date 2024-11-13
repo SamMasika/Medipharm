@@ -28,8 +28,7 @@
         </template>
 
         <template v-if="currentDrawer === 'Members Management'">
-            <v-list-item prepend-icon="mdi-account-plus" :class="{ 'highlight': isActive('/add-member') }" @click="navigateTo('/add-member')" title="Add Member" class="second-item-title" value="add-member"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-search" :class="{ 'highlight': isActive('/view-members') }" @click="navigateTo('/view-members')" title="View Members" class="second-item-title" value="view-members"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-search" :class="{ 'highlight': isActive('/view-members') }" @click="navigateTo('/view-members')" title=" Members list" class="second-item-title" value="view-members"></v-list-item>
         </template>
 
         <template v-if="currentDrawer === 'Leaders Management'">
@@ -131,7 +130,7 @@ export default {
                 {
                     title: 'System Configurations',
                     icon: 'mdi-wrench',
-                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list', '/events-list']
+                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list', '/events-list','/zones-list']
                 },
             ],
         };

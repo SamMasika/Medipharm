@@ -120,4 +120,7 @@ export default {
     transition: width 0.5s ease;
     /* Smooth transition for drawer width */
 }
+.custom-icon {
+  color: #002147 !important; /* Replace with your desired color */
+}
 </style>

@@ -14,6 +14,7 @@ import Roles from '@/components/CMS/Roles/Roles.vue'
 import Clusters from '@/components/CMS/Clusters/Clusters.vue'
 import RoleDetails from '@/components/CMS/Roles/RoleDetails.vue'
 import Event from '@/components/CMS/Events/Event.vue'
+import Zone from '@/components/CMS/zones/Zone.vue'
 
 const routes = [
   
@@ -93,6 +94,11 @@ const routes = [
         path: '/clusters-list',
         name: 'clusters-list',
         component: Clusters
+      },
+      {
+        path: '/zones-list',
+        name: 'zones-list',
+        component: Zone
       },
       {
         path: '/events-list',

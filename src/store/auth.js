@@ -41,7 +41,6 @@ export default {
 
         // Calculate expiration timestamp and store it
         const expirationTime = new Date().getTime() + expires_in * 1000;
-        console.log(expirationTime)
 
         // Save token, user data, and expiration time
         commit("SET_TOKEN", token);
@@ -53,9 +52,16 @@ export default {
 
         // Set axios default Authorization header
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        
+        // Return a success message or null if login was successful
+        return null; 
       } catch (error) {
-        console.error("Login failed:", error);
-        throw error;
+        // Capture and log the error message
+        const errorMessage = error.response ? error.response.data.meta.message : "An error occurred during login.";
+        console.error("Login failed:", errorMessage);
+  
+        // Return the error message to be handled in the component
+        return errorMessage;
       }
     },
     attempt({ commit }) {
