@@ -8,7 +8,7 @@
                     <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add User" variant="flat" v-bind="activatorProps" rounded="xl">
                     </v-btn>
                 </template>
-                <v-card  >
+                <v-card>
                     <v-toolbar>
                         <v-icon icon="mdi-plus" class="mx-5" size="40"></v-icon>&nbsp; Add User
                         <v-spacer></v-spacer>
@@ -79,7 +79,11 @@
                         </v-list>
                     </v-menu>
                 </template>
-                <!-- Expanded row content with attractive user details section -->
+                <template v-slot:[`item.status`]="{ item }">
+
+                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" variant="flat" class="text-mixedcase" size="small"></v-chip>
+
+                </template>
                 <template v-slot:expanded-row="{ columns, item }">
                     <tr>
                         <td :colspan="columns.length">

@@ -2,87 +2,39 @@
 <v-container fluid>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="700">
+            <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Event" variant="flat" v-bind="activatorProps" rounded="xl">
-                        Add Event
-                    </v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Ministry" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-
-                <v-card prepend-icon="mdi-plus" title="Add Event">
+                <v-card prepend-icon="mdi-plus" title="Add Ministry">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
-                                <v-col cols="12">
-                                    <v-text-field label="Name*" v-model="event.name" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field label="Name*" v-model="ministry.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
-
-                            <!-- Radio Group for Event Occurrence -->
                             <v-row dense>
-                                <v-col cols="12">
-                                    <v-radio-group v-model="event.allDay" row density="compact" label="Is it happening today?">
-                                        <v-radio label="Yes" :value="true"></v-radio>
-                                        <v-radio label="No" :value="false"></v-radio>
-                                    </v-radio-group>
-                                </v-col>
-                            </v-row>
-
-                            <!-- Date and Time Fields -->
-                            <v-row dense>
-                                <v-col cols="12" sm="4">
-                                    <v-text-field type="date" label="Start Date*" v-model="event.startDate" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-
-                                <v-col cols="12" sm="4">
-                                    <v-text-field type="time" label="Start Time*" v-model="event.startTime" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-
-                                <!-- Conditionally Display End Date and Time Fields if 'No' is Selected -->
-                                <v-col v-if="!event.allDay" cols="12" sm="4">
-                                    <v-text-field type="date" label="End Date*" v-model="event.endDate" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-
-                                <v-col  cols="12" sm="4">
-                                    <v-text-field type="time" label="End Time*" v-model="event.endTime" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-
-                            <!-- Description Field -->
-                            <v-row dense>
-                                <v-col cols="12">
-                                    <v-textarea label="Description (Optional)" v-model="event.description" row-height="25" rows="3" variant="outlined" auto-grow shaped></v-textarea>
-                                </v-col>
-                            </v-row>
-
-                            <!-- Color Picker -->
-                            <v-row dense>
-                                <v-col cols="12">
-                                    <v-text-field label="Event Color" readonly v-model="event.color" variant="outlined" density="compact"  @click="colorPickerDialog = true"></v-text-field>
-                                    <v-menu v-model="colorPickerDialog" offset-y>
-                                        <v-color-picker v-model="event.color" hide-mode-switch swatches swatches-max-height="200"></v-color-picker>
-                                    </v-menu>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field label="Description*" v-model="ministry.description" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
-
                         <v-divider></v-divider>
-
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addEvent" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addMinistry" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
-
         </v-col>
     </v-row>
     <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
-            Events
+            <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            Ministries
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-row justify="end" class="mt-2">
@@ -91,7 +43,7 @@
             </v-col>
         </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="events" :search="search" :items-per-page="10">
+            <v-data-table :headers="headers" :items="ministries" :search="search" :items-per-page="10">
                 <!-- Actions slot for custom menu with 3 dots -->
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-menu transition="slide-x-transition">
@@ -102,7 +54,7 @@
                         </template>
                         <!-- List for actions -->
                         <v-list>
-                            <v-list-item @click="editEvent(item)">
+                            <v-list-item @click="editMinistry(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                                 </template>
@@ -120,42 +72,37 @@
                 </template>
 
                 <template v-slot:[`item.status`]="{ item }">
-
                     <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
-
-                </template>
-                <template v-slot:[`item.startDate`]="{ item }">
-                    {{ formatDate(item.startDate) }}
-                </template>
-                <template v-slot:[`item.endDate`]="{ item }">
-                    {{ formatDate(item.endDate) }}
                 </template>
             </v-data-table>
         </v-card-text>
     </v-card>
-    <v-dialog v-model="eventEditDialog" max-width="800">
-        <v-card prepend-icon="mdi-plus" title="Update event">
+    <v-dialog v-model="ministryEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Ministry">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="eventEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Name*" v-model="ministryEdit.name" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-autocomplete v-model="ministryEdit.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters"></v-autocomplete>
                         </v-col>
                     </v-row>
                     <v-row dense>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field type="date" label="Start Date*" v-model="eventEdit.startDate" required variant="outlined" density="compact"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field type="date" label="Start Date*" v-model="eventEdit.endDate" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-text-field label="Description*" v-model="ministryEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
+
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="eventEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateEvent" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="ministryEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateMinistry" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -166,12 +113,12 @@
                 <v-icon size="80" color="red">mdi-delete</v-icon>
             </v-card-title>
             <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ eventToDelete.name }}"</b>?
+                Are you sure you want to delete <b>"{{ ministryToDelete.name }}"</b>?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteEvent" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteMinistry" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -185,48 +132,25 @@ export default {
     data() {
         return {
             search: "",
-            events: [],
-            event: {
-                name: '',
-                startDate: '',
-                endDate: '',
-                startTime: '',
-                endTime: '',
-                description: '',
-                color: '#0F7BE1',
-                allDay: false
-            },
+            ministries: [],
+            zones: [],
+            ministry: {},
             dialog: false,
-            eventEditDialog: false,
-            eventEdit: {},
+            ministryEditDialog: false,
+            ministryEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
-            colorPickerDialog: false,
             isLoading: false,
-            eventToDelete: {},
+            ministryToDelete: {},
             headers: [{
-                    title: "Event Name",
+                    title: "Name",
                     value: "name",
                     sortable: false,
                 },
+
                 {
-                    title: "Start Date",
-                    value: "startDate",
-                    sortable: false,
-                },
-                {
-                    title: "Start Time",
-                    value: "startTime",
-                    sortable: false,
-                },
-                {
-                    title: "End Date",
-                    value: "endDate",
-                    sortable: false,
-                },
-                {
-                    title: "End Time",
-                    value: "endTime",
+                    title: "Description",
+                    value: "description",
                     sortable: false,
                 },
 
@@ -240,66 +164,54 @@ export default {
     },
 
     methods: {
-        formatDate(date) {
-            if (!date) return '';
-            return new Intl.DateTimeFormat('en-GB', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            }).format(new Date(date));
-        },
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/calendar-event/list", {
+                const response = await axios.get("/ministry/list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
                 });
-                this.events = response.data.data.data;
+
+                this.roles = response.data.data.data;
             } catch (error) {
                 this.showAlert(error.response.data.meta.message, 'error');
             } finally {
                 this.isLoading = false;
             }
         },
-        addEvent() {
-            const eventData = {
-                name: this.event.name,
-                startDate: this.event.startDate,
-                endDate: this.event.endDate,
-                allDay: this.event.allDay,
-                startTime: this.event.allDay ? null : this.event.startTime,
-                endTime: this.event.allDay ? null : this.event.endTime,
-                description: this.event.description,
-                color: this.event.color,
+        addMinistry() {
+            const data = {
+                ...this.ministry,
             };
-            axios.post('/calendar-event/create', eventData, {
+            axios.post('/ministry/create', data, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.dialog = false;
-                    this.fetchEvents(); // Refetch the events instead of reloading the page
+                    this.dialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload the window after success
+                    }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateEvent
-        editEvent(item) {
-            this.eventEdit = item
-            this.eventEditDialog = true
+        //UpdateMinistry
+        editMinistry(item) {
+            this.ministryEdit = item
+            this.ministryEditDialog = true
         },
-        updateEvent() {
+        updateMinistry() {
             const {
                 id, // Add id here
                 name,
                 description,
-            } = this.eventEdit;
+            } = this.ministryEdit;
 
             axios
-                .post("/events/update", {
+                .post("/ministry/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
@@ -310,24 +222,24 @@ export default {
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.eventEditDialog = false; // Close the dialog after success
+                    this.ministryEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
                     this.showAlert(error.response.data.meta.message, 'error');
-                    this.eventEditDialog = false;
+                    this.ministryEditDialog = false;
                 });
         },
 
-        deleteEvent() {
-            axios.delete(`calendar-event/delete/${this.eventToDelete.id}`)
+        deleteMinistry() {
+            axios.delete(`ministry/delete/${this.ministryToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.events.indexOf(this.eventToDelete);
+                    const index = this.ministries.indexOf(this.ministryToDelete);
                     if (index > -1) {
-                        this.events.splice(index, 1);
+                        this.ministries.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.meta.message, 'success');
@@ -339,7 +251,7 @@ export default {
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         deleteDialog(item) {
-            this.eventToDelete = item;
+            this.ministryToDelete = item;
             this.confirmDialogVisible = true;
         },
 
@@ -358,7 +270,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .header {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;
@@ -396,11 +308,6 @@ export default {
 
 .text-color {
     color: #A82228;
-}
-
-.button-color {
-    background-color: #002147 !important;
-    color: white !important;
 }
 
 .toolbar {

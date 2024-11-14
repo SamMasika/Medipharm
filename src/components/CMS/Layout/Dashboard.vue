@@ -24,7 +24,7 @@
 import {
     mapGetters,
 } from 'vuex';
-import Apex from './Apex.vue';
+import Apex from '../Reports/Charts/Apex.vue';
 export default {
     components: {
         Apex

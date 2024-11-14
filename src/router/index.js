@@ -1,20 +1,22 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '@/store'
 import Login from '@/components/Auth/Login.vue'
-import Dashboard from '@/components/Layout/Dashboard.vue'
-import Master from '@/components/Layout/Master.vue'
-import Landing from '@/components/Layout/Landing.vue'
-import KnowUs from '@/components/pages/aboutus/KnowUs.vue'
-import Calendar from '@/components/pages/calendar/Calendar.vue'
-import Sermons from '@/components/pages/sermons/Sermons.vue'
-import Belief from '@/components/pages/aboutus/Beliefs.vue'
-import Contact from '@/components/pages/contactus/Contact.vue'
-import Users from '@/components/CMS/Users/Users.vue'
-import Roles from '@/components/CMS/Roles/Roles.vue'
+import Dashboard from '@/components/CMS/Layout/Dashboard.vue'
+import Master from '@/components/CMS/Layout/Master.vue'
+import Landing from '@/components/Website/Layout/Landing.vue'
+import KnowUs from '@/components/Website/Pages/About/KnowUs.vue'
+import Calendar from '@/components/Website/Pages/Calendar/Calendar.vue'
+import Sermons from '@/components/Website/Pages/Sermon/Sermons.vue'
+import Belief from '@/components/Website/Pages/About/Beliefs.vue'
+import Contact from '@/components/Website/Pages/Contact/Contact.vue'
+import Users from '@/components/CMS/Configurations/Users/Users.vue'
+import Roles from '@/components/CMS/Configurations/Roles/Roles.vue'
 import Clusters from '@/components/CMS/Clusters/Clusters.vue'
-import RoleDetails from '@/components/CMS/Roles/RoleDetails.vue'
-import Event from '@/components/CMS/Events/Event.vue'
-import Zone from '@/components/CMS/zones/Zone.vue'
+import RoleDetails from '@/components/CMS/Configurations/Roles/RoleDetails.vue'
+import Event from '@/components/CMS/ChurchManagement/EventsCalendar/Event.vue'
+import Zone from '@/components/CMS/Configurations/Zones/Zone.vue'
+import Deacon from '@/components/CMS/Configurations/Deacon/Deacon.vue'
+import Ministry from '@/components/CMS/ChurchManagement/Ministry/Ministry.vue'
 
 const routes = [
   
@@ -76,13 +78,13 @@ const routes = [
         }
       },
       {
-        path: '/users-list',
-        name: 'users-list',
+        path: '/users',
+        name: 'users',
         component: Users
       },
       {
-        path: '/roles-list',
-        name: 'roles-list',
+        path: '/roles',
+        name: 'roles',
         component: Roles
       },
       {
@@ -91,18 +93,28 @@ const routes = [
         component: RoleDetails
       },
       {
-        path: '/clusters-list',
-        name: 'clusters-list',
+        path: '/clusters',
+        name: 'clusters',
         component: Clusters
       },
       {
-        path: '/zones-list',
-        name: 'zones-list',
+        path: '/zones',
+        name: 'zones',
         component: Zone
       },
       {
-        path: '/events-list',
-        name: 'events-list',
+        path: '/deacon',
+        name: 'deacon',
+        component: Deacon
+      },
+      {
+        path: '/ministries',
+        name: 'ministries',
+        component: Ministry
+      },
+      {
+        path: '/calendar',
+        name: 'calendar',
         component: Event
       },
      

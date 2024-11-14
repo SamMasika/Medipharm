@@ -32,9 +32,9 @@
 
 <script>
 import axios from 'axios';
-import Footer from '@/components/Layout/Footer.vue';
-import Loader from '@/components/Layout/Loader.vue';
-import AppBar from '@/components/Layout/AppBar.vue';
+import Footer from '@/components/Website/Layout/Footer.vue';
+import Loader from '@/components/Loader/Loader.vue';
+import AppBar from '@/components/Website/Layout/AppBar.vue';
 
 export default {
     components: {

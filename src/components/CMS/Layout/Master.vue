@@ -2,7 +2,7 @@
 <v-app :theme="darkTheme ? 'light' : 'dark'" id="app">
     <!-- Configure the drawer to overlay content on small/medium screens -->
     <!-- <v-navigation-drawer app v-model="drawer" :temporary="isSmallOrMedium" :width="drawer ? 310 : 64" clipped class="custom-drawer" theme="light"> -->
-        <Sidebar v-model:drawer="drawer" />
+    <Sidebar v-model:drawer="drawer" />
     <!-- </v-navigation-drawer> -->
     <v-app-bar app scroll-behavior="elevate" class="app-color">
         <v-app-bar-nav-icon @click="toggleDrawer" :style="{ color: '#A82228' }"></v-app-bar-nav-icon>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Sidebar from '@/components/Layout/Sidebar.vue';
+import Sidebar from '@/components/CMS/Layout/Sidebar.vue';
 import {
     mapGetters,
     mapActions
@@ -120,7 +120,9 @@ export default {
     transition: width 0.5s ease;
     /* Smooth transition for drawer width */
 }
+
 .custom-icon {
-  color: #002147 !important; /* Replace with your desired color */
+    color: #002147 !important;
+    /* Replace with your desired color */
 }
 </style>

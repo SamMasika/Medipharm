@@ -21,7 +21,7 @@
 </v-navigation-drawer>
 <!-- Secondary Drawer -->
 <v-navigation-drawer v-model="currentDrawer" temporary>
-    <v-list density="compact" nav class="mt-5">
+    <v-list density="compact" nav class="my-5">
         <!-- Dynamic content based on currentDrawer -->
         <template v-if="currentDrawer === 'Home'">
             <v-list-item prepend-icon="mdi-view-dashboard" :class="{ 'highlight': isActive('/dashboard') }" @click="navigateTo('/dashboard')" title="Dashboard" class="second-item-title" value="dashboard"></v-list-item>
@@ -42,8 +42,8 @@
             <v-list-item prepend-icon="mdi-currency-usd-off" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Expense Tracking" value="add-transaction"></v-list-item>
         </template>
         <template v-if="currentDrawer === 'Church Programs'">
-            <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Weekly Services" value="view-finances"></v-list-item>
-            <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Special Events" value="add-transaction"></v-list-item>
+            <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/ministries') }" @click="navigateTo('/ministries')" class="second-item-title" title="Ministries" value="ministries"></v-list-item>
+            <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/calendar') }" @click="navigateTo('/calendar')" class="second-item-title" title="Church Events" value="add-transaction"></v-list-item>
         </template>
         <template v-if="currentDrawer === 'Reports'">
             <v-list-item prepend-icon="mdi-calendar-check" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Service Reports" value="view-finances"></v-list-item>
@@ -84,13 +84,13 @@ export default {
             currentDrawer: null,
             usersGroup: false,
             Users: [
-                ['Users', 'mdi-account-group-outline', '/users-list'],
-                ['Roles', 'mdi-account-group-outline', '/roles-list'],
+                ['Users', 'mdi-account-group-outline', '/users'],
+                ['Roles', 'mdi-account-group-outline', '/roles'],
             ],
             churches: [
-                ['Clusters', 'mdi-account-group-outline', '/clusters-list'],
-                ['Zones', 'mdi-account-group-outline', '/zones-list'],
-                ['Events', 'mdi-calendar-multiple', '/events-list'],
+                ['Clusters', 'mdi-account-group-outline', '/clusters'],
+                ['Zones', 'mdi-account-group-outline', '/zones'],
+                ['Deacon', 'mdi-account-group-outline', '/deacon'],
             ],
             menuItems: [{
                     title: 'Home',
@@ -115,7 +115,7 @@ export default {
                 {
                     title: 'Church Programs',
                     icon: 'mdi-calendar',
-                    routes: ['/church-programs']
+                    routes: ['/ministries','/calendar',]
                 },
                 {
                     title: 'Reports',
@@ -130,7 +130,7 @@ export default {
                 {
                     title: 'System Configurations',
                     icon: 'mdi-wrench',
-                    routes: ['/settings', '/permissions', '/users-list', '/clusters-list', '/roles-list', '/events-list','/zones-list']
+                    routes: ['/settings', '/permissions', '/users', '/clusters', '/roles',  '/zones','/deacon']
                 },
             ],
         };
@@ -194,7 +194,7 @@ export default {
 }
 
 .second-item-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: #303030;
     line-height: 1.3;
@@ -218,7 +218,7 @@ export default {
 }
 
 .list-item-spacing {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     /* Add spacing between list items */
 }
 </style>
