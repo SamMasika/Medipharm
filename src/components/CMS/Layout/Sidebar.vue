@@ -32,7 +32,7 @@
         </template>
 
         <template v-if="currentDrawer === 'Leaders Management'">
-            <v-list-item prepend-icon="mdi-account-tie" :class="{ 'highlight': isActive('/add-leader') }" @click="navigateTo('/add-leader')" title="Add Leader" class="second-item-title" value="add-leader"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-tie" :class="{ 'highlight': isActive('/add-leader') }" @click="navigateTo('/add-leader')" title="Add Leader" class="second-item-title " value="add-leader"></v-list-item>
             <v-list-item prepend-icon="mdi-account-check" :class="{ 'highlight': isActive('/view-leaders') }" @click="navigateTo('/view-leaders')" title="View Leaders" class="second-item-title" value="view-leaders"></v-list-item>
         </template>
 
@@ -42,6 +42,7 @@
             <v-list-item prepend-icon="mdi-currency-usd-off" :class="{ 'highlight': isActive('/add-transaction') }" @click="navigateTo('/add-transaction')" class="second-item-title" title="Expense Tracking" value="add-transaction"></v-list-item>
         </template>
         <template v-if="currentDrawer === 'Church Programs'">
+            <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/departments') }" @click="navigateTo('/departments')" class="second-item-title" title="Departments" value="departments"></v-list-item>
             <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/ministries') }" @click="navigateTo('/ministries')" class="second-item-title" title="Ministries" value="ministries"></v-list-item>
             <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/calendar') }" @click="navigateTo('/calendar')" class="second-item-title" title="Church Events" value="add-transaction"></v-list-item>
         </template>
@@ -51,13 +52,13 @@
         </template>
 
         <template v-if="currentDrawer === 'System Configurations'">
-            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
+            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right" class="group-separation">
                 <template v-slot:activator="{ props }">
                     <v-list-item v-bind="props" link prepend-icon="mdi-account-group" class="second-item-title">User Management</v-list-item>
                 </template>
                 <v-list-item v-for="(user, i) in Users" :key="i" :title="user[0]" :prepend-icon="user[1]" :to="user[2]" :value="user[0]" :class="{ 'highlight': isActive(user[2]) }"></v-list-item>
             </v-list-group>
-            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right">
+            <v-list-group v-model="usersGroup" append-icon="mdi-menu-right" class="group-separation">
                 <template v-slot:activator="{ props }">
                     <v-list-item v-bind="props" link prepend-icon="mdi-cog" class="second-item-title">Church Settings</v-list-item>
                 </template>
@@ -115,7 +116,7 @@ export default {
                 {
                     title: 'Church Programs',
                     icon: 'mdi-calendar',
-                    routes: ['/ministries','/calendar',]
+                    routes: ['/ministries','/calendar','/departments']
                 },
                 {
                     title: 'Reports',
@@ -199,7 +200,11 @@ export default {
     color: #303030;
     line-height: 1.3;
     white-space: normal;
+	margin-bottom: 8px !important;
     word-wrap: break-word;
+}
+.group-separation{
+	margin-bottom: 25px !important;
 }
 
 /* Responsive adjustments */

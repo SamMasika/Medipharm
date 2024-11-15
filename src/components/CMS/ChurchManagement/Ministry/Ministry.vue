@@ -86,11 +86,6 @@
                             <v-text-field label="Name*" v-model="ministryEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-autocomplete v-model="ministryEdit.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters"></v-autocomplete>
-                        </v-col>
-                    </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
                             <v-text-field label="Description*" v-model="ministryEdit.description" required variant="outlined" density="compact"></v-text-field>
@@ -173,7 +168,7 @@ export default {
                     },
                 });
 
-                this.roles = response.data.data.data;
+                this.ministries = response.data.data.data;
             } catch (error) {
                 this.showAlert(error.response.data.meta.message, 'error');
             } finally {

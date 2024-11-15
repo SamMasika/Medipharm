@@ -10,7 +10,7 @@
                 </template>
 
                 <v-card prepend-icon="mdi-plus" title="Add Event">
-                    <v-form>
+                    <v-form @submit.prevent="addEvent">
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12">
@@ -71,9 +71,10 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addEvent" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" rounded="xl">Save</v-btn>
                         </v-card-actions>
                     </v-form>
+
                 </v-card>
             </v-dialog>
 
@@ -137,23 +138,64 @@
     </v-card>
     <v-dialog v-model="eventEditDialog" max-width="800">
         <v-card prepend-icon="mdi-plus" title="Update event">
-            <v-form>
+            <v-form >
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
+                        <v-col cols="12">
                             <v-text-field label="Name*" v-model="eventEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
+
+                    <!-- Radio Group for Event Occurrence -->
                     <v-row dense>
-                        <v-col cols="12" sm="6" md="6">
+                        <v-col cols="12">
+                            <v-radio-group v-model="eventEdit.allDay" row density="compact" label="Is it happening in a single day?">
+                                <v-radio label="Yes" :value="true"></v-radio>
+                                <v-radio label="No" :value="false"></v-radio>
+                            </v-radio-group>
+                        </v-col>
+                    </v-row>
+
+                    <!-- Date and Time Fields -->
+                    <v-row dense>
+                        <v-col cols="12" sm="4">
                             <v-text-field type="date" label="Start Date*" v-model="eventEdit.startDate" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field type="date" label="Start Date*" v-model="eventEdit.endDate" required variant="outlined" density="compact"></v-text-field>
+
+                        <v-col cols="12" sm="4">
+                            <v-text-field type="time" label="Start Time*" v-model="eventEdit.startTime" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+
+                        <!-- Conditionally Display End Date and Time Fields if 'No' is Selected -->
+                        <v-col v-if="!eventEdit.allDay" cols="12" sm="4">
+                            <v-text-field type="date" label="End Date*" v-model="eventEdit.endDate" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" sm="4">
+                            <v-text-field type="time" label="End Time*" v-model="eventEdit.endTime" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <!-- Description Field -->
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-textarea label="Description (Optional)" v-model="eventEdit.description" row-height="25" rows="3" variant="outlined" auto-grow shaped></v-textarea>
+                        </v-col>
+                    </v-row>
+
+                    <!-- Color Picker -->
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-text-field label="Event Color" readonly v-model="eventEdit.color" variant="outlined" density="compact" @click="colorPickerDialog = true"></v-text-field>
+                            <v-menu v-model="colorPickerDialog" offset-y>
+                                <v-color-picker v-model="eventEdit.color" hide-mode-switch swatches swatches-max-height="200"></v-color-picker>
+                            </v-menu>
                         </v-col>
                     </v-row>
                 </v-card-text>
+
                 <v-divider></v-divider>
+
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text="Close" class="text-none" variant="tonal" @click="eventEditDialog = false" rounded="xl"></v-btn>
@@ -336,16 +378,27 @@ export default {
         },
         updateEvent() {
             const {
-                id, // Add id here
+                id,
                 name,
+                startDate,
+                endDate,
+                allDay,
+                startTime,
+                endTime,
                 description,
+                color,
             } = this.eventEdit;
-
             axios
-                .post("/events/update", {
+                .post("/calendar-event/update", {
                     id: id, // Include id in the payload
                     name: name,
+                    startDate: startDate,
+                    endDate: allDay ? startDate : endDate,
+                    allDay: allDay,
+                    startTime: startTime,
+                    endTime: endTime,
                     description: description,
+                    color: color,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed

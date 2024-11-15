@@ -751,7 +751,7 @@ export default {
         },
 
         goToCalendar() {
-            this.$router.push('/calendar');
+            this.$router.push('/calendar-chart');
         },
     },
 };

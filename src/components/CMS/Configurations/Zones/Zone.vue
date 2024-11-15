@@ -38,7 +38,7 @@
     </v-row>
     <v-card flat>
         <v-toolbar>
-					<v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
             Zones
             <v-spacer></v-spacer>
         </v-toolbar>
@@ -59,7 +59,7 @@
                         </template>
                         <!-- List for actions -->
                         <v-list>
-                            <v-list-item @click="editCluster(item)">
+                            <v-list-item @click="editZone(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                                 </template>
@@ -91,23 +91,24 @@
                             <v-text-field label="Name*" v-model="zoneEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-										<v-row>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-autocomplete v-model="zoneEdit.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters"></v-autocomplete>
-                                </v-col>
-                            </v-row>
+                    <v-row>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-autocomplete v-model="zoneEdit.clusterId" :items="clusters" item-title="name" item-value="id" label="Cluster" density="compact" placeholder="Select Cluster" variant="outlined"></v-autocomplete>
+                        </v-col>
+                    </v-row>
+
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
                             <v-text-field label="Description*" v-model="zoneEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-					
+
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text="Close" class="text-none" variant="tonal" @click="zoneEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateCluster" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateZone" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -152,7 +153,7 @@ export default {
                     value: "name",
                     sortable: false,
                 },
-				{
+                {
                     title: "Cluster",
                     value: "cluster.name",
                     sortable: false,
@@ -162,7 +163,7 @@ export default {
                 //     value: "description",
                 //     sortable: false,
                 // },
-               
+
                 {
                     title: "Actions",
                     value: "actions",
@@ -193,7 +194,7 @@ export default {
                 this.zones = zonesResponse.data.data.data;
                 this.clusters = clustersResponse.data.data.data;
             } catch (error) {
-				const errorMessage = error.response?.data?.meta?.message || "An error occurred";
+                const errorMessage = error.response ?.data ?.meta ?.message || "An error occurred";
                 this.showAlert(errorMessage, 'error');
             } finally {
                 this.isLoading = false;
@@ -217,17 +218,17 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateCluster
-        editCluster(item) {
-            this.zoneEdit = item
-            this.zoneEditDialog = true
-        },
-        updateCluster() {
+		editZone(item) {
+    this.zoneEdit = { ...item }; // Copy the item data to avoid reference issues
+    this.zoneEdit.clusterId = item.cluster?.id || null; // Assign the cluster ID if available
+    this.zoneEditDialog = true; // Open the dialog
+},
+        updateZone() {
             const {
                 id, // Add id here
                 name,
                 description,
-				clusterId
+                clusterId
             } = this.zoneEdit;
 
             axios
@@ -335,5 +336,4 @@ export default {
     background-color: #A82228;
     color: white;
 }
-
 </style>

@@ -4,24 +4,19 @@
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Deacon" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Department" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Deacon">
+                <v-card prepend-icon="mdi-plus" title="Add Department">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="deacon.name" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-autocomplete v-model="deacon.zoneId" label="Zone" density="compact" placeholder="Zone" variant="outlined" item-title="name" item-value="id" :items="zones"></v-autocomplete>
+                                    <v-text-field label="Name*" v-model="department.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="deacon.description" required variant="outlined" density="compact"></v-text-field>
+                                    <v-text-field label="Description*" v-model="department.description" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -29,7 +24,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addDeacon" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addDepartment" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
@@ -39,7 +34,7 @@
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Deacon
+            Departments
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-row justify="end" class="mt-2">
@@ -48,7 +43,7 @@
             </v-col>
         </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="deacons" :search="search" :items-per-page="10">
+            <v-data-table :headers="headers" :items="departments" :search="search" :items-per-page="10">
                 <!-- Actions slot for custom menu with 3 dots -->
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-menu transition="slide-x-transition">
@@ -59,7 +54,7 @@
                         </template>
                         <!-- List for actions -->
                         <v-list>
-                            <v-list-item @click="editDeacon(item)">
+                            <v-list-item @click="editDepartment(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                                 </template>
@@ -82,23 +77,18 @@
             </v-data-table>
         </v-card-text>
     </v-card>
-    <v-dialog v-model="deaconEditDialog" max-width="600">
-        <v-card prepend-icon="mdi-plus" title="Update Zone">
+    <v-dialog v-model="departmentEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Department">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="deaconEdit.name" required variant="outlined" density="compact"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-autocomplete v-model="deaconEdit.zoneId" label="Zone" density="compact" placeholder="Zone" variant="outlined" item-title="name" item-value="id" :items="zones"></v-autocomplete>
+                            <v-text-field label="Name*" v-model="departmentEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="deaconEdit.description" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Description*" v-model="departmentEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -106,8 +96,8 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="deaconEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateDeacon" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="departmentEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateDepartment" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -118,12 +108,12 @@
                 <v-icon size="80" color="red">mdi-delete</v-icon>
             </v-card-title>
             <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ deaconToDelete.name }}"</b>?
+                Are you sure you want to delete <b>"{{ departmentToDelete.name }}"</b>?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteDeacon" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteDepartment" rounded="xl"></v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>
@@ -139,31 +129,26 @@ export default {
     data() {
         return {
             search: "",
-            deacons: [],
-            zones: [],
-            deacon: {},
+            departments: [],
+            department: {},
             dialog: false,
-            deaconEditDialog: false,
-            deaconEdit: {},
+            departmentEditDialog: false,
+            departmentEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
-            deaconToDelete: {},
+            departmentToDelete: {},
             headers: [{
                     title: "Name",
                     value: "name",
                     sortable: false,
                 },
+
                 {
-                    title: "Zone",
-                    value: "zone.name",
+                    title: "Description",
+                    value: "description",
                     sortable: false,
                 },
-                // {
-                //     title: "Description",
-                //     value: "description",
-                //     sortable: false,
-                // },
 
                 {
                     title: "Actions",
@@ -177,35 +162,25 @@ export default {
     methods: {
         async fetchData() {
             this.isLoading = true;
-
-            const fetchList = async (url) => {
-                return await axios.get(url, {
+            try {
+                const response = await axios.get("/departments/list", {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
                 });
-            };
 
-            try {
-                const [deaconResponse, zoneResponse] = await Promise.all([
-                    fetchList("/deacons/list"),
-                    fetchList("/zones/list")
-                ]);
-
-                this.deacons = deaconResponse.data.data.data;
-                this.zones = zoneResponse.data.data.data;
+                this.departments = response.data.data.data;
             } catch (error) {
-                const errorMessage = error.response ?.data ?.meta ?.message || "An error occurred";
-                this.showAlert(errorMessage, 'error');
+                this.showAlert(error.response.data.meta.message, 'error');
             } finally {
                 this.isLoading = false;
             }
         },
-        addDeacon() {
+        addDepartment() {
             const data = {
-                ...this.deacon,
+                ...this.department,
             };
-            axios.post('/deacons/create', data, {
+            axios.post('/departments/create', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -219,29 +194,23 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateDeacon
-        editDeacon(item) {
-
-            this.deaconEdit = {
-                ...item
-            }; // Copy the item data to avoid reference issues
-            this.deaconEdit.zoneId = item.zone ?.id || null; // Assign the cluster ID if available
-            this.deaconEditDialog = true; // Open the dialog
+        //UpdateDepartment
+        editDepartment(item) {
+            this.departmentEdit = item
+            this.departmentEditDialog = true
         },
-        updateDeacon() {
+        updateDepartment() {
             const {
                 id, // Add id here
                 name,
                 description,
-                zoneId
-            } = this.deaconEdit;
+            } = this.departmentEdit;
 
             axios
-                .post("/deacons/update", {
+                .post("/departments/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
-                    zoneId: zoneId,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
@@ -249,24 +218,24 @@ export default {
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.deaconEditDialog = false; // Close the dialog after success
+                    this.departmentEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
                     this.showAlert(error.response.data.meta.message, 'error');
-                    this.deaconEditDialog = false;
+                    this.departmentEditDialog = false;
                 });
         },
 
-        deleteDeacon() {
-            axios.delete(`deacons/delete/${this.deaconToDelete.id}`)
+        deleteDepartment() {
+            axios.delete(`departments/delete/${this.departmentToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.deacons.indexOf(this.deaconToDelete);
+                    const index = this.departments.indexOf(this.departmentToDelete);
                     if (index > -1) {
-                        this.deacons.splice(index, 1);
+                        this.departments.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.meta.message, 'success');
@@ -278,7 +247,7 @@ export default {
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         deleteDialog(item) {
-            this.deaconToDelete = item;
+            this.departmentToDelete = item;
             this.confirmDialogVisible = true;
         },
 

@@ -33,7 +33,7 @@
     </v-row>
     <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-account-group" class="mx-5 " size="40"></v-icon> &nbsp;
+            <v-icon icon="mdi-account-group " class="mx-5 custom-icon " size="40"></v-icon> &nbsp;
             Clusters
             <v-spacer></v-spacer>
         </v-toolbar>
@@ -71,11 +71,7 @@
                     </v-menu>
                 </template>
 
-                <template v-slot:[`item.status`]="{ item }">
-
-                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
-
-                </template>
+               
             </v-data-table>
         </v-card-text>
     </v-card>
@@ -145,11 +141,6 @@ export default {
                 {
                     title: "Description",
                     value: "description",
-                    sortable: false,
-                },
-                {
-                    title: "Status",
-                    value: "status",
                     sortable: false,
                 },
                 {

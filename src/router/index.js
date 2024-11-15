@@ -17,6 +17,7 @@ import Event from '@/components/CMS/ChurchManagement/EventsCalendar/Event.vue'
 import Zone from '@/components/CMS/Configurations/Zones/Zone.vue'
 import Deacon from '@/components/CMS/Configurations/Deacon/Deacon.vue'
 import Ministry from '@/components/CMS/ChurchManagement/Ministry/Ministry.vue'
+import Department from '@/components/CMS/ChurchManagement/Department/Department.vue'
 
 const routes = [
   
@@ -36,8 +37,8 @@ const routes = [
     component: Belief
   },
   {
-    path: '/calendar',
-    name: 'calendar',
+    path: '/calendar-chart',
+    name: 'calendar-chart',
     component: Calendar
   },
   {
@@ -106,6 +107,11 @@ const routes = [
         path: '/deacon',
         name: 'deacon',
         component: Deacon
+      },
+      {
+        path: '/departments',
+        name: 'departments',
+        component: Department
       },
       {
         path: '/ministries',
