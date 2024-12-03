@@ -121,8 +121,6 @@
 </v-container>
 </template>
 
-    
-    
 <script>
 import axios from "axios";
 export default {
@@ -163,7 +161,7 @@ export default {
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/departments/list", {
+                const response = await axios.get("/department/list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
@@ -180,7 +178,7 @@ export default {
             const data = {
                 ...this.department,
             };
-            axios.post('/departments/create', data, {
+            axios.post('/department/create', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -207,7 +205,7 @@ export default {
             } = this.departmentEdit;
 
             axios
-                .post("/departments/update", {
+                .post("/department/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
@@ -230,7 +228,7 @@ export default {
         },
 
         deleteDepartment() {
-            axios.delete(`departments/delete/${this.departmentToDelete.id}`)
+            axios.delete(`department/delete/${this.departmentToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
                     const index = this.departments.indexOf(this.departmentToDelete);
@@ -265,8 +263,7 @@ export default {
     },
 };
 </script>
-    
-    
+
 <style scoped>
 .header {
     padding: 16px 24px;

@@ -11,8 +11,8 @@
             </div>
             <h3 class="text-center my-3">BCMS</h3>
             <v-form @submit.prevent="submit" ref="form">
-                <div class="text-subtitle-1 text-medium-emphasis">Phone No.</div>
-                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Phone No." prepend-inner-icon="mdi-phone-outline" variant="outlined" autocomplete></v-text-field>
+                <div class="text-subtitle-1 text-medium-emphasis">Username</div>
+                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Username" prepend-inner-icon="mdi-account" variant="outlined" autocomplete></v-text-field>
 
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
                     Password
@@ -21,7 +21,7 @@
                     </a>
                 </div>
 
-                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock-outline" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined"></v-text-field>
+                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined"></v-text-field>
 
                 <v-btn block type="submit" class="mb-8 my-5 btn-color" size="large" prepend-icon="mdi-arrow-right-bold" elevation="0">
                     LOG IN

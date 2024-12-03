@@ -9,15 +9,17 @@ import Calendar from '@/components/Website/Pages/Calendar/Calendar.vue'
 import Sermons from '@/components/Website/Pages/Sermon/Sermons.vue'
 import Belief from '@/components/Website/Pages/About/Beliefs.vue'
 import Contact from '@/components/Website/Pages/Contact/Contact.vue'
-import Users from '@/components/CMS/Configurations/Users/Users.vue'
-import Roles from '@/components/CMS/Configurations/Roles/Roles.vue'
-import Clusters from '@/components/CMS/Clusters/Clusters.vue'
-import RoleDetails from '@/components/CMS/Configurations/Roles/RoleDetails.vue'
-import Event from '@/components/CMS/ChurchManagement/EventsCalendar/Event.vue'
-import Zone from '@/components/CMS/Configurations/Zones/Zone.vue'
-import Deacon from '@/components/CMS/Configurations/Deacon/Deacon.vue'
-import Ministry from '@/components/CMS/ChurchManagement/Ministry/Ministry.vue'
-import Department from '@/components/CMS/ChurchManagement/Department/Department.vue'
+import Clusters from '@/components/CMS/SystemConfigurations/Clusters/Clusters.vue'
+import Members from '@/components/CMS/MemberManagement/Members/Members.vue'
+import Department from '@/components/CMS/ChurchPrograms/Department/Department.vue'
+import Ministry from '@/components/CMS/ChurchPrograms/Ministry/Ministry.vue'
+import Zone from '@/components/CMS/SystemConfigurations/Zones/Zone.vue'
+import Deacon from '@/components/CMS/SystemConfigurations/Deacon/Deacon.vue'
+import Users from '@/components/CMS/SystemConfigurations/Users/Users.vue'
+import Roles from '@/components/CMS/SystemConfigurations/Roles/Roles.vue'
+import RoleDetails from '@/components/CMS/SystemConfigurations/Roles/RoleDetails.vue'
+import EventsCalendar from '@/components/CMS/ChurchPrograms/EventsCalendar/EventsCalendar.vue'
+import MembersDetails from '@/components/CMS/MemberManagement/MembersDetails.vue'
 
 const routes = [
   
@@ -121,7 +123,17 @@ const routes = [
       {
         path: '/calendar',
         name: 'calendar',
-        component: Event
+        component: EventsCalendar
+      },
+      {
+        path: '/members',
+        name: 'members',
+        component: Members
+      },
+      {
+        path: '/member-details/:id',
+        name: 'member-details',
+        component: MembersDetails
       },
      
      

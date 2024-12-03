@@ -291,22 +291,22 @@ export default {
     },
 
     methods: {
-        calculateDaysRemaining(eventStartDate) {
-            // Get the current date (today)
-            const today = new Date();
+        // calculateDaysRemaining(eventStartDate) {
+        //     // Get the current date (today)
+        //     const today = new Date();
 
-            // Get the event start date, making sure it's a Date object
-            const eventStart = new Date(eventStartDate);
+        //     // Get the event start date, making sure it's a Date object
+        //     const eventStart = new Date(eventStartDate);
 
-            // Calculate the difference in time (in milliseconds)
-            const timeDifference = eventStart - today;
+        //     // Calculate the difference in time (in milliseconds)
+        //     const timeDifference = eventStart - today;
 
-            // Convert the time difference from milliseconds to days
-            const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        //     // Convert the time difference from milliseconds to days
+        //     const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-            // Return the number of days remaining (can be negative if the event is in the past)
-            return daysRemaining;
-        },
+        //     // Return the number of days remaining (can be negative if the event is in the past)
+        //     return daysRemaining;
+        // },
         formatDate(date) {
             if (!date) return '';
             return new Intl.DateTimeFormat('en-GB', {

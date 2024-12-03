@@ -37,7 +37,7 @@ export default {
                 text: 'Number of Members by Age and Gender', // Title of the chart
                 align: 'center', // Align the title to the center
                 style: {
-                    fontSize: '18px', // Title font size
+                    fontSize: '16px', // Title font size
                     fontWeight: 'bold', // Title font weight
                     fontFamily: 'Arial, sans-serif', // Title font family
                 },

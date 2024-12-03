@@ -37,11 +37,11 @@
     </v-main>
 
     <v-footer app theme="light">
-        <v-container>
+        <!-- <v-container> -->
             <v-row class="text-center">
                 <v-col> <strong> © {{ new Date().getFullYear() }} TAG Bethel Revival Temple-Morogoro. All rights reserved.</strong> </v-col>
             </v-row>
-        </v-container>
+        <!-- </v-container> -->
     </v-footer>
 </v-app>
 </template>
@@ -125,4 +125,10 @@ export default {
     color: #002147 !important;
     /* Replace with your desired color */
 }
+/* .v-footer {
+    height: 40px; 
+    padding: 0; 
+    font-size: 16px; 
+    line-height: 40px; 
+} */
 </style>

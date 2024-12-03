@@ -28,7 +28,7 @@
         </template>
 
         <template v-if="currentDrawer === 'Members Management'">
-            <v-list-item prepend-icon="mdi-account-search" :class="{ 'highlight': isActive('/view-members') }" @click="navigateTo('/view-members')" title=" Members list" class="second-item-title" value="view-members"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-search" :class="{ 'highlight': isActive('/members') }" @click="navigateTo('/members')" title=" Members list" class="second-item-title" value="view-members"></v-list-item>
         </template>
 
         <template v-if="currentDrawer === 'Leaders Management'">
@@ -101,7 +101,7 @@ export default {
                 {
                     title: 'Members Management',
                     icon: 'mdi-account-group',
-                    routes: ['/add-member', '/view-members']
+                    routes: ['/members', '/view-members']
                 },
                 {
                     title: 'Leaders Management',
