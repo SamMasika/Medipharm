@@ -101,7 +101,7 @@ export default {
                 {
                     title: 'Members Management',
                     icon: 'mdi-account-group',
-                    routes: ['/members', '/view-members']
+                    routes: ['/members', '/member-details/:id']
                 },
                 {
                     title: 'Leaders Management',
@@ -144,13 +144,20 @@ export default {
         navigateTo(route) {
             this.$router.push(route);
         },
-        isActive(route) {
-            return this.$route.path === route;
-        },
-        isOuterActive(title) {
-            const item = this.menuItems.find((item) => item.title === title);
-            return item ? item.routes.some((route) => this.isActive(route)) : false;
-        },
+		isActive(route) {
+        // Match static routes
+        if (this.$route.path === route) {
+            return true;
+        }
+
+        // Handle dynamic routes
+        const dynamicRoutePattern = new RegExp(`^${route.replace(/:\w+/g, '\\w+')}$`);
+        return dynamicRoutePattern.test(this.$route.path);
+    },
+    isOuterActive(title) {
+        const item = this.menuItems.find((item) => item.title === title);
+        return item ? item.routes.some((route) => this.isActive(route)) : false;
+    },
     },
 };
 </script>

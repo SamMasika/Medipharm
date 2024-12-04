@@ -1,7 +1,13 @@
 <template>
 <v-container fluid>
-    <v-card flat class="expanded-card ">
+    <v-card flat class="expanded-card">
+        <!-- Back Button -->
         <!-- Member Overview Section -->
+
+        <v-btn icon @click="goBack" class="ma-3" color="primary">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+
         <v-row>
             <v-col cols="12" md="3" class="d-flex flex-column align-center justify-center">
                 <!-- Conditional Avatar -->
@@ -23,6 +29,7 @@
                     {{ member.status }}
                 </v-chip>
             </v-col>
+
             <!-- Member Details Section -->
             <v-col cols="12" md="9">
                 <v-card flat class="pa-4">
@@ -85,7 +92,9 @@
 
                     <v-row class="mt-4">
                         <v-col cols="12">
-                            <p class="subheading"><strong>Status Reason:</strong> {{ member.statusReason || 'N/A' }}</p>
+                            <p class="subheading"><strong>Status Reason:</strong>
+                                <v-chip class="ma-2"   color="cyan" > {{ member.statusReason || 'N/A' }}</v-chip>
+                            </p>
                         </v-col>
                         <v-col cols="12" sm="6">
                             <p class="subheading"><strong>Created By:</strong> {{ member.createdBy }}</p>
@@ -140,7 +149,9 @@ export default {
         getImageUrl(imageName) {
             return this.$getImageUrl(imageName);
         },
-
+        goBack() {
+            this.$router.go(-1); // This will navigate back to the previous page
+        }
     }
 };
 </script>

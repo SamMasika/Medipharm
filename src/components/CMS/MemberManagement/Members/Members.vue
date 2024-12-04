@@ -63,7 +63,8 @@
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="4" md="4">
-                                    <v-text-field label="Reason" v-model="member.statusReason" required variant="outlined" density="compact"></v-text-field>
+                                    <v-autocomplete label="--Status Reason--" v-model="member.statusReason" :items="statusReasonsOptions" variant="outlined" density="compact" item-title="text" item-value="value" return-object></v-autocomplete>
+
                                 </v-col>
                             </v-row>
                             <!-- Radio Group for member Occurrence -->
@@ -144,7 +145,7 @@
                     </v-menu>
                 </template>
 
-                <template v-slot:[`item.birthDate`]="{ item }" >
+                <template v-slot:[`item.birthDate`]="{ item }">
                     {{ formatDate(item.birthDate) }}
                 </template>
                 <template v-slot:[`item.status`]="{ item }">
@@ -225,34 +226,69 @@
             </v-form>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="confirmDialogVisible" max-width="350">
-        <v-card class="rounded-lg" elevation="24">
-            <v-card-title class=" text-h5 white--text text-center my-1">
-                <v-icon size="80" color="red">mdi-delete</v-icon>
+
+    <v-dialog v-model="confirmDialogVisible" max-width="450">
+        <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
+            <!-- Title Section -->
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+                <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
+                Confirm Deletion
             </v-card-title>
-            <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ memberToDelete.name }}"</b>?
+
+            <!-- Content Section -->
+            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+               
+								<template v-if="memberToDelete.filePath">
+                    <!-- Display the image if it exists -->
+                    <v-avatar size="100" class="mb-3">
+                        <img :src="getImageUrl(memberToDelete.filePath)" alt="Profile Image" width="100" class="my-3">
+                    </v-avatar>
+                </template>
+                <template v-else>
+                    <!-- Fallback Icon if no image -->
+                    <v-avatar size="100" class="mb-3">
+                        <v-icon color="blue-grey" size="100">mdi-account-circle</v-icon>
+                    </v-avatar>
+                </template>
+
+                <div class="font-weight-medium text-body-1 text-center mb-4">
+                    Are you sure you want to delete <b>"{{ memberToDelete.firstName }} - {{ memberToDelete.middleName }} - {{ memberToDelete.lastName }}"</b>?
+                </div>
+                <div class="font-italic text-subtitle-1" style="color: #777;">
+                    This action cannot be undone.
+                </div>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteMember" rounded="xl"></v-btn>
-                <v-spacer></v-spacer>
+
+            <!-- Divider -->
+            <v-divider></v-divider>
+
+            <!-- Action Buttons -->
+            <v-card-actions class="justify-center py-4">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                    Cancel
+                </v-btn>
+                <v-btn text variant="tonal" @click="deleteMember" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                    <v-icon left>mdi-delete</v-icon> Delete
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
+
 </v-container>
 </template>
 
 <script>
 import axios from "axios";
-
+import {
+    statusReasonsOptions,
+} from '@/json/enum'
 export default {
     data() {
         return {
             search: "",
             members: [],
             clusters: [],
+            statusReasonsOptions,
             zones: [],
             deacons: [],
             countries: [],
@@ -338,6 +374,9 @@ export default {
                 day: "numeric",
             }).format(new Date(date));
         },
+        getImageUrl(imageName) {
+            return this.$getImageUrl(imageName);
+        },
 
         // Fetch data for clusters, zones, members, and deacons
         async fetchData() {
@@ -366,19 +405,18 @@ export default {
                 this.deacons = deaconsResponse.data.data.data;
             } catch (error) {
                 const errorMessage =
-                    error.response ?.data ?.meta ?.message || "An error occurred";
+                    error.response.data.meta.message || "An error occurred";
                 this.showAlert(errorMessage, "error");
             } finally {
                 this.isLoading = false;
             }
         },
-		async fetchCountries() {
+        async fetchCountries() {
             this.isLoading = true
             axios.get('/countries')
                 .then(response => {
                     this.countries = response.data
                 })
-         
 
                 .catch(error => {
                     console.log(error)
@@ -416,7 +454,11 @@ export default {
             formData.append('email', this.member.email);
             formData.append('maritalStatus', this.member.maritalStatus);
             formData.append('tribe', this.member.tribe);
-            formData.append('statusReason', this.member.statusReason);
+            if (this.member.statusReason && this.member.statusReason.value) {
+                formData.append('statusReason', this.member.statusReason.value); // Append the value (e.g., 'GoodStanding')
+            } else {
+                formData.append('statusReason', null); // If no value selected, append null
+            }
             formData.append('phoneNumber', this.member.phoneNumber);
             // Append other fields...
 
@@ -437,9 +479,14 @@ export default {
                     this.showAlert(error.response.data.meta.message, "error");
                 });
         },
-		viewMember(id) {
-        this.$router.push({ name: 'member-details', params: { id } });
-    },
+        viewMember(id) {
+            this.$router.push({
+                name: 'member-details',
+                params: {
+                    id
+                }
+            });
+        },
         // Edit member
         editEvent(item) {
             this.memberEdit = item;
@@ -500,7 +547,9 @@ export default {
 
     mounted() {
         this.fetchData();
-		this.fetchCountries();
+        this.fetchCountries();
+        console.log(this.statusReasonsOptions);
+
     },
 };
 </script>
@@ -558,5 +607,9 @@ export default {
 .toolbar {
     background-color: #A82228;
     color: white;
+}
+
+.v-btn:hover {
+    background-color: rgba(255, 0, 0, 0.1);
 }
 </style>
