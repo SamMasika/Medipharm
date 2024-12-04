@@ -5,12 +5,12 @@
     <Sidebar v-model:drawer="drawer" />
     <!-- </v-navigation-drawer> -->
     <v-app-bar app scroll-behavior="elevate" class="app-color">
-        <v-app-bar-nav-icon @click="toggleDrawer" :style="{ color: '#A82228' }"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="toggleDrawer" ></v-app-bar-nav-icon>
         <h3 class="my-3">BCMS</h3>
         <v-spacer></v-spacer>
         <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
-                <v-chip v-bind="props" class="mx-5" :style="{ color: '#A82228' }">
+                <v-chip v-bind="props" class="mx-5" >
                     <v-icon class="white--text">mdi-account</v-icon>
                     {{ user ? user.name : 'Guest' }}
                     <v-icon class="white--text">mdi-menu-down</v-icon>
