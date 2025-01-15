@@ -112,6 +112,7 @@ export default {
 </script>
 
 <style>
+
 #app {
     background: rgb(215, 218, 218);
 }

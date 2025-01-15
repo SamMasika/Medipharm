@@ -86,59 +86,51 @@
             Events
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-row justify="end" class="mt-2">
-            <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }"></v-text-field>
-            </v-col>
-        </v-row>
-        <v-card-text>
-            <v-data-table :headers="headers" :items="events" :search="search" :items-per-page="10">
-                <!-- Actions slot for custom menu with 3 dots -->
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-menu transition="slide-x-transition">
-                        <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">
-                                mdi-dots-vertical
-                            </v-icon>
-                        </template>
-                        <!-- List for actions -->
-                        <v-list>
-                            <v-list-item @click="editEvent(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon>
-                                </template>
-                                <v-list-item-title>Edit</v-list-item-title>
-                            </v-list-item>
-                            <v-list-item @click="deleteDialog(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-delete</v-icon>
-                                </template>
-                                <v-list-item-title>Delete</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </template>
+        <DataTable :api-url="'calendar-event/list'" :headers="headers">
+            <!-- Actions slot for custom menu with 3 dots -->
+            <template v-slot:actions="{ item }">
+                <v-menu transition="slide-x-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">
+                            mdi-dots-vertical
+                        </v-icon>
+                    </template>
+                    <!-- List for actions -->
+                    <v-list>
+                        <v-list-item @click="editEvent(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-pencil</v-icon>
+                            </template>
+                            <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item @click="deleteDialog(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-delete</v-icon>
+                            </template>
+                            <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </template>
 
-                <template v-slot:[`item.startDate`]="{ item }">
-                    {{ formatDate(item.startDate) }}
-                </template>
-                <template v-slot:[`item.endDate`]="{ item }">
-                    {{ formatDate(item.endDate) }}
-                </template>
-                <!-- Format startTime and endTime -->
-                <template v-slot:[`item.startTime`]="{ item }">
-                    {{ formatTime(item.startTime) }}
-                </template>
-                <template v-slot:[`item.endTime`]="{ item }">
-                    {{ formatTime(item.endTime) }}
-                </template>
-            </v-data-table>
+            <template v-slot:startDate="{ item }">
+                {{ formatDate(item.startDate) }}
+            </template>
+            <template v-slot:endDate="{ item }">
+                {{ formatDate(item.endDate) }}
+            </template>
+            <template v-slot:startTime="{ item }">
+                {{ formatTime(item.startTime) }}
+            </template>
+            <template v-slot:endTime="{ item }">
+                {{ formatTime(item.endTime) }}
+            </template>
+        </DataTable>
 
-        </v-card-text>
     </v-card>
     <v-dialog v-model="eventEditDialog" max-width="800">
         <v-card prepend-icon="mdi-plus" title="Update event">
-            <v-form >
+            <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12">
@@ -224,8 +216,12 @@
 </template>
 
 <script>
+import DataTable from '../../SharedComponents/dataTable'
 import axios from "axios";
 export default {
+    components: {
+        DataTable
+    },
     data() {
         return {
             search: "",
@@ -309,27 +305,31 @@ export default {
         // },
         formatDate(date) {
             if (!date) return '';
+            const parsedDate = new Date(Date.parse(date)); // Ensure consistent parsing
             return new Intl.DateTimeFormat('en-GB', {
                 year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            }).format(new Date(date));
+                month: 'long', // Outputs "December"
+                day: 'numeric', // Outputs "16"
+            }).format(parsedDate);
         },
+
         formatTime(time) {
             if (!time) return '';
-            const [hours, minutes] = time.split(':');
+            const [hours, minutes] = time.split(':'); // Handles 'HH:mm' or 'HH:mm:ss'
             const date = new Date();
-            date.setHours(hours, minutes);
+            date.setHours(parseInt(hours), parseInt(minutes));
 
-            // Format time with lowercase am/pm, then replace it to uppercase
-            let formattedTime = new Intl.DateTimeFormat('en-GB', {
+            // Format time in 12-hour format
+            const formattedTime = new Intl.DateTimeFormat('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true,
+                hour12: true, // Ensures AM/PM
             }).format(date);
 
+            // Convert AM/PM to uppercase
             return formattedTime.replace(/(am|pm)/, (match) => match.toUpperCase());
         },
+
         async fetchData() {
             this.isLoading = true;
             try {

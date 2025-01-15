@@ -16,7 +16,7 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-autocomplete v-model="zone.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters"></v-autocomplete>
+                                    <PaginatedDropdown v-model="zone.clusterId" :api-endpoint="'clusters/list'" :label="'Select Cluster...'" :placeholder="'Search Cluster'"></PaginatedDropdown>
                                 </v-col>
                             </v-row>
                             <v-row dense>
@@ -42,45 +42,34 @@
             Zones
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-row justify="end" class="mt-2">
-            <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }"></v-text-field>
-            </v-col>
-        </v-row>
-        <v-card-text>
-            <v-data-table :headers="headers" :items="zones" :search="search" :items-per-page="10">
-                <!-- Actions slot for custom menu with 3 dots -->
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-menu transition="slide-x-transition">
-                        <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">
-                                mdi-dots-vertical
-                            </v-icon>
-                        </template>
-                        <!-- List for actions -->
-                        <v-list>
-                            <v-list-item @click="editZone(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
-                                </template>
-                                <v-list-item-title>Edit</v-list-item-title>
-                            </v-list-item>
+        <DataTable :api-url="'zones/list'" :headers="headers">
+					<template v-slot:actions="{ item }">
+                <v-menu transition="slide-x-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">
+                            mdi-dots-vertical
+                        </v-icon>
+                    </template>
+                    <!-- List for actions -->
+                    <v-list>
+                        <v-list-item @click="editZone(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
+                            </template>
+                            <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
 
-                            <v-list-item @click="deleteDialog(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
-                                </template>
-                                <v-list-item-title>Delete</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </template>
+                        <v-list-item @click="deleteDialog(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
+                            </template>
+                            <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </template>
+        </DataTable>
 
-                <template v-slot:[`item.status`]="{ item }">
-                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
-                </template>
-            </v-data-table>
-        </v-card-text>
     </v-card>
     <v-dialog v-model="zoneEditDialog" max-width="600">
         <v-card prepend-icon="mdi-plus" title="Update Cluster">
@@ -133,11 +122,16 @@
 </template>
 
 <script>
+import DataTable from '../../SharedComponents/dataTable'
+import PaginatedDropdown from '../../SharedComponents/paginatedDropdown'
 import axios from "axios";
 export default {
+    components: {
+        DataTable,
+        PaginatedDropdown
+    },
     data() {
         return {
-            search: "",
             zones: [],
             clusters: [],
             zone: {},
@@ -158,11 +152,6 @@ export default {
                     value: "cluster.name",
                     sortable: false,
                 },
-                // {
-                //     title: "Description",
-                //     value: "description",
-                //     sortable: false,
-                // },
 
                 {
                     title: "Actions",
@@ -194,12 +183,13 @@ export default {
                 this.zones = zonesResponse.data.data.data;
                 this.clusters = clustersResponse.data.data.data;
             } catch (error) {
-                const errorMessage = error.response ?.data ?.meta ?.message || "An error occurred";
+                const errorMessage = error.response.data.meta.message || "An error occurred";
                 this.showAlert(errorMessage, 'error');
             } finally {
                 this.isLoading = false;
             }
         },
+
         addZone() {
             const data = {
                 ...this.zone,
@@ -218,11 +208,13 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-		editZone(item) {
-    this.zoneEdit = { ...item }; // Copy the item data to avoid reference issues
-    this.zoneEdit.clusterId = item.cluster?.id || null; // Assign the cluster ID if available
-    this.zoneEditDialog = true; // Open the dialog
-},
+        editZone(item) {
+            this.zoneEdit = {
+                ...item
+            }; // Copy the item data to avoid reference issues
+            this.zoneEdit.clusterId = item.cluster.id || null; // Assign the cluster ID if available
+            this.zoneEditDialog = true; // Open the dialog
+        },
         updateZone() {
             const {
                 id, // Add id here
@@ -293,6 +285,11 @@ export default {
 </script>
 
 <style scoped>
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .header {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;

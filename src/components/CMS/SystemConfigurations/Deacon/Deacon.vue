@@ -16,7 +16,7 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-autocomplete v-model="deacon.zoneId" label="Zone" density="compact" placeholder="Zone" variant="outlined" item-title="name" item-value="id" :items="zones"></v-autocomplete>
+                                    <PaginatedDropdown :api-endpoint="'zones/list'" :label="'Select Zone'" :placeholder="'Search Zone'" v-model="deacon.zoneId"></PaginatedDropdown>
                                 </v-col>
                             </v-row>
                             <v-row dense>
@@ -36,28 +36,19 @@
             </v-dialog>
         </v-col>
     </v-row>
-    <v-card flat>
+    <v-card>
         <v-toolbar>
-            <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Deacon
+            <v-icon icon="mdi-account-group" class="mx-5" size="40"></v-icon>&nbsp; Deacons
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-row justify="end" class="mt-2">
-            <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }"></v-text-field>
-            </v-col>
-        </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="deacons" :search="search" :items-per-page="10">
-                <!-- Actions slot for custom menu with 3 dots -->
-                <template v-slot:[`item.actions`]="{ item }">
+            <shared-data-table api-url="deacons/list" :headers="headers" @edit="editDeacon" @delete="deleteDialog">
+                <!-- Actions Slot -->
+                <template v-slot:actions="{ item }">
                     <v-menu transition="slide-x-transition">
                         <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">
-                                mdi-dots-vertical
-                            </v-icon>
+                            <v-icon v-bind="props">mdi-dots-vertical</v-icon>
                         </template>
-                        <!-- List for actions -->
                         <v-list>
                             <v-list-item @click="editDeacon(item)">
                                 <template v-slot:prepend>
@@ -65,7 +56,6 @@
                                 </template>
                                 <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>
-
                             <v-list-item @click="deleteDialog(item)">
                                 <template v-slot:prepend>
                                     <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
@@ -75,11 +65,7 @@
                         </v-list>
                     </v-menu>
                 </template>
-
-                <template v-slot:[`item.status`]="{ item }">
-                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
-                </template>
-            </v-data-table>
+            </shared-data-table>
         </v-card-text>
     </v-card>
     <v-dialog v-model="deaconEditDialog" max-width="600">
@@ -112,95 +98,80 @@
             </v-form>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="confirmDialogVisible" max-width="350">
-        <v-card class="rounded-lg" elevation="24">
-            <v-card-title class=" text-h5 white--text text-center my-1">
-                <v-icon size="80" color="red">mdi-delete</v-icon>
+    <v-dialog v-model="confirmDialogVisible" max-width="450">
+        <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
+            <!-- Title Section -->
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+                <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
+                Confirm Deletion
             </v-card-title>
-            <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ deaconToDelete.name }}"</b>?
+
+            <!-- Content Section -->
+            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+
+                <div class="font-weight-medium text-body-1 text-center mb-4">
+                    Are you sure you want to delete <b>"{{ itemToDelete.name }} </b>?
+                </div>
+                <div class="font-italic text-subtitle-1" style="color: #777;">
+                    This action cannot be undone.
+                </div>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteDeacon" rounded="xl"></v-btn>
-                <v-spacer></v-spacer>
+
+            <!-- Divider -->
+            <v-divider></v-divider>
+
+            <!-- Action Buttons -->
+            <v-card-actions class="justify-center py-4">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                    Cancel
+                </v-btn>
+                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                    <v-icon left>mdi-delete</v-icon> Delete
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
+
 </v-container>
 </template>
 
-    
-    
 <script>
+import SharedDataTable from '../../SharedComponents/dataTable.vue';
+import PaginatedDropdown from '../../SharedComponents/paginatedDropdown.vue';
 import axios from "axios";
 export default {
+    components: {
+        SharedDataTable,
+        PaginatedDropdown
+    },
     data() {
         return {
-            search: "",
+            dialog: false,
+            deacon: {},
             deacons: [],
             zones: [],
-            deacon: {},
-            dialog: false,
             deaconEditDialog: false,
             deaconEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
-            deaconToDelete: {},
+            itemToDelete: {},
             headers: [{
                     title: "Name",
-                    value: "name",
-                    sortable: false,
+                    value: "name"
                 },
                 {
                     title: "Zone",
-                    value: "zone.name",
-                    sortable: false,
+                    value: "zone.name"
                 },
-                // {
-                //     title: "Description",
-                //     value: "description",
-                //     sortable: false,
-                // },
-
                 {
                     title: "Actions",
-                    value: "actions",
-                    sortable: false,
-                },
+                    value: "actions"
+                }, // Placeholder for actions slot
             ],
         };
     },
-
     methods: {
-        async fetchData() {
-            this.isLoading = true;
-
-            const fetchList = async (url) => {
-                return await axios.get(url, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-                    },
-                });
-            };
-
-            try {
-                const [deaconResponse, zoneResponse] = await Promise.all([
-                    fetchList("/deacons/list"),
-                    fetchList("/zones/list")
-                ]);
-
-                this.deacons = deaconResponse.data.data.data;
-                this.zones = zoneResponse.data.data.data;
-            } catch (error) {
-                const errorMessage = error.response ?.data ?.meta ?.message || "An error occurred";
-                this.showAlert(errorMessage, 'error');
-            } finally {
-                this.isLoading = false;
-            }
-        },
         addDeacon() {
             const data = {
                 ...this.deacon,
@@ -225,7 +196,7 @@ export default {
             this.deaconEdit = {
                 ...item
             }; // Copy the item data to avoid reference issues
-            this.deaconEdit.zoneId = item.zone ?.id || null; // Assign the cluster ID if available
+            this.deaconEdit.zoneId = item.zone.id || null; // Assign the cluster ID if available
             this.deaconEditDialog = true; // Open the dialog
         },
         updateDeacon() {
@@ -259,12 +230,11 @@ export default {
                     this.deaconEditDialog = false;
                 });
         },
-
-        deleteDeacon() {
-            axios.delete(`deacons/delete/${this.deaconToDelete.id}`)
+        deleteItem() {
+            axios.delete(`deacons/delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.deacons.indexOf(this.deaconToDelete);
+                    const index = this.deacons.indexOf(this.itemToDelete);
                     if (index > -1) {
                         this.deacons.splice(index, 1);
                     }
@@ -278,7 +248,7 @@ export default {
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         deleteDialog(item) {
-            this.deaconToDelete = item;
+            this.itemToDelete = item;
             this.confirmDialogVisible = true;
         },
 
@@ -291,55 +261,5 @@ export default {
             });
         },
     },
-    mounted() {
-        this.fetchData();
-    },
 };
 </script>
-    
-    
-<style scoped>
-.header {
-    padding: 16px 24px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.add-button {
-    border-radius: 24px;
-}
-
-.search-field {
-    flex-grow: 1;
-    max-width: 300px;
-    margin-right: 10px;
-}
-
-.v-card {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-.v-data-table {
-    margin-top: 16px;
-}
-
-.datatable-header {
-    background-color: #1976d2 !important;
-    color: white !important;
-}
-
-.text-color {
-    color: #A82228;
-}
-
-.toolbar {
-    background-color: #A82228;
-    color: white;
-}
-</style>

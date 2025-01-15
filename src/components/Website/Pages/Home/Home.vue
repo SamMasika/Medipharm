@@ -8,7 +8,10 @@
             <v-col cols="12" md="10">
                 <div class="video-container">
                     <iframe v-if="videoUrl" class="video-frame" :src="videoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    <p v-else>No videos available at the moment.</p>
+                    <p v-else>
+                        We’re experiencing technical difficulties. Videos are currently unavailable. Please check back soon.
+                    </p>
+
                 </div>
                 <v-btn class="text-none custom-view-color" size="large" rounded="xl" flat @click="viewAllSermons">
                     <v-icon size="30">mdi-youtube</v-icon> Watch all sermons
@@ -78,9 +81,16 @@
             <v-row justify="center" class="my-2">
                 <v-col class="d-flex justify-center">
                     <div class="custom-toggle-container">
-                        <v-btn-toggle class="custom-toggle">
-                            <v-btn value="about" @click="handleToggle" class="text-none text-white custom-btn custom-btn-left">About Us</v-btn>
-                            <v-btn value="visit" class="text-none custom-btn text-white custom-btn-right">Visit Us</v-btn>
+                        <v-btn-toggle v-model="selectedToggle" class="custom-toggle" mandatory>
+                            <!-- "About Us" Button with Navigation -->
+                            <v-btn value="about" @click="handleToggle('about')" class="text-none text-white custom-btn custom-btn-left">
+                                About Us
+                            </v-btn>
+
+                            <!-- "Visit Us" Button -->
+                            <v-btn value="visit" @click="handleToggle('visit')" class="text-none text-white custom-btn custom-btn-right">
+                                Visit Us
+                            </v-btn>
                         </v-btn-toggle>
                         <v-icon class="icon-on-toggle" color="white">mdi-microphone</v-icon>
                     </div>
@@ -140,7 +150,7 @@
                         <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
                             <v-img src="@/assets/Connected/Prayer2.jpg" height="300px" cover>
                                 <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                                    Prayers 
+                                    Prayers
                                 </v-chip>
                             </v-img>
                             <v-card-title>
@@ -163,7 +173,7 @@
                         <v-card class="connection-card" rounded="lg" v-bind="props" :elevation="isHovering ? 24 : 0">
                             <v-img src="@/assets/Connected/Deacon.jpg" height="300px" cover>
                                 <v-chip class="chip-overlay custom-chip-color" variant="flat">
-                                Bible Study
+                                    Bible Study
                                 </v-chip>
                             </v-img>
                             <v-card-title>
@@ -509,7 +519,7 @@
                                 </div>
                             </v-expand-transition>
                         </v-hover>
-                       
+
                     </div>
                 </div>
             </div>
@@ -628,7 +638,7 @@ export default {
             message: "No matter what challenges you face today, remember that God gives you the strength to overcome.",
             currentDate: new Date(),
             slideModel: 0,
-            toggle: 'about',
+            selectedToggle: "",
             showChoirRehearsalsOnSaturday: false,
             showChoirRehearsalsOnFriday: false,
             showChoirRehearsalsOnThursday: false,
@@ -746,8 +756,13 @@ export default {
                 this.slideModel = (this.slideModel + 1) % this.services.length;
             }, 3000); // Slide every 4 seconds
         },
-        handleToggle() {
-            this.$router.push('/about'); // Redirect to the '/about' path
+        handleToggle(route) {
+            // Use Vue Router to navigate
+            if (route === "about") {
+                this.$router.push("/about"); // Redirect to About Us page
+            } else if (route === "visit") {
+                this.$router.push("/visit"); // Redirect to Visit Us page
+            }
         },
 
         goToCalendar() {
@@ -777,7 +792,7 @@ export default {
 .custom-view-color {
     color: white !important;
     /* cyan darken-2 for text */
-    background-color: #A82228;
+    background-color: #A82228 !important;
     /* No background by default */
     border: 1px solid transparent;
     /* Invisible border by default */
@@ -803,8 +818,9 @@ export default {
 }
 
 .custom-btn-color:hover {
-    background-color: #A82228;
+    /* background-color: #A82228; */
     /* cyan darken-2 background on hover */
+    background-color: #A82228 !important;
     color: white !important;
     /* Text color changes to white on hover */
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
@@ -905,13 +921,13 @@ export default {
 }
 
 .custom-btn-left {
-    background-color: #A82228;
+    background-color: #A82228 !important;
     /* Change to your preferred color */
     color: white;
 }
 
 .custom-btn-right {
-    background-color: #000000;
+    background-color: #002147 !important;
     /* Change to your preferred color */
     color: white;
 }
@@ -1269,5 +1285,13 @@ export default {
 .daily-bread-section,
 .worship-section {
     padding: 0 !important;
+}
+
+.custom-toggle-container,
+.v-btn {
+    pointer-events: auto !important;
+    /* Ensure buttons can be clicked */
+    z-index: 10;
+    /* Bring buttons to the front */
 }
 </style>

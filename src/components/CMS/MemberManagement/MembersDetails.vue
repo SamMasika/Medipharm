@@ -4,7 +4,7 @@
         <!-- Back Button -->
         <!-- Member Overview Section -->
 
-        <v-btn icon @click="goBack" class="ma-3" color="primary">
+        <v-btn icon @click="goBack" class="ma-3 import-color">
             <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
 

@@ -24,7 +24,7 @@ export function startSessionTimeout(idleLimit = 5 * 60 * 1000) { // 5 minutes de
 // Handle idle timeout
 function handleIdleTimeout() {
   store.dispatch('auth/logout').then(() => {
-    router.push('/login'); // Automatically redirect to login page
+    router.push('/'); // Automatically redirect to login page
   });
 }
 
@@ -57,7 +57,7 @@ function handleTokenExpiration() {
   // Call the logout action in your Vuex store
   store.dispatch('auth/logout').then(() => {
     // After logout, redirect to the login page
-    router.push('/login');
+    router.push('/');
   }).catch(error => {
     console.error("Error during logout on token expiration:", error);
   });

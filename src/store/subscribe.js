@@ -76,7 +76,7 @@ function logout() {
   localStorage.removeItem('token_expiration');
   localStorage.removeItem('user');
   clearTimers();
-  router.push('/login'); // Redirect to login page
+  router.push('/'); // Redirect to login page
 }
 
 function resetIdleTimeoutOnActivity() {

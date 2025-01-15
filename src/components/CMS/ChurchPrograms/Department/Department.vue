@@ -37,45 +37,34 @@
             Departments
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-row justify="end" class="mt-2">
-            <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }"></v-text-field>
-            </v-col>
-        </v-row>
-        <v-card-text>
-            <v-data-table :headers="headers" :items="departments" :search="search" :items-per-page="10">
-                <!-- Actions slot for custom menu with 3 dots -->
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-menu transition="slide-x-transition">
-                        <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">
-                                mdi-dots-vertical
-                            </v-icon>
-                        </template>
-                        <!-- List for actions -->
-                        <v-list>
-                            <v-list-item @click="editDepartment(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
-                                </template>
-                                <v-list-item-title>Edit</v-list-item-title>
-                            </v-list-item>
+        <DataTable :api-url="'department/list'" :headers="headers">
+            <template v-slot:actions="{ item }">
+                <v-menu transition="slide-x-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">
+                            mdi-dots-vertical
+                        </v-icon>
+                    </template>
+                    <!-- List for actions -->
+                    <v-list>
+                        <v-list-item @click="editDepartment(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
+                            </template>
+                            <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
 
-                            <v-list-item @click="deleteDialog(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
-                                </template>
-                                <v-list-item-title>Delete</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </template>
+                        <v-list-item @click="deleteDialog(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
+                            </template>
+                            <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </template>
+        </DataTable>
 
-                <template v-slot:[`item.status`]="{ item }">
-                    <v-chip :color="item.status ? 'green' : 'red'" :text="item.status ? 'Active' : 'Inactive'" class="text-mixedcase" size="small"></v-chip>
-                </template>
-            </v-data-table>
-        </v-card-text>
     </v-card>
     <v-dialog v-model="departmentEditDialog" max-width="600">
         <v-card prepend-icon="mdi-plus" title="Update Department">
@@ -102,28 +91,50 @@
             </v-form>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="confirmDialogVisible" max-width="350">
-        <v-card class="rounded-lg" elevation="24">
-            <v-card-title class=" text-h5 white--text text-center my-1">
-                <v-icon size="80" color="red">mdi-delete</v-icon>
+		<v-dialog v-model="confirmDialogVisible" max-width="450">
+        <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
+            <!-- Title Section -->
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+                <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
+                Confirm Deletion
             </v-card-title>
-            <v-card-text class=" text-center ">
-                Are you sure you want to delete <b>"{{ departmentToDelete.name }}"</b>?
+
+            <!-- Content Section -->
+            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+
+                <div class="font-weight-medium text-body-1 text-center mb-4">
+                    Are you sure you want to delete <b>"{{ itemToDelete.name }} </b>?
+                </div>
+                <div class="font-italic text-subtitle-1" style="color: #777;">
+                    This action cannot be undone.
+                </div>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn text="Close" class="text-none" variant="tonal" @click="confirmDialogVisible = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Ok" class="text-none button-color" variant="flat" @click="deleteDepartment" rounded="xl"></v-btn>
-                <v-spacer></v-spacer>
+
+            <!-- Divider -->
+            <v-divider></v-divider>
+
+            <!-- Action Buttons -->
+            <v-card-actions class="justify-center py-4">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                    Cancel
+                </v-btn>
+                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                    <v-icon left>mdi-delete</v-icon> Delete
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
+
 </v-container>
 </template>
 
 <script>
+import DataTable from '../../SharedComponents/dataTable'
 import axios from "axios";
 export default {
+    components: {
+        DataTable
+    },
     data() {
         return {
             search: "",
@@ -135,7 +146,7 @@ export default {
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
-            departmentToDelete: {},
+            itemToDelete: {},
             headers: [{
                     title: "Name",
                     value: "name",
@@ -227,11 +238,11 @@ export default {
                 });
         },
 
-        deleteDepartment() {
-            axios.delete(`department/delete/${this.departmentToDelete.id}`)
+        deleteItem() {
+            axios.delete(`department/delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.departments.indexOf(this.departmentToDelete);
+                    const index = this.departments.indexOf(this.itemToDelete);
                     if (index > -1) {
                         this.departments.splice(index, 1);
                     }
@@ -245,7 +256,7 @@ export default {
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
         deleteDialog(item) {
-            this.departmentToDelete = item;
+            this.itemToDelete = item;
             this.confirmDialogVisible = true;
         },
 

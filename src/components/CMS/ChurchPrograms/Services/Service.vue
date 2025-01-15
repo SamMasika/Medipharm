@@ -2,7 +2,7 @@
 <v-container fluid>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="600">
+            <v-dialog v-model="dialog" max-width="800">
                 <template v-slot:activator="{ props: activatorProps }">
                     <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Service" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
@@ -10,14 +10,26 @@
                     <v-form>
                         <v-card-text>
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
+                                <v-col cols="12" sm="6" md="6">
                                     <v-text-field label="Name*" v-model="service.name" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <PaginatedDropdown :api-endpoint="'service-category/list'" :label="'Select Category'" :placeholder="'Select Category'" v-model="service.categoryId"></PaginatedDropdown>
                                 </v-col>
                             </v-row>
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="service.description" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field type="time" label="Start Time*" v-model="service.startTime" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field type="time" label="End Time*" v-model="service.endTime" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-autocomplete :items="daysOfWeek" label="Day of The Week" v-model="service.dayOfWeek" required variant="outlined" density="compact"></v-autocomplete>
+                                </v-col>
+
                             </v-row>
                         </v-card-text>
                         <v-divider></v-divider>
@@ -82,16 +94,26 @@
             <v-form>
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
+                        <v-col cols="12" sm="6" md="6">
                             <v-text-field label="Name*" v-model="serviceEdit.name" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <PaginatedDropdown :api-endpoint="'service-category/list'" :label="'Select Category'" :placeholder="'Select Category'" v-model="serviceEdit.categoryId"></PaginatedDropdown>
                         </v-col>
                     </v-row>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="serviceEdit.description" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field type="time" label="Start Time*" v-model="serviceEdit.startTime" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field type="time" label="End Time*" v-model="serviceEdit.endTime" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-
+                    <v-row dense>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete :items="daysOfWeek" label="Day of The Week" v-model="serviceEdit.dayOfWeek" required variant="outlined" density="compact"></v-autocomplete>
+                        </v-col>
+                    </v-row>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -121,37 +143,63 @@
 </v-container>
 </template>
 
-    
-    
 <script>
+import PaginatedDropdown from '../../SharedComponents/paginatedDropdown'
 import axios from "axios";
 import {
-    statusReasons,
+    churchProgramCategoriesOptions,
 } from '@/json/enum'
 export default {
+    components: {
+        PaginatedDropdown
+    },
+
     data() {
         return {
             search: "",
             services: [],
-            statusReasons,
             zones: [],
             service: {},
             dialog: false,
+            churchProgramCategoriesOptions,
             serviceEditDialog: false,
             serviceEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
             serviceToDelete: {},
+            daysOfWeek: [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+            ],
             headers: [{
                     title: "Name",
                     value: "name",
                     sortable: false,
                 },
-
                 {
-                    title: "Description",
-                    value: "description",
+                    title: "Category",
+                    value: "category.name",
+                    sortable: false,
+                },
+                {
+                    title: "Start Time",
+                    value: "startTime",
+                    sortable: false,
+                },
+                {
+                    title: "End Time",
+                    value: "endTime",
+                    sortable: false,
+                },
+                {
+                    title: "Day",
+                    value: "dayOfWeek",
                     sortable: false,
                 },
 
@@ -168,7 +216,7 @@ export default {
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/service/list", {
+                const response = await axios.get("/services/list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
@@ -185,7 +233,7 @@ export default {
             const data = {
                 ...this.service,
             };
-            axios.post('/service/create', data, {
+            axios.post('/services/create', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -212,7 +260,7 @@ export default {
             } = this.serviceEdit;
 
             axios
-                .post("/service/update", {
+                .post("/services/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
@@ -235,7 +283,7 @@ export default {
         },
 
         deleteService() {
-            axios.delete(`service/delete/${this.serviceToDelete.id}`)
+            axios.delete(`services/delete/${this.serviceToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
                     const index = this.services.indexOf(this.serviceToDelete);
@@ -270,8 +318,7 @@ export default {
     },
 };
 </script>
-    
-    
+
 <style scoped>
 .header {
     padding: 16px 24px;

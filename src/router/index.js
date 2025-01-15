@@ -20,6 +20,8 @@ import Roles from '@/components/CMS/SystemConfigurations/Roles/Roles.vue'
 import RoleDetails from '@/components/CMS/SystemConfigurations/Roles/RoleDetails.vue'
 import EventsCalendar from '@/components/CMS/ChurchPrograms/EventsCalendar/EventsCalendar.vue'
 import MembersDetails from '@/components/CMS/MemberManagement/MembersDetails.vue'
+import Service from '@/components/CMS/ChurchPrograms/Services/Service.vue'
+import ServiceCategory from '@/components/CMS/ChurchPrograms/Services/ServiceCategory.vue'
 
 const routes = [
   
@@ -124,6 +126,16 @@ const routes = [
         path: '/calendar',
         name: 'calendar',
         component: EventsCalendar
+      },
+      {
+        path: '/services',
+        name: 'services',
+        component: Service
+      },
+      {
+        path: '/service-category',
+        name: '/service-category',
+        component: ServiceCategory
       },
       {
         path: '/members',

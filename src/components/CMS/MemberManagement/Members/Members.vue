@@ -45,17 +45,18 @@
                                     <v-autocomplete v-model="member.nationality" label="Nationality" density="compact" placeholder="Nationality" variant="outlined" item-title="country_name" item-value="country_name" :items="countries"></v-autocomplete>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
-                                    <v-autocomplete v-model="member.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters" @change="onClusterChange"></v-autocomplete>
+                                    <!-- <v-autocomplete v-model="member.clusterId" label="Cluster" density="compact" placeholder="Cluster" variant="outlined" item-title="name" item-value="id" :items="clusters" @change="onClusterChange"></v-autocomplete> -->
+                                    <PaginatedDropdown v-model="member.clusterId" :api-endpoint="'clusters/list'" :label="'Select Cluster'" :placeholder="'Search Cluster'" @change="onClusterChange"></PaginatedDropdown>
                                 </v-col>
 
                                 <!-- Zone Dropdown -->
                                 <v-col cols="12" sm="4" md="4">
-                                    <v-autocomplete v-model="member.zoneId" label="Zone" density="compact" placeholder="Zone" variant="outlined" item-title="name" item-value="id" :items="filteredZones" @change="onZoneChange" :disabled="!member.clusterId"></v-autocomplete>
+                                    <PaginatedDropdown v-model="member.zoneId"  :label="'Select Zone'" :placeholder="'Search Zone'" :items="filteredZones" @change="onZoneChange" :disabled="!member.clusterId"></PaginatedDropdown>
                                 </v-col>
 
                                 <!-- Deacon Dropdown -->
                                 <v-col cols="12" sm="4" md="4">
-                                    <v-autocomplete v-model="member.deaconId" label="Deacon" density="compact" placeholder="Deacon" variant="outlined" item-title="name" item-value="id" :items="filteredDeacons" :disabled="!member.zoneId"></v-autocomplete>
+                                    <PaginatedDropdown v-model="member.deaconId" :label="'Select Deacon'" :placeholder="'Search Deacon'" :items="filteredDeacons" :disabled="!member.zoneId"></PaginatedDropdown>
                                 </v-col>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-file-input label="Member's Photo" v-model="member.image" required variant="outlined" density="compact"></v-file-input>
@@ -64,7 +65,6 @@
                             <v-row dense>
                                 <v-col cols="12" sm="4" md="4">
                                     <v-autocomplete label="--Status Reason--" v-model="member.statusReason" :items="statusReasonsOptions" variant="outlined" density="compact" item-title="text" item-value="value" return-object></v-autocomplete>
-
                                 </v-col>
                             </v-row>
                             <!-- Radio Group for member Occurrence -->
@@ -237,8 +237,8 @@
 
             <!-- Content Section -->
             <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
-               
-								<template v-if="memberToDelete.filePath">
+
+                <template v-if="memberToDelete.filePath">
                     <!-- Display the image if it exists -->
                     <v-avatar size="100" class="mb-3">
                         <img :src="getImageUrl(memberToDelete.filePath)" alt="Profile Image" width="100" class="my-3">
@@ -278,11 +278,15 @@
 </template>
 
 <script>
+import PaginatedDropdown from '../../SharedComponents/paginatedDropdown'
 import axios from "axios";
 import {
     statusReasonsOptions,
 } from '@/json/enum'
 export default {
+    components: {
+        PaginatedDropdown
+    },
     data() {
         return {
             search: "",
@@ -354,15 +358,15 @@ export default {
             ],
         };
     },
-    computed: {
-        filteredZones() {
-            const filtered = this.zones.filter(zone => zone.cluster.id === this.member.clusterId);
-            return filtered;
-        },
-        filteredDeacons() {
-            return this.deacons.filter((deacon) => deacon.zone.id === this.member.zoneId);
-        },
+	computed: {
+    filteredZones() {
+        return this.zones.filter(zone => zone.cluster.id === this.member.clusterId);
     },
+    filteredDeacons() {
+        return this.deacons.filter(deacon => deacon.zone.id === this.member.zoneId);
+    },
+},
+
 
     methods: {
         // Format the date for display
@@ -378,54 +382,77 @@ export default {
             return this.$getImageUrl(imageName);
         },
 
-        // Fetch data for clusters, zones, members, and deacons
-        async fetchData() {
-            this.isLoading = true;
+    
+    async fetchAllPages(url) {
+        let data = [];
+        let currentPage = 1;
+        let lastPage = 1;
 
-            const fetchList = async (url) => {
-                return await axios.get(url, {
+        do {
+            try {
+                const response = await axios.get(`${url}?page=${currentPage}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                     },
                 });
-            };
+                const pageData = response.data.data.data;
+                data = data.concat(pageData);
 
-            try {
-                const [zonesResponse, clustersResponse, membersResponse, deaconsResponse] =
-                await Promise.all([
-                    fetchList("/zones/list"),
-                    fetchList("/clusters/list"),
-                    fetchList("/members/list"),
-                    fetchList("/deacons/list"),
-                ]);
-
-                this.zones = zonesResponse.data.data.data;
-                this.clusters = clustersResponse.data.data.data;
-                this.members = membersResponse.data.data.data;
-                this.deacons = deaconsResponse.data.data.data;
+                // Update pagination info
+                currentPage = response.data.data.meta.current_page + 1;
+                lastPage = response.data.data.meta.last_page;
             } catch (error) {
-                const errorMessage =
-                    error.response.data.meta.message || "An error occurred";
-                this.showAlert(errorMessage, "error");
-            } finally {
-                this.isLoading = false;
+                this.showAlert("Error fetching data: " + error.message, "error");
+                break;
             }
-        },
+        } while (currentPage <= lastPage);
+
+        return data;
+    },
+
+    // Fetch all data for clusters, zones, members, and deacons
+    async fetchData() {
+        this.isLoading = true;
+        try {
+            const [zones, clusters, members, deacons] = await Promise.all([
+                this.fetchAllPages("/zones/list"),
+                this.fetchAllPages("/clusters/list"),
+                this.fetchAllPages("/members/list"),
+                this.fetchAllPages("/deacons/list"),
+            ]);
+
+            this.zones = zones;
+            this.clusters = clusters;
+            this.members = members;
+            this.deacons = deacons;
+        } catch (error) {
+            const errorMessage =
+                error.response?.data?.meta?.message || "An error occurred";
+            this.showAlert(errorMessage, "error");
+        } finally {
+            this.isLoading = false;
+        }
+    },
+
+
         async fetchCountries() {
-            this.isLoading = true
+            this.isLoading = true;
             axios.get('/countries')
                 .then(response => {
-                    this.countries = response.data
+                    // Fetch countries and sort them to place Tanzania first
+                    const allCountries = response.data;
+                    const tanzania = allCountries.find(country => country.country_name === 'TANZANIA');
+                    this.countries = tanzania ? [tanzania, ...allCountries.filter(country => country.country_name !== 'TANZANIA')] :
+                        allCountries;
                 })
-
                 .catch(error => {
-                    console.log(error)
+                    console.log(error);
                 })
                 .finally(() => {
                     setTimeout(() => {
                         this.isLoading = false;
                     }, 1000);
-                })
+                });
         },
         onClusterChange() {
             // console.log("Selected Cluster ID:", this.member.clusterId);

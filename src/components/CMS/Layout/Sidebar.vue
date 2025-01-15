@@ -44,7 +44,8 @@
         <template v-if="currentDrawer === 'Church Programs'">
             <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/departments') }" @click="navigateTo('/departments')" class="second-item-title" title="Departments" value="departments"></v-list-item>
             <v-list-item prepend-icon="mdi-calendar-multiple" :class="{ 'highlight': isActive('/ministries') }" @click="navigateTo('/ministries')" class="second-item-title" title="Ministries" value="ministries"></v-list-item>
-            <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/calendar') }" @click="navigateTo('/calendar')" class="second-item-title" title="Church Events" value="add-transaction"></v-list-item>
+            <v-list-item prepend-icon="mdi-calendar-star" :class="{ 'highlight': isActive('/calendar') }" @click="navigateTo('/calendar')" class="second-item-title" title="Events" value="add-transaction"></v-list-item>
+            <v-list-item prepend-icon="mdi-church" :class="{ 'highlight': isActive('/services') }" @click="navigateTo('/services')" class="second-item-title" title="Worship Services" value="add-transaction"></v-list-item>
         </template>
         <template v-if="currentDrawer === 'Reports'">
             <v-list-item prepend-icon="mdi-calendar-check" :class="{ 'highlight': isActive('/view-finances') }" @click="navigateTo('/view-finances')" class="second-item-title" title="Service Reports" value="view-finances"></v-list-item>
@@ -62,7 +63,7 @@
                 <template v-slot:activator="{ props }">
                     <v-list-item v-bind="props" link prepend-icon="mdi-cog" class="second-item-title">Church Settings</v-list-item>
                 </template>
-                <v-list-item v-for="(church, i) in churches" :key="i" :title="church[0]" :prepend-icon="church[1]" :to="church[2]" :value="church[0]" :class="{ 'highlight': isActive(church[2]) }"></v-list-item>
+                <v-list-item v-for="(church, i) in churches" :key="i" :title="church[0]" :prepend-icon="church[1]" :to="church[2]" :value="church[0]" :class="['second-item-title', { 'highlight': isActive(church[2]) }]" ></v-list-item>
             </v-list-group>
         </template>
     </v-list>
@@ -92,6 +93,7 @@ export default {
                 ['Clusters', 'mdi-account-group-outline', '/clusters'],
                 ['Zones', 'mdi-account-group-outline', '/zones'],
                 ['Deacon', 'mdi-account-group-outline', '/deacon'],
+                ['Service Category', 'mdi-account-group-outline', '/service-category'],
             ],
             menuItems: [{
                     title: 'Home',
@@ -116,7 +118,7 @@ export default {
                 {
                     title: 'Church Programs',
                     icon: 'mdi-calendar',
-                    routes: ['/ministries','/calendar','/departments']
+                    routes: ['/ministries','/calendar','/departments','/services']
                 },
                 {
                     title: 'Reports',
@@ -131,7 +133,7 @@ export default {
                 {
                     title: 'System Configurations',
                     icon: 'mdi-wrench',
-                    routes: ['/settings', '/permissions', '/users', '/clusters', '/roles',  '/zones','/deacon']
+                    routes: ['/settings', '/permissions', '/users', '/clusters', '/roles',  '/zones','/deacon','/service-category']
                 },
             ],
         };
@@ -208,7 +210,7 @@ export default {
     line-height: 1.3;
     white-space: normal;
 	margin-bottom: 8px !important;
-    word-wrap: break-word;
+    word-wrap: break-word !important;
 }
 .group-separation{
 	margin-bottom: 25px !important;

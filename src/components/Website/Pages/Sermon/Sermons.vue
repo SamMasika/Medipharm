@@ -41,7 +41,7 @@
                 </template>
                 <template v-else>
                     <v-col cols="12">
-                        <v-alert type="info">No videos found.</v-alert>
+                        <v-alert type="info"> We’re experiencing technical difficulties. Videos are currently unavailable. Please check back soon.</v-alert>
                     </v-col>
                 </template>
             </v-row>
@@ -60,7 +60,7 @@
                 </template>
                 <template v-else>
                     <v-col cols="12">
-                        <v-alert color="#A82228" variant="tonal" border="start">No videos found.</v-alert>
+                        <v-alert color="#A82228" variant="tonal" border="start"> We’re experiencing technical difficulties. Videos are currently unavailable. Please check back soon.</v-alert>
                     </v-col>
                 </template>
             </v-row>
