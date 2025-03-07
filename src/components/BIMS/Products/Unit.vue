@@ -4,24 +4,19 @@
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Deacon" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Unit" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Deacon">
+                <v-card prepend-icon="mdi-plus" title="Add Unit">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="deacon.name" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="12">
-                                    <PaginatedDropdown :api-endpoint="'zones/list'" :label="'Select Zone'" :placeholder="'Search Zone'" v-model="deacon.zoneId"></PaginatedDropdown>
+                                    <v-text-field label="Name*" v-model="unit.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="deacon.description" required variant="outlined" density="compact"></v-text-field>
+                                    <v-text-field label="Description*" v-model="unit.description" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -29,62 +24,60 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addDeacon" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addUnit" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
         </v-col>
     </v-row>
-    <v-card>
+    <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-account-group" class="mx-5" size="40"></v-icon>&nbsp; Deacons
+            <v-icon icon="mdi-weight" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            Units
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-card-text>
-            <shared-data-table api-url="deacons/list" :headers="headers" @edit="editDeacon" @delete="deleteDialog">
-                <!-- Actions Slot -->
-                <template v-slot:actions="{ item }">
-                    <v-menu transition="slide-x-transition">
-                        <template v-slot:activator="{ props }">
-                            <v-icon v-bind="props">mdi-dots-vertical</v-icon>
-                        </template>
-                        <v-list>
-                            <v-list-item @click="editDeacon(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
-                                </template>
-                                <v-list-item-title>Edit</v-list-item-title>
-                            </v-list-item>
-                            <v-list-item @click="deleteDialog(item)">
-                                <template v-slot:prepend>
-                                    <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
-                                </template>
-                                <v-list-item-title>Delete</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </template>
-            </shared-data-table>
-        </v-card-text>
+        <DataTable :api-url="'/unit-list'" :headers="headers">
+            <template v-slot:actions="{ item }">
+                <v-menu transition="slide-x-transition">
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props">
+                            mdi-dots-vertical
+                        </v-icon>
+                    </template>
+                    <!-- List for actions -->
+                    <v-list>
+                        <v-list-item @click="editUnit(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
+                            </template>
+                            <v-list-item-title>Edit</v-list-item-title>
+                        </v-list-item>
+
+                        <v-list-item @click="deleteDialog(item)">
+                            <template v-slot:prepend>
+                                <v-icon>mdi-delete</v-icon> <!-- Delete Icon -->
+                            </template>
+                            <v-list-item-title>Delete</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </template>
+        </DataTable>
+
     </v-card>
-    <v-dialog v-model="deaconEditDialog" max-width="600">
-        <v-card prepend-icon="mdi-plus" title="Update Zone">
+    <v-dialog v-model="unitEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Unit">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="deaconEdit.name" required variant="outlined" density="compact"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-autocomplete v-model="deaconEdit.zoneId" label="Zone" density="compact" placeholder="Zone" variant="outlined" item-title="name" item-value="id" :items="zones"></v-autocomplete>
+                            <v-text-field label="Name*" v-model="unitEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="deaconEdit.description" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Description*" v-model="unitEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -92,8 +85,8 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="deaconEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateDeacon" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="unitEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateUnit" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -136,116 +129,108 @@
 </template>
 
 <script>
-import SharedDataTable from '../../SharedComponents/dataTable.vue';
-import PaginatedDropdown from '../../SharedComponents/paginatedDropdown.vue';
+import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 export default {
     components: {
-        SharedDataTable,
-        PaginatedDropdown
+        DataTable
     },
     data() {
         return {
+            search: "",
+            units: [],
+            unit: {},
             dialog: false,
-            deacon: {},
-            deacons: [],
-            zones: [],
-            deaconEditDialog: false,
-            deaconEdit: {},
+            unitEditDialog: false,
+            unitEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
-            headers: [{
-                    title: "Name",
-                    value: "name"
+           headers: [{
+                    title: 'Name',
+                    value: 'name',
                 },
                 {
-                    title: "Zone",
-                    value: "zone.name"
-                },
-                {
-                    title: "Actions",
-                    value: "actions"
-                }, // Placeholder for actions slot
+                    title: 'Action',
+                    value: 'actions'
+                }
+
             ],
         };
     },
+
     methods: {
-        addDeacon() {
+       
+        addUnit() {
             const data = {
-                ...this.deacon,
+                ...this.unit,
             };
-            axios.post('/deacons/create', data, {
+            axios.post('/unit-store', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
                 })
                 .then(response => {
-                    this.showAlert(response.data.meta.message, 'success');
+                    this.showAlert(response.data.message, 'success');
                     this.dialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
-                .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
+                .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
-        //UpdateDeacon
-        editDeacon(item) {
-
-            this.deaconEdit = {
-                ...item
-            }; // Copy the item data to avoid reference issues
-            this.deaconEdit.zoneId = item.zone.id || null; // Assign the cluster ID if available
-            this.deaconEditDialog = true; // Open the dialog
+        //UpdateUnit
+        editUnit(item) {
+            this.unitEdit = item
+            this.unitEditDialog = true
         },
-        updateDeacon() {
+        updateUnit() {
             const {
                 id, // Add id here
                 name,
                 description,
-                zoneId
-            } = this.deaconEdit;
+            } = this.unitEdit;
 
             axios
-                .post("/deacons/update", {
+                .post("/unit-update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
-                    zoneId: zoneId,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
                 })
                 .then(response => {
-                    this.showAlert(response.data.meta.message, 'success');
-                    this.deaconEditDialog = false; // Close the dialog after success
+                    this.showAlert(response.data.message, 'success');
+                    this.unitEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
-                    this.showAlert(error.response.data.meta.message, 'error');
-                    this.deaconEditDialog = false;
+                    this.showAlert(error.response.data.message, 'error');
+                    this.unitEditDialog = false;
                 });
         },
+
         deleteItem() {
-            axios.delete(`deacons/delete/${this.itemToDelete.id}`)
+            axios.delete(`/unit-delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.deacons.indexOf(this.itemToDelete);
+                    const index = this.units.indexOf(this.itemToDelete);
                     if (index > -1) {
-                        this.deacons.splice(index, 1);
+                        this.units.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
-                    this.showAlert(response.data.meta.message, 'success');
+                    this.showAlert(response.data.message, 'success');
 
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
-                .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
+                .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
         deleteDialog(item) {
             this.itemToDelete = item;
@@ -261,5 +246,53 @@ export default {
             });
         },
     },
+  
+
 };
 </script>
+
+<style scoped>
+.header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.add-button {
+    border-radius: 24px;
+}
+
+.search-field {
+    flex-grow: 1;
+    max-width: 300px;
+    margin-right: 10px;
+}
+
+.v-card {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.v-data-table {
+    margin-top: 16px;
+}
+
+.datatable-header {
+    background-color: #1976d2 !important;
+    color: white !important;
+}
+
+.text-color {
+    color: #A82228;
+}
+
+.toolbar {
+    background-color: #A82228;
+    color: white;
+}
+</style>

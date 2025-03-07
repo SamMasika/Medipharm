@@ -79,6 +79,7 @@ export default {
                 this.loading = false;
             }
         },
+		
         handlePageChange(newOptions) {
             // Capture the new page and itemsPerPage from the updated options
             this.currentPage = newOptions.page;

@@ -1,6 +1,9 @@
 import store from "@/store";
 import axios from 'axios';
-import router from "@/router";
+import router from "@/router"; // Assuming you have a Vue Router instance
+
+const SESSION_TIMEOUT = 120 * 60 * 1000; // 120 minutes in milliseconds
+const IDLE_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 let logoutTimer;
 let idleTimer;
@@ -10,19 +13,22 @@ store.subscribe((mutation) => {
     case 'auth/SET_TOKEN':
       if (mutation.payload) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${mutation.payload}`;
-        startSessionTimeout();
-        startIdleTimeout();
+        localStorage.setItem('access_token', mutation.payload);
+        startSessionTimeout(); // Start the session timeout when the token is set
       } else {
         axios.defaults.headers.common['Authorization'] = null;
-        clearTimers();
+        localStorage.removeItem('access_token');
+        clearTimers(); // Clear both session and idle timers when the token is cleared
       }
       break;
+    // Handle other mutations if needed
+    // case ...
   }
 });
 
 axios.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response && error.response.status === 401) {
       logout();
     }
@@ -31,29 +37,19 @@ axios.interceptors.response.use(
 );
 
 function startSessionTimeout() {
-  clearSessionTimeout(); // Clear any existing session timeout
-  const expirationTime = localStorage.getItem("token_expiration");
-  if (expirationTime) {
-    const remainingTime = expirationTime - new Date().getTime();
-    if (remainingTime > 0) {
-      logoutTimer = setTimeout(() => {
-        logout();
-      }, remainingTime);
-    } else {
-      logout(); // Token is already expired, log out immediately
-    }
-  }
-}
-
-function startIdleTimeout() {
-  clearIdleTimeout(); // Clear any existing idle timeout
-  idleTimer = setTimeout(() => {
+  logoutTimer = setTimeout(() => {
     logout();
-  }, 5 * 60 * 1000); // Idle timeout set to 10 minutes
+  }, SESSION_TIMEOUT);
 }
 
 function clearSessionTimeout() {
   clearTimeout(logoutTimer);
+}
+
+function startIdleTimeout() {
+  idleTimer = setTimeout(() => {
+    logout();
+  }, IDLE_TIMEOUT);
 }
 
 function clearIdleTimeout() {
@@ -73,17 +69,21 @@ function clearTimers() {
 function logout() {
   store.commit('auth/SET_TOKEN', null);
   localStorage.removeItem('access_token');
-  localStorage.removeItem('token_expiration');
-  localStorage.removeItem('user');
   clearTimers();
-  router.push('/'); // Redirect to login page
+  // Perform any additional logout actions, such as redirecting to the login page
+  router.push('/'); // Redirect the user to the login page
 }
 
+// Bind event listeners to reset idle timer on user activity
 function resetIdleTimeoutOnActivity() {
+  const resetIdleTimeoutHandler = () => {
+    resetIdleTimeout();
+  };
   ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'].forEach((event) => {
-    document.addEventListener(event, resetIdleTimeout, { passive: true });
+    document.addEventListener(event, resetIdleTimeoutHandler, { passive: true });
   });
 }
 
-// Initialize idle timeout tracking on user activity
+// Call the function to start/reset the session and idle timeouts
+startSessionTimeout();
 resetIdleTimeoutOnActivity();

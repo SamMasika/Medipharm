@@ -4,19 +4,44 @@
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Ministry" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Product" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Ministry">
+                <v-card prepend-icon="mdi-plus" title="Add Product">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="ministry.name" required variant="outlined" density="compact"></v-text-field>
+                                    <v-text-field label="Name*" v-model="product.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="ministry.description" required variant="outlined" density="compact"></v-text-field>
+                                    <v-text-field label="Selling Price*" v-model="product.selling_price" required variant="outlined" density="compact" type="number"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field label="Purchasing Price*" v-model="product.purchasing_price" required variant="outlined" density="compact" type="number"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-select label="Category*" v-model="product.category_id" :items="categories" item-text="name" item-value="id" required variant="outlined" density="compact"></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-select label="Unit*" v-model="product.unit_id" :items="units" item-text="name" item-value="id" required variant="outlined" density="compact"></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field label="Low Stock Level*" v-model="product.low_stock_level" required variant="outlined" density="compact" type="number"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-file-input label="Image" v-model="product.image" accept="image/*" required variant="outlined" density="compact"></v-file-input>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -24,7 +49,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addMinistry" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
@@ -34,10 +59,10 @@
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Ministries
+            Products
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'ministry/list'" :headers="headers">
+        <DataTable :api-url="'/product-list'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -47,7 +72,7 @@
                     </template>
                     <!-- List for actions -->
                     <v-list>
-                        <v-list-item @click="editMinistry(item)">
+                        <v-list-item @click="editDepartment(item)">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                             </template>
@@ -63,22 +88,21 @@
                     </v-list>
                 </v-menu>
             </template>
-
         </DataTable>
 
     </v-card>
-    <v-dialog v-model="ministryEditDialog" max-width="600">
-        <v-card prepend-icon="mdi-plus" title="Update Ministry">
+    <v-dialog v-model="departmentEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Department">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="ministryEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Name*" v-model="departmentEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="ministryEdit.description" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Description*" v-model="departmentEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -86,13 +110,13 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="ministryEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateMinistry" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="departmentEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateDepartment" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
     </v-dialog>
-		<v-dialog v-model="confirmDialogVisible" max-width="450">
+    <v-dialog v-model="confirmDialogVisible" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
             <!-- Title Section -->
             <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
@@ -125,11 +149,12 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+
 </v-container>
 </template>
 
 <script>
-import DataTable from '../../SharedComponents/dataTable'
+import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 export default {
     components: {
@@ -138,33 +163,49 @@ export default {
     data() {
         return {
             search: "",
-            ministries: [],
-            zones: [],
-            ministry: {},
+            products: [],
+            product: {},
             dialog: false,
-            ministryEditDialog: false,
-            ministryEdit: {},
+            departmentEditDialog: false,
+            departmentEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
             headers: [{
-                    title: "Name",
-                    value: "name",
-                    sortable: false,
+                    title: 'Image',
+                    value: 'image',
+                },
+                {
+                    title: 'Name',
+                    value: 'name',
+                },
+                {
+                    title: 'Category',
+                    value: 'category',
+                },
+                {
+                    title: 'Unit',
+                    value: 'unit',
+                },
+                {
+                    title: 'Purchasing Price',
+                    value: 'purchasing_price',
+                },
+                {
+                    title: 'Selling Price',
+                    value: 'selling_price',
+                },
+                {
+                    title: 'Available Stock',
+                    value: 'quantity',
                 },
 
                 {
-                    title: "Description",
-                    value: "description",
-                    sortable: false,
-                },
+                    title: 'Action',
+                    value: 'actions'
+                }
 
-                {
-                    title: "Actions",
-                    value: "actions",
-                    sortable: false,
-                },
             ],
         };
     },
@@ -173,7 +214,7 @@ export default {
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/ministry/list", {
+                const response = await axios.get("/product-list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },
@@ -186,11 +227,11 @@ export default {
                 this.isLoading = false;
             }
         },
-        addMinistry() {
+        addProduct() {
             const data = {
-                ...this.ministry,
+                ...this.department,
             };
-            axios.post('/ministry/create', data, {
+            axios.post('/department/create', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -204,20 +245,20 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.meta.message, 'error'));
         },
-        //UpdateMinistry
-        editMinistry(item) {
-            this.ministryEdit = item
-            this.ministryEditDialog = true
+        //UpdateDepartment
+        editDepartment(item) {
+            this.departmentEdit = item
+            this.departmentEditDialog = true
         },
-        updateMinistry() {
+        updateDepartment() {
             const {
                 id, // Add id here
                 name,
                 description,
-            } = this.ministryEdit;
+            } = this.departmentEdit;
 
             axios
-                .post("/ministry/update", {
+                .post("/department/update", {
                     id: id, // Include id in the payload
                     name: name,
                     description: description,
@@ -228,24 +269,24 @@ export default {
                 })
                 .then(response => {
                     this.showAlert(response.data.meta.message, 'success');
-                    this.ministryEditDialog = false; // Close the dialog after success
+                    this.departmentEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
                     this.showAlert(error.response.data.meta.message, 'error');
-                    this.ministryEditDialog = false;
+                    this.departmentEditDialog = false;
                 });
         },
 
         deleteItem() {
-            axios.delete(`ministry/delete/${this.itemToDelete.id}`)
+            axios.delete(`department/delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.ministries.indexOf(this.itemToDelete);
+                    const index = this.products.indexOf(this.itemToDelete);
                     if (index > -1) {
-                        this.ministries.splice(index, 1);
+                        this.products.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.meta.message, 'success');
@@ -273,6 +314,7 @@ export default {
     mounted() {
         this.fetchData();
     },
+
 };
 </script>
 

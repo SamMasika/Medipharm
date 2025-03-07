@@ -1,25 +1,27 @@
 import axios from "axios";
 
 export default {
+ 
   namespaced: true,
   state: {
     access_token: null,
-    user: null,
+    user: {
+      permissions: [],
+      roles: [], // Include roles in the user object
+    },
   },
   getters: {
     authenticated(state) {
-      return !!state.access_token && !!state.user;
+      return state.access_token && state.user;
     },
     user(state) {
       return state.user;
     },
-    userName(state) {
-      return state.user ? state.user.name : null;
-    },
     hasPermission: (state) => (permission) => {
-      return state.user?.roles?.some(role =>
-        role.permissions.some(p => p.name === permission)
-      );
+      return state.user.permissions.includes(permission);
+    },
+    hasRole: (state) => (role) => {
+      return state.user.roles.includes(role);
     }
   },
   mutations: {
@@ -29,70 +31,41 @@ export default {
     SET_USER(state, user) {
       state.user = user;
     },
-    SET_EXPIRE(state, expires_in) {
-      state.expires_in = expires_in;
-    },
   },
   actions: {
-    async login({ commit }, credentials) {
+    async login({ dispatch, commit }, credentials) {
       try {
         let response = await axios.post("/login", credentials);
-        const { token, user, expires_in } = response.data.data;
-
-        // Calculate expiration timestamp and store it
-        const expirationTime = new Date().getTime() + expires_in * 1000;
-
-        // Save token, user data, and expiration time
-        commit("SET_TOKEN", token);
-        commit("SET_USER", user);
-        commit("SET_EXPIRE", expires_in);
-        localStorage.setItem("access_token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token_expiration", expirationTime); // store expiration time
-
-        // Set axios default Authorization header
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        
-        // Return a success message or null if login was successful
-        return null; 
+        const { access_token } = response.data;
+        commit("SET_TOKEN", access_token);
+        return dispatch("attempt", access_token);
       } catch (error) {
-        // Capture and log the error message
-        const errorMessage = error.response ? error.response.data.meta.message : "An error occurred during login.";
-        console.error("Login failed:", errorMessage);
-  
-        // Return the error message to be handled in the component
-        return errorMessage;
+        // Handle error
+        return error.response.data.message;
       }
     },
-    attempt({ commit }) {
-      const token = localStorage.getItem("access_token");
-      const user = localStorage.getItem("user");
-      const expirationTime = localStorage.getItem("token_expiration");
-
-      if (token && user && expirationTime) {
-        const currentTime = new Date().getTime();
-        if (currentTime < expirationTime) {
-          // Token is valid; proceed with setting state
-          commit("SET_TOKEN", token);
-          commit("SET_USER", JSON.parse(user));
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        } else {
-          // Token expired; remove it and redirect to login
-          commit("SET_TOKEN", null);
-          commit("SET_USER", null);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("user");
-          localStorage.removeItem("token_expiration");
-        }
+    async attempt({ commit, state }, access_token) {
+      if (access_token) {
+        commit("SET_TOKEN", access_token);
+      }
+      if (!state.access_token) {
+        return;
+      }
+      try {
+        let response = await axios.get("/user");
+        const { name, username, email, phone, permissions, roles } = response.data.data;
+        const user = { name, username, email, phone, permissions, roles };
+        commit("SET_USER", user);
+      } catch (e) {
+        commit("SET_TOKEN", null);
+        commit("SET_USER", null);
       }
     },
     logout({ commit }) {
-      commit("SET_TOKEN", null);
-      commit("SET_USER", null);
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("token_expiration");
-      delete axios.defaults.headers.common["Authorization"];
+      return axios.get("/logout").then(() => {
+        commit("SET_TOKEN", null);
+        commit("SET_USER", null);
+      });
     },
   },
 };

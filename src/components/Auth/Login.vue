@@ -1,18 +1,19 @@
 <template>
 <Loader :loading="loading" v-if="loading" />
 <div v-else>
-    <AppBar />
+
     <v-container class="my-5">
         <v-card class=" my-crd mx-auto pa-12 pb-3 " elevation="0" max-width="448" rounded="lg" color="transparent">
-            <div class="d-flex justify-center">
-                <v-avatar size="150">
-                    <v-img alt="NIDC Logo" src="@/assets/tag.png" transition="scale-transition" />
-                </v-avatar>
+            <div class="d-flex justify-center my-5">
+                <!-- <v-avatar size="150" class="overflow-hidden"> -->
+                    <v-img alt="NIDC Logo" src="@/assets/banal.png" transition="scale-transition" max-width="150" />
+                <!-- </v-avatar> -->
             </div>
-            <h3 class="text-center my-3">BCMS</h3>
+
+            <h3 class="text-center my-3">BIMS</h3>
             <v-form @submit.prevent="submit" ref="form">
                 <div class="text-subtitle-1 text-medium-emphasis">Username</div>
-                <v-text-field type="phone" density="compact" v-model="form.phoneNumber" placeholder="Username" prepend-inner-icon="mdi-account" variant="outlined" autocomplete></v-text-field>
+                <v-text-field type="phone" density="compact" v-model="form.username" placeholder="Username" prepend-inner-icon="mdi-account" variant="outlined" autocomplete></v-text-field>
 
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
                     Password
@@ -33,13 +34,9 @@
             </v-card-text>
         </v-card>
     </v-container>
-    <Footer />
 </div>
 </template>
-
 <script>
-import AppBar from "@/components/Website/Layout/AppBar.vue";
-import Footer from "@/components/Website/Layout/Footer.vue";
 import Loader from '@/components/Loader/Loader.vue';
 import loaderSet from '@/mixins/loaderSet.js'
 import {
@@ -50,8 +47,6 @@ import {
 export default {
     mixins: [loaderSet],
     components: {
-        AppBar,
-        Footer,
         Loader
     },
 
@@ -59,7 +54,7 @@ export default {
         return {
             visible: false,
             form: {
-                phoneNumber: '',
+                username: '',
                 password: ''
             },
             inputRules: [
@@ -86,32 +81,33 @@ export default {
         })
     },
 
-    methods: {
-        ...mapActions({
-            login: 'auth/login'
-        }),
+	methods: {
+		...mapActions({
+			login: 'auth/login'
+		}),
 
-        async submit() {
-            this.loading = true;
-            if (this.$refs.form.validate()) {
-                const errorMessage = await this.login(this.form);
-                if (errorMessage) {
-                    this.$swal.fire({
-                        icon: 'error',
-                        title: errorMessage,
-                        timer: 5000
-                    }).then(() => {
-                        location.reload(); // Reload after error
-                    });
-                } else {
-                    this.$router.replace({
-                        name: 'dashboard'
-                    });
-                }
-            }
-            this.loading = false; // Ensure loading is false after validation check
-        }
-    },
+		async submit() {
+			this.loading = true;
+			if (this.$refs.form.validate()) {
+				const errorMessage = await this.login(this.form);
+				if (errorMessage) {
+					this.$swal.fire({
+						icon: 'error',
+						title: errorMessage,
+						timer: 5000
+					}).then(() => {
+						location.reload(); // Reload after error
+					});
+				} else {
+					console.log('Login successful, redirecting...');
+					console.log('Authenticated:', this.$store.getters['auth/authenticated']);
+					this.$router.replace({ name: 'dashboard' });
+				}
+			}
+			this.loading = false;
+		}
+	},
+
 
     mounted() {
         // Simulating an asynchronous operation; replace with your logic
@@ -129,12 +125,12 @@ export default {
 <style scoped>
 .btn-color {
     color: white !important;
-    background-color: #A82228 !important;
+    background-color: #3674B5 !important;
 }
 
 .btn-color .v-icon {
     color: white;
-	
+
     /* Set icon color */
 }
 
