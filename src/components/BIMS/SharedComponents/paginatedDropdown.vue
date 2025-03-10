@@ -1,5 +1,5 @@
 <template>
-<v-autocomplete v-model="selectedItem" :items="computedItems" v-model:search-input="search" :loading="loading" variant="outlined" density="compact" :label="label" :placeholder="placeholder" @update:search="onSearch" :menu-props="{ maxHeight: '300px' }" item-title="name" item-value="id">
+<v-autocomplete v-model="selectedItem" :items="computedItems" v-model:search-input="search" :loading="loading" variant="outlined" density="compact" :label="label" :placeholder="placeholder" @update:search="onSearch" :menu-props="{ maxHeight: '300px' }" :item-title="itemTitle" item-value="id">
     <!-- Custom Load All button at the bottom of the dropdown -->
     <template v-slot:prepend-item>
         <v-list-item v-if="pagination.currentPage < pagination.lastPage && !loading && !loadedAll && apiEndpoint" @click="loadAllItems">
@@ -10,15 +10,12 @@
                 </v-btn>
             </v-list-item-content>
         </v-list-item>
+        <!-- Loading circle inside the input field -->
+        <v-progress-circular v-if="loading" indeterminate size="24"  class="loading-indicator" />
     </template>
 </v-autocomplete>
-
-<!-- Loading Indicator -->
-<v-progress-circular v-if="loading" indeterminate></v-progress-circular>
 </template>
 
-  
-  
 <script>
 import axios from "axios";
 
@@ -26,7 +23,7 @@ export default {
     props: {
         apiEndpoint: {
             type: String,
-            required: true, // Make API optional
+            required: true,
         },
         label: {
             type: String,
@@ -36,13 +33,17 @@ export default {
             type: String,
             required: true,
         },
+        itemTitle: {
+            type: String,
+            required: true,
+        },
         modelValue: {
             type: [String, Number, Object],
             default: null,
         },
         items: {
             type: Array,
-            default: () => [], // Accept static items
+            default: () => [],
         },
     },
     data() {
@@ -61,7 +62,6 @@ export default {
     },
     computed: {
         computedItems() {
-            // Combine API items with static items
             return this.items.length ? this.items : this.dropdownItems;
         },
     },
@@ -130,10 +130,18 @@ export default {
     },
 };
 </script>
-  
-  
+
 <style scoped>
 .v-icon.left {
     margin-right: 8px;
+}
+
+/* Style for the loading indicator inside the input field */
+.loading-indicator {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+	color: #3674B5;
 }
 </style>

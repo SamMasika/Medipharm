@@ -6,7 +6,9 @@ import Master from '@/components/BIMS/Layout/Master.vue'
 import Products from '@/components/BIMS/Products/Products.vue'
 import Category from '@/components/BIMS/Products/Category.vue'
 import Unit from '@/components/BIMS/Products/Unit.vue'
-import Pos from '@/components/BIMS/Layout/Sales/Pos.vue'
+import Pos from '@/components/BIMS/Sales/Pos.vue'
+import Users from '@/components/BIMS/Settings/Users/Users.vue'
+import Roles from '@/components/BIMS/Settings/Roles/Roles.vue'
 
 
 
@@ -57,6 +59,16 @@ const routes = [
         path: '/pos',
         name: 'pos',
         component: Pos
+      },
+      {
+        path: '/users',
+        name: 'users',
+        component: Users
+      },
+      {
+        path: '/roles',
+        name: 'roles',
+        component: Roles
       },
 
     ]

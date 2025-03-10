@@ -92,12 +92,11 @@ export default {
             ],
             SuppliersVendors: [
                 ['Suppliers List', 'mdi-truck', '/suppliers-list'],
-                ['Add Supplier', 'mdi-plus-box', '/add-supplier'],
                 ['Vendor Relations', 'mdi-handshake', '/vendor-relations'],
             ],
             UserManagement: [
                 ['Users', 'mdi-account-group', '/users'],
-                ['Permissions', 'mdi-lock', '/permissions'],
+                ['Roles', 'mdi-lock', '/roles'],
                 ['Activity Logs', 'mdi-file-alert', '/activity-logs'],
             ],
             Configurations: [

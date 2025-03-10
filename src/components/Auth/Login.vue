@@ -1,7 +1,6 @@
 <template>
 <Loader :loading="loading" v-if="loading" />
 <div v-else>
-
     <v-container class="my-5">
         <v-card class=" my-crd mx-auto pa-12 pb-3 " elevation="0" max-width="448" rounded="lg" color="transparent">
             <div class="d-flex justify-center my-5">

@@ -14,11 +14,6 @@
                                     <v-text-field label="Name*" v-model="unit.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Description*" v-model="unit.description" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
@@ -73,11 +68,6 @@
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
                             <v-text-field label="Name*" v-model="unitEdit.name" required variant="outlined" density="compact"></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Description*" v-model="unitEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -186,34 +176,22 @@ export default {
             this.unitEditDialog = true
         },
         updateUnit() {
-            const {
-                id, // Add id here
-                name,
-                description,
-            } = this.unitEdit;
+    const { id, name } = this.unitEdit;
 
-            axios
-                .post("/unit-update", {
-                    id: id, // Include id in the payload
-                    name: name,
-                    description: description,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
-                    },
-                })
-                .then(response => {
-                    this.showAlert(response.data.message, 'success');
-                    this.unitEditDialog = false; // Close the dialog after success
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
-                })
-                .catch(error => {
-                    this.showAlert(error.response.data.message, 'error');
-                    this.unitEditDialog = false;
-                });
-        },
+    axios.put(`/unit-update/${id}`, { name })
+        .then(response => {
+            this.showAlert(response.data.message, 'success');
+            this.unitEditDialog = false; // Close the dialog after success
+            setTimeout(() => {
+                window.location.reload(); // Reload the window after success
+            }, 500); // Delay the reload slightly to allow the success message to be shown
+        })
+        .catch(error => {
+			this.showAlert(error.response.data.message, 'error');
+            this.unitEditDialog = false;
+        });
+},
+
 
         deleteItem() {
             axios.delete(`/unit-delete/${this.itemToDelete.id}`)

@@ -154,7 +154,7 @@ export default {
         async fetchData() {
             this.isLoading = true;
             try {
-                const response = await axios.get("/roles/list", {
+                const response = await axios.get("/role-list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     },

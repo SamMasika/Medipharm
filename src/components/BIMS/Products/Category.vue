@@ -72,7 +72,7 @@
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="categoryEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Name*" v-model="categoryEdit.categoryName" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
@@ -147,7 +147,7 @@ export default {
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
-           headers: [{
+            headers: [{
                     title: 'Name',
                     value: 'categoryName',
                 },
@@ -161,7 +161,7 @@ export default {
     },
 
     methods: {
-       
+
         addCategory() {
             const data = {
                 ...this.category,
@@ -187,30 +187,25 @@ export default {
         },
         updateCategory() {
             const {
-                id, // Add id here
-                name,
-                description,
+                id,
+                categoryName,
+                description
+
             } = this.categoryEdit;
 
-            axios
-                .post("/department/update", {
-                    id: id, // Include id in the payload
-                    name: name,
-                    description: description,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
-                    },
+            axios.put(`/category-update/${id}`, {
+                    categoryName,
+                    description
                 })
                 .then(response => {
-                    this.showAlert(response.data.meta.message, 'success');
+                    this.showAlert(response.data.message, 'success');
                     this.categoryEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
-                    this.showAlert(error.response.data.meta.message, 'error');
+                    this.showAlert(error.response.data.message, 'error')
                     this.categoryEditDialog = false;
                 });
         },
@@ -246,7 +241,6 @@ export default {
             });
         },
     },
-  
 
 };
 </script>

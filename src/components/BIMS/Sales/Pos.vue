@@ -8,13 +8,13 @@
         <v-col cols="12" md="8">
             <v-row>
                 <v-col v-for="product in paginatedProducts" :key="product.id" cols="6" sm="4" md="3">
-                    <v-card class="product-card" elevation="3">
+                    <v-card class="product-card">
                         <div class="card-top-border"></div>
                         <v-img :src="product.image" class="product-image" contain></v-img>
                         <v-card-title class="product-title">{{ product.name }}</v-card-title>
                         <v-card-subtitle class="product-price">Tsh {{ product.price.toLocaleString() }}</v-card-subtitle>
                         <v-card-text>
-                            <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" variant="solo" class="quantity-input"></v-text-field>
+                            <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input"></v-text-field>
                         </v-card-text>
                         <v-card-actions>
                             <v-btn color="primary" variant="tonal" block @click="addToCart(product)">Add to Cart</v-btn>
@@ -27,7 +27,7 @@
 
         <!-- Cart and Checkout Section -->
         <v-col cols="12" md="4">
-            <v-card class="cart " elevation="6">
+            <v-card class="cart ">
                 <div class="cart-top-border"></div>
                 <v-card-title class="cart-title">Cart</v-card-title>
                 <v-divider></v-divider>
@@ -90,12 +90,12 @@
                     <v-select v-model="paymentMode" :items="paymentModes" placeholder="Payment Mode" variant="outlined" density="compact"></v-select>
                     <v-textarea v-model="additionalNotes" label="Additional Notes (Optional)" variant="outlined" density="compact"></v-textarea>
                 </v-card-text>
-
+                <v-divider></v-divider>
                 <!-- Total Amount & Checkout Button -->
                 <v-card-text v-if="cart.length > 0" class="total">
                     Total: <span>{{ totalAmount }}/= TZS</span>
                 </v-card-text>
-                <v-btn v-if="cart.length > 0" color="#3674B5" block @click="checkout" class="checkout-btn">Checkout</v-btn>
+                <v-btn v-if="cart.length > 0" color="#3674B5" block @click="checkout" elevation="0" class="checkout-btn">Checkout</v-btn>
             </v-card>
         </v-col>
     </v-row>
@@ -219,6 +219,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 5px;
     border-radius: 8px;
     transition: transform 0.2s;
@@ -261,6 +262,7 @@ export default {
     padding: 15px;
     border-radius: 8px;
     /* background: #fff; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -300,16 +302,20 @@ export default {
 
 .cart-item-details {
     font-size: 12px;
-     color: #666;  /* Make the text a little lighter */
+    color: #666;
+    /* Make the text a little lighter */
 }
+
 .cart-item-details .label {
-  font-weight: bold;
-  margin-right: 5px;  /* Add some space between the label and the value */
+    font-weight: bold;
+    margin-right: 5px;
+    /* Add some space between the label and the value */
 }
+
 .cart-item {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .checkout-form {

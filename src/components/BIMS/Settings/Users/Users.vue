@@ -110,7 +110,7 @@
                                                     <p><strong>Phone No.:</strong> {{ item.phoneNumber }}</p>
                                                 </v-col>
                                                 <v-col cols="12" sm="6">
-                                                    <p><strong>Membership No.:</strong> {{ item.membershipNumber }}</p>
+                                                    <p><strong>Email:</strong> {{ item.email }}</p>
                                                 </v-col>
                                                 <v-col cols="12" sm="6">
                                                     <p><strong>Status:</strong> {{ item.status }}</p>
@@ -276,13 +276,8 @@ export default {
                     sortable: false,
                 },
                 {
-                    title: "Phone No.",
-                    value: "phoneNumber",
-                    sortable: false,
-                },
-                {
-                    title: "Membership No.",
-                    value: "membershipNumber",
+                    title: "Email",
+                    value: "email",
                     sortable: false,
                 },
                 {
@@ -308,7 +303,7 @@ export default {
     methods: {
         async fetchData() {
             try {
-                const response = await axios.get("/users/list", {
+                const response = await axios.get("/user-list", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`
                     },

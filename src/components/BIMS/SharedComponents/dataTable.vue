@@ -1,22 +1,27 @@
 <template>
-<!-- Search and Items Per Page Options -->
-
-<!-- Data Table -->
 <v-card-text>
-	<v-row justify="space-between" align="center">
-			<!-- Search Input -->
-			<v-spacer></v-spacer>
-			<v-col cols="12" md="4" class="d-flex justify-end">
-					<v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line class="search-field" style="max-width: 300px;" />
-			</v-col>
-	
-	</v-row>
+    <v-row justify="space-between" align="center">
+        <!-- Search Input -->
+        <v-spacer></v-spacer>
+        <v-col cols="12" md="4" class="d-flex justify-end">
+            <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line class="search-field" style="max-width: 300px;" />
+        </v-col>
+    </v-row>
+
+    <!-- Data Table -->
     <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="items" :items-length="totalItems" :loading="loading" item-value="id" :page="currentPage" @update:options="handlePageChange">
         <!-- Dynamically Render Actions through Slot -->
         <template v-slot:item="props">
             <tr :key="props.item.id">
                 <td v-for="(column, index) in headers" :key="index">
-                    <span v-if="column.value !== 'actions'">{{ getNestedValue(props.item, column.value) }}</span>
+                    <span v-if="column.value !== 'actions'">
+                        <span v-if="column.format && column.value.toLowerCase().includes('price')">
+                            {{ formatPrice(getNestedValue(props.item, column.value)) }}
+                        </span>
+                        <span v-else>
+                            {{ getNestedValue(props.item, column.value) }}
+                        </span>
+                    </span>
                     <!-- Actions Slot -->
                     <span v-else>
                         <slot name="actions" :item="props.item"></slot>
@@ -67,7 +72,7 @@ export default {
                 };
 
                 const response = await axios.get(this.apiUrl, {
-                    params
+                    params,
                 });
                 const responseData = response.data.data || {};
                 this.items = responseData.data || [];
@@ -79,22 +84,64 @@ export default {
                 this.loading = false;
             }
         },
-		
+
+        // Format price to include commas and currency symbol (e.g., TZS 1,000,000)
+        formatPrice(price) {
+            if (!price) return "TZS 0"; // Handle cases where price is null or undefined
+            return "TZS " + parseInt(price).toLocaleString();
+        },
+
+        // Method to handle nested properties (e.g., item.selling_price or item.details.selling_price)
+        getNestedValue(item, field) {
+            const value = field.split(".").reduce((obj, key) => (obj && obj[key] ? obj[key] : ""), item);
+
+            // If the value is a date string, format it with ordinal suffix
+            if (value && !isNaN(Date.parse(value))) {
+                return this.formatDateWithOrdinal(new Date(value));
+            }
+
+            return value;
+        },
+
+        // Method to format date with ordinal suffix (e.g., 1st, 2nd, 3rd, 4th)
+        formatDateWithOrdinal(date) {
+            const day = date.getDate();
+            const month = date.toLocaleString('default', {
+                month: 'long'
+            });
+            const year = date.getFullYear();
+
+            const suffix = this.getOrdinalSuffix(day); // Get the ordinal suffix (st, nd, rd, th)
+
+            return `${day}${suffix} ${month} ${year}`;
+        },
+
+        // Helper method to get the ordinal suffix for a day (1st, 2nd, 3rd, etc.)
+        getOrdinalSuffix(day) {
+            if (day > 3 && day < 21) return 'th'; // Handle 11th, 12th, 13th etc.
+            switch (day % 10) {
+                case 1:
+                    return 'st';
+                case 2:
+                    return 'nd';
+                case 3:
+                    return 'rd';
+                default:
+                    return 'th';
+            }
+        },
+
         handlePageChange(newOptions) {
             // Capture the new page and itemsPerPage from the updated options
             this.currentPage = newOptions.page;
             this.itemsPerPage = newOptions.itemsPerPage;
             this.fetchData(); // Fetch the data again when page or items per page change
         },
+
         onSearchChange: _.debounce(function () {
             this.currentPage = 1; // Reset to page 1 on search
             this.fetchData();
         }, 300), // Debounce to delay search
-
-        // Method to handle nested properties (e.g., zone.name)
-        getNestedValue(item, field) {
-            return field.split('.').reduce((obj, key) => (obj && obj[key]) ? obj[key] : '', item);
-        },
     },
     watch: {
         currentPage() {

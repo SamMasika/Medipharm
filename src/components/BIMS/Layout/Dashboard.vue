@@ -151,7 +151,7 @@ export default {
 }
 
 .dashboard-card[data-icon-color="charcoal-blue"] {
-    border-left-color: #09122C;
+    border-left-color: #344CB7;
     /* Suppliers (Charcoal Blue) */
 }
 
