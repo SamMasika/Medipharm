@@ -319,7 +319,7 @@ export default {
 .card-top-border {
     height: 8px;
     width: 100%;
-    background: linear-gradient(to right, #3674B5, #68B8EBFF);
+    background: linear-gradient(to right, #3674B5, rgb(158, 210, 241));
     /* Main color to a lighter blue */
     position: absolute;
     top: 0;
@@ -338,7 +338,7 @@ export default {
 .cart-top-border {
     height: 18px;
     width: 100%;
-    background: linear-gradient(to right, #84CF87FF, #00897B);
+    background: linear-gradient(to right, rgb(150, 219, 152), #00897B);
     /* Green to Teal */
     position: absolute;
     top: 0;
