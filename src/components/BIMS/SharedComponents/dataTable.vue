@@ -1,7 +1,6 @@
 <template>
 <v-card-text>
     <v-row justify="space-between" align="center">
-        <!-- Search Input -->
         <v-spacer></v-spacer>
         <v-col cols="12" md="4" class="d-flex justify-end">
             <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line class="search-field" style="max-width: 300px;" />
@@ -10,11 +9,17 @@
 
     <!-- Data Table -->
     <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="items" :items-length="totalItems" :loading="loading" item-value="id" :page="currentPage" @update:options="handlePageChange">
-        <!-- Dynamically Render Actions through Slot -->
         <template v-slot:item="props">
             <tr :key="props.item.id">
                 <td v-for="(column, index) in headers" :key="index">
-                    <span v-if="column.value !== 'actions'">
+                    <!-- Display Image -->
+                    <span v-if="column.value === 'image'">
+                        <v-img v-if="getImageUrl(getNestedValue(props.item, column.value))" :src="getImageUrl(getNestedValue(props.item, column.value))" alt="Product Image" class="product-image" cover aspect-ratio="1" />
+                        <v-img v-else src="/path/to/default-image.jpg" alt="Placeholder Image" class="product-image" cover aspect-ratio="1" />
+                    </span>
+
+                    <!-- Handle Other Columns -->
+                    <span v-else-if="column.value !== 'actions'">
                         <span v-if="column.format && column.value.toLowerCase().includes('price')">
                             {{ formatPrice(getNestedValue(props.item, column.value)) }}
                         </span>
@@ -102,12 +107,16 @@ export default {
 
             return value;
         },
+        getImageUrl(imagePath) {
+            if (!imagePath) return null;
+            return this.$getImageUrl(imagePath);
+        },
 
         // Method to format date with ordinal suffix (e.g., 1st, 2nd, 3rd, 4th)
         formatDateWithOrdinal(date) {
             const day = date.getDate();
             const month = date.toLocaleString('default', {
-                month: 'long'
+                month: 'long',
             });
             const year = date.getFullYear();
 
@@ -159,5 +168,14 @@ export default {
 </script>
 
 <style scoped>
-/* Add any custom styling here if needed */
+.product-image {
+    border-radius: 8%;
+    max-height: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    /* Ensures consistent height even when image is missing */
+    min-width: 100px;
+    /* Ensures consistent width even when image is missing */
+    object-fit: cover;
+}
 </style>

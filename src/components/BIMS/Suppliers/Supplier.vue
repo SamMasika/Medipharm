@@ -4,67 +4,51 @@
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="800">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Product" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Product">
+                <v-card prepend-icon="mdi-plus" title="Add Supplier">
                     <v-form>
                         <v-card-text>
-                            <v-container>
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Name*" v-model="product.name" required variant="outlined" density="compact"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <PaginatedDropdown v-model="product.category_id" :api-endpoint="'/category-list'" label="Select Category..." placeholder="Search Category" item-title="categoryName"></PaginatedDropdown>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Selling Price*" v-model="product.selling_price" required variant="outlined" density="compact" type="number"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Purchasing Price*" v-model="product.purchasing_price" required variant="outlined" density="compact" type="number"></v-text-field>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <PaginatedDropdown v-model="product.unit_id" :api-endpoint="'/unit-list'" label="Select Unit..." placeholder="Search Unit" item-title="name"></PaginatedDropdown>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Low Stock Level*" v-model="product.low_stock_level" required variant="outlined" density="compact" type="number"></v-text-field>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12">
-                                        <v-file-input label="Product Image" v-model="product.image" accept="image/*" variant="outlined" density="compact"></v-file-input>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
+                            <v-row dense>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field placeholder="Name*" v-model="supplier.name" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field placeholder="Contact Person*" v-model="supplier.contact_person" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field placeholder="Phone*" v-model="supplier.phone" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field placeholder="Email*" type="email" v-model="supplier.email" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field placeholder="Location*" v-model="supplier.location" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
                         </v-card-text>
-
                         <v-divider></v-divider>
-
-                        <v-card-actions class="pa-4">
+                        <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addSupplier" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
-
                 </v-card>
             </v-dialog>
         </v-col>
     </v-row>
     <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-account-group" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Products
+            <v-icon icon="mdi-truck" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            Suppliers
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'/product-list'" :headers="headers">
+        <DataTable :api-url="'/supplier-list'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -74,7 +58,7 @@
                     </template>
                     <!-- List for actions -->
                     <v-list>
-                        <v-list-item @click="editProduct(item)">
+                        <v-list-item @click="editSupplier(item)">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                             </template>
@@ -93,40 +77,29 @@
         </DataTable>
 
     </v-card>
-    <v-dialog v-model="productEditDialog" max-width="800">
-        <v-card prepend-icon="mdi-plus" title="Update Product">
+    <v-dialog v-model="supplierEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Supplier">
             <v-form>
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <v-text-field label="Name*" v-model="productEdit.name" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field placeholder="Name*" v-model="supplierEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6">
-                            <PaginatedDropdown v-model="productEdit.category_id" :api-endpoint="'/category-list'" label="Select Category..." placeholder="Search Category" item-title="categoryName" disabled></PaginatedDropdown>
-                        </v-col>
-                    </v-row>
-
-                    <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <v-text-field label="Selling Price*" v-model="productEdit.selling_price" required variant="outlined" density="compact" type="number"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field label="Purchasing Price*" v-model="productEdit.purchasing_price" required variant="outlined" density="compact" type="number"></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field placeholder="Contact Person*" v-model="supplierEdit.contact_person" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-
                     <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <PaginatedDropdown v-model="productEdit.unit_id" :api-endpoint="'/unit-list'" label="Select Unit..." placeholder="Search Unit" item-title="name" disabled></PaginatedDropdown>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field placeholder="Phone*" v-model="supplierEdit.phone" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field label="Low Stock Level*" v-model="productEdit.low_stock_level" required variant="outlined" density="compact" type="number"></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field placeholder="Email*" type="email" v-model="supplierEdit.email" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-
                     <v-row dense>
-                        <v-col cols="12">
-                            <v-file-input label="Product Image" v-model="productEdit.image" accept="image/*" variant="outlined" density="compact"></v-file-input>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-text-field placeholder="Location*" v-model="supplierEdit.location" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -134,8 +107,8 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="productEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateProduct" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="supplierEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateSupplier" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -179,53 +152,43 @@
 
 <script>
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
-import PaginatedDropdown from '@/components/BIMS/SharedComponents/paginatedDropdown'
 import axios from "axios";
 export default {
     components: {
-        DataTable,
-        PaginatedDropdown
+        DataTable
     },
     data() {
         return {
             search: "",
-            products: [],
-            product: {},
+            suppliers: [],
+            supplier: {},
             dialog: false,
-            productEditDialog: false,
-            productEdit: {},
+            supplierEditDialog: false,
+            supplierEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
             headers: [{
-                    title: 'Image',
-                    value: 'image',
-                },
-                {
                     title: 'Name',
                     value: 'name',
                 },
                 {
-                    title: 'Category',
-                    value: 'category',
+                    title: 'Contact Person',
+                    value: 'contact_person',
                 },
                 {
-                    title: 'Unit',
-                    value: 'unit',
+                    title: 'Email',
+                    value: 'email',
                 },
                 {
-                    title: 'Purchasing Price',
-                    value: 'purchasing_price',
-                    format: true,
-
+                    title: 'Phone',
+                    value: 'phone',
                 },
                 {
-                    title: 'Selling Price',
-                    value: 'selling_price',
-                    format: true
+                    title: 'Location',
+                    value: 'location',
                 },
-
                 {
                     title: 'Action',
                     value: 'actions'
@@ -237,19 +200,12 @@ export default {
 
     methods: {
 
-        addProduct() {
-            const formData = new FormData();
-            formData.append('name', this.product.name);
-            formData.append('selling_price', this.product.selling_price);
-            formData.append('purchasing_price', this.product.purchasing_price);
-            formData.append('category_id', this.product.category_id);
-            formData.append('unit_id', this.product.unit_id);
-            formData.append('low_stock_level', this.product.low_stock_level);
-            formData.append('image', this.product.image);
-
-            axios.post('/product-store', formData, {
+        addSupplier() {
+            const data = {
+                ...this.supplier,
+            };
+            axios.post('/supplier-store', data, {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
                 })
@@ -262,48 +218,43 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
-        //UpdateProduct
-        editProduct(item) {
-            this.productEdit = item
-            this.productEditDialog = true
+        //UpdateSupplier
+        editSupplier(item) {
+            this.supplierEdit = item
+            this.supplierEditDialog = true
         },
-        updateProduct() {
+        updateSupplier() {
             const {
-                id, // Add id here
-                name,
-                description,
-            } = this.productEdit;
+                id,
+                supplierName,
+                description
 
-            axios
-                .post("/department/update", {
-                    id: id, // Include id in the payload
-                    name: name,
-                    description: description,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
-                    },
+            } = this.supplierEdit;
+
+            axios.put(`/supplier-update/${id}`, {
+                    supplierName,
+                    description
                 })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
-                    this.productEditDialog = false; // Close the dialog after success
+                    this.supplierEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
-                    this.showAlert(error.response.data.message, 'error');
-                    this.productEditDialog = false;
+                    this.showAlert(error.response.data.message, 'error')
+                    this.supplierEditDialog = false;
                 });
         },
 
         deleteItem() {
-            axios.delete(`department/delete/${this.itemToDelete.id}`)
+            axios.delete(`/supplier-delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.products.indexOf(this.itemToDelete);
+                    const index = this.suppliers.indexOf(this.itemToDelete);
                     if (index > -1) {
-                        this.products.splice(index, 1);
+                        this.suppliers.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.message, 'success');

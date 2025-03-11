@@ -417,17 +417,14 @@ export default {
 }
 
 .expanded-card {
-    background: #f9f9f9;
+   
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-.user-avatar-section {
-    border-right: 1px solid #e0e0e0;
-}
 
 .user-details-card {
-    background: #ffffff;
+    /* background: #ffffff; */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

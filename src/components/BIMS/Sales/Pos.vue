@@ -10,17 +10,25 @@
                 <v-col v-for="product in paginatedProducts" :key="product.id" cols="6" sm="4" md="3">
                     <v-card class="product-card">
                         <div class="card-top-border"></div>
-                        <v-img :src="product.image" class="product-image" contain></v-img>
+                        <v-img :src="getImageUrl(product.image)" class="product-image" cover></v-img>
                         <v-card-title class="product-title">{{ product.name }}</v-card-title>
-                        <v-card-subtitle class="product-price">Tsh {{ product.price.toLocaleString() }}</v-card-subtitle>
+                        <v-card-subtitle class="product-price">{{ formatPrice(product.selling_price.toLocaleString()) }}</v-card-subtitle>
                         <v-card-text>
                             <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input"></v-text-field>
                         </v-card-text>
-                        <v-card-actions>
-                            <v-btn color="primary" variant="tonal" block @click="addToCart(product)">Add to Cart</v-btn>
+                        <v-card-actions class="d-flex justify-center">
+                            <template v-if="product.quantity > 0">
+                                <v-btn color="primary" variant="tonal" block @click="addToCart(product)">Add to Cart</v-btn>
+                            </template>
+                            <template v-else>
+                                <v-chip small color="red lighten-1" dark>
+                                    Out of Stock
+                                </v-chip>
+                            </template>
                         </v-card-actions>
                     </v-card>
                 </v-col>
+
             </v-row>
             <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5"></v-pagination>
         </v-col>
@@ -52,7 +60,7 @@
                                     </v-col>
                                     <v-col cols="6" class="text-right">
                                         <div class="cart-item-details">
-                                            <span class="label">Total:</span> {{ item.price * item.quantity }} TZS
+                                            <span class="label">Total:</span> {{ item.selling_price * item.quantity }} TZS
                                         </div>
                                     </v-col>
                                 </v-row>
@@ -103,18 +111,11 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     data() {
         return {
-            products: Array.from({
-                length: 10
-            }, (_, i) => ({
-                id: i + 1,
-                name: `Product ${i + 1}`,
-                price: (i + 1) * 1000,
-                image: 'https://via.placeholder.com/100',
-                quantity: 1,
-            })),
+            products: [],
             cart: [],
             currentPage: 1,
             perPage: 8,
@@ -148,13 +149,34 @@ export default {
             return Math.ceil(this.products.length / this.perPage);
         },
         totalAmount() {
-            return this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            return this.cart.reduce((sum, item) => sum + item.selling_price * item.quantity, 0);
         },
     },
     methods: {
+        getImageUrl(imageName) {
+            return this.$getImageUrl(imageName);
+        },
+        formatPrice(price) {
+            if (!price) return "TZS 0"; // Handle cases where price is null or undefined
+            return "TZS " + parseInt(price).toLocaleString();
+        },
+
         handleCustomerSelection(value) {
             if (value === 'addNew') {
                 this.addNewCustomer();
+            }
+        },
+        async fetchData() {
+            try {
+                const response = await axios.get("/product-list", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                    },
+                });
+                console.log(response.data); // Debugging
+                this.products = response.data.data.data; // Ensure this matches API response structure
+            } catch (error) {
+                this.showAlert(error.response.data.message || "An error occurred", 'error');
             }
         },
         addNewCustomer() {
@@ -169,14 +191,21 @@ export default {
             }
         },
         addToCart(product) {
+            // Check if the product already exists in the cart
             let item = this.cart.find((i) => i.id === product.id);
+
+            // If product already exists in the cart, increase its quantity
             if (item) {
-                item.quantity += product.quantity;
+                item.quantity += product.quantity; // Adds the selected quantity
             } else {
+                // If product doesn't exist in the cart, add it with initial quantity of 1
                 this.cart.push({
-                    ...product
+                    ...product,
+                    quantity: product.quantity || 1, // Use the selected quantity or default to 1
                 });
             }
+
+            // Reset the quantity input to 1 after adding to the cart
             product.quantity = 1;
         },
         removeFromCart(item) {
@@ -188,7 +217,6 @@ export default {
                     title: 'Error!',
                     text: 'Please select a customer and a payment method before proceeding.',
                     icon: 'error',
-                    color: '#3674B5',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -204,6 +232,9 @@ export default {
             alert(`Order details: ${JSON.stringify(orderDetails)}`);
         },
     },
+    created() {
+        this.fetchData();
+    },
 };
 </script>
 
@@ -215,20 +246,74 @@ export default {
 }
 
 .product-card {
-    height: auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    border-radius: 8px;
-    transition: transform 0.2s;
+    padding: 10px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
     position: relative;
     overflow: hidden;
 }
 
 .product-card:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-top-border {
+    width: 100%;
+    height: 5px;
+    background-color: #A82228;
+}
+
+.product-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    /* color: #333; */
+    margin-top: 5px;
+    white-space: normal;
+    /* Allows the title to wrap onto the next line if needed */
+    word-wrap: break-word;
+    /* Ensures that long words will break to the next line if necessary */
+    overflow-wrap: break-word;
+    /* Another way to ensure long words wrap correctly */
+    line-height: 1.4;
+    /* Adjust line height to make the title more readable if wrapped */
+}
+
+.product-price {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #382e2e;
+    margin-top: 8px;
+}
+
+.product-image {
+    height: 100px;
+    /* or any height you prefer */
+    width: 100%;
+    border-radius: 8%;
+}
+
+.quantity-input {
+    max-width: 80px;
+    margin: auto;
+}
+
+.product-card .v-card-actions {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.v-btn {
+    /* text-transform: none; */
+    font-weight: 600;
+    border-radius: 8px;
 }
 
 .card-top-border {
@@ -239,23 +324,6 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-}
-
-.product-image {
-    height: 120px;
-    object-fit: contain;
-}
-
-.product-title,
-.product-price {
-    text-align: center;
-    font-size: 14px;
-    /* font-weight: 600; */
-}
-
-.quantity-input {
-    max-width: 80px;
-    margin: auto;
 }
 
 .cart {

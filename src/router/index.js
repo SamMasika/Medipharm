@@ -9,6 +9,8 @@ import Unit from '@/components/BIMS/Products/Unit.vue'
 import Pos from '@/components/BIMS/Sales/Pos.vue'
 import Users from '@/components/BIMS/Settings/Users/Users.vue'
 import Roles from '@/components/BIMS/Settings/Roles/Roles.vue'
+import Customer from '@/components/BIMS/Sales/Customer.vue'
+import Supplier from '@/components/BIMS/Suppliers/Supplier.vue'
 
 
 
@@ -69,6 +71,16 @@ const routes = [
         path: '/roles',
         name: 'roles',
         component: Roles
+      },
+      {
+        path: '/customers',
+        name: 'customers',
+        component: Customer
+      },
+      {
+        path: '/suppliers',
+        name: 'suppliers',
+        component: Supplier
       },
 
     ]

@@ -84,6 +84,7 @@ export default {
                 ['Generate Invoices', 'mdi-file-document', '/generate-invoices'],
                 ['Record Transactions', 'mdi-credit-card', '/record-transactions'],
                 ['Returns', 'mdi-arrow-collapse', '/returns'],
+                ['Customers', 'mdi-account', '/customers'],
             ],
             Reports: [
                 ['Sales Report', 'mdi-chart-line', '/sales-report'],
@@ -91,7 +92,7 @@ export default {
                 ['Stock Valuation', 'mdi-cash', '/stock-valuation'],
             ],
             SuppliersVendors: [
-                ['Suppliers List', 'mdi-truck', '/suppliers-list'],
+                ['Suppliers', 'mdi-truck', '/suppliers'],
                 ['Vendor Relations', 'mdi-handshake', '/vendor-relations'],
             ],
             UserManagement: [
