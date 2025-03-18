@@ -11,10 +11,25 @@ import Users from '@/components/BIMS/Settings/Users/Users.vue'
 import Roles from '@/components/BIMS/Settings/Roles/Roles.vue'
 import Customer from '@/components/BIMS/Sales/Customer.vue'
 import Supplier from '@/components/BIMS/Suppliers/Supplier.vue'
+import Register from '@/components/Auth/Register.vue'
+import Changepassword from '@/components/BIMS/Settings/Changepassword.vue'
+import HelpCenter from '@/components/BIMS/Support/HelpCenter.vue'
+import ContactSupport from '@/components/BIMS/Support/ContactSupport.vue'
+import OTP from '@/components/Auth/OTP.vue'
 
 
 
 const routes = [
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  },
+  {
+    path: '/otp-verify',
+    name: 'otp-verify',
+    component: OTP
+  },
   {
     path: '/',
     name: 'login',
@@ -81,6 +96,21 @@ const routes = [
         path: '/suppliers',
         name: 'suppliers',
         component: Supplier
+      },
+      {
+        path: '/change-password',
+        name: 'change-password',
+        component: Changepassword
+      },
+      {
+        path: '/help-center',
+        name: 'help-center',
+        component: HelpCenter
+      },
+      {
+        path: '/contact-support',
+        name: 'contact-support',
+        component: ContactSupport
       },
 
     ]

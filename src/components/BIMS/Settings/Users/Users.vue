@@ -28,7 +28,15 @@
                                     <v-text-field label="Phone No.*" v-model="user.phoneNumber" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Membership No.*" v-model="user.membershipNumber" required variant="outlined" density="compact"></v-text-field>
+                                    <v-autocomplete label="--Profile Type--" v-model="user.profile_type" :items="profileTypeOptions" variant="outlined" density="compact" item-title="text" item-value="value" return-object></v-autocomplete>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-text-field label="Phone No.*" v-model="user.phoneNumber" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-autocomplete label="--Profile Type--" v-model="user.profile_type" :items="profileTypeOptions" variant="outlined" density="compact" item-title="text" item-value="value" return-object></v-autocomplete>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -223,6 +231,9 @@
 <script>
 import axios from "axios";
 import {
+    profileTypeOptions,
+} from '@/json/enum'
+import {
     mapGetters
 } from 'vuex';
 
@@ -232,6 +243,7 @@ export default {
             search: "",
             expanded: [],
             users: [],
+            profileTypeOptions,
             user: {},
             tab: 'option-1', // Set the initial tab to show roles by default
             rolesHeaders: [{
@@ -417,11 +429,10 @@ export default {
 }
 
 .expanded-card {
-   
+
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
-
 
 .user-details-card {
     /* background: #ffffff; */

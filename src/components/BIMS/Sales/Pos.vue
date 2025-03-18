@@ -1,6 +1,6 @@
 <template>
 <v-container fluid>
-    <v-row>
+    <v-row v-if="paginatedProducts.length > 0">
         <!-- Products Section -->
         <v-col cols="12">
             <h1 class="text-center title">Point of Sale</h1>
@@ -14,7 +14,12 @@
                         <v-card-title class="product-title">{{ product.name }}</v-card-title>
                         <v-card-subtitle class="product-price">{{ formatPrice(product.selling_price.toLocaleString()) }}</v-card-subtitle>
                         <v-card-text>
-                            <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input"></v-text-field>
+                            <template v-if="product.quantity > 0">
+                                <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input"></v-text-field>
+                            </template>
+                            <template v-else>
+                                <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input" disabled></v-text-field>
+                            </template>
                         </v-card-text>
                         <v-card-actions class="d-flex justify-center">
                             <template v-if="product.quantity > 0">
@@ -107,6 +112,35 @@
             </v-card>
         </v-col>
     </v-row>
+    <v-row v-else>
+        <v-col>
+            <v-card class="d-flex align-center justify-center text-center pa-5 empty-pos" outlined style="border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                <v-row>
+                    <!-- Icon Section -->
+                    <v-col cols="12" class="mb-4">
+                        <v-icon large color="red" style="font-size: 70px;">mdi-alert-circle-outline</v-icon>
+                    </v-col>
+
+                    <!-- Heading Section -->
+                    <v-col cols="12">
+                        <h2 class="text-h4 font-weight-bold text-center mb-4" style="color: #A82228; font-size: 28px;">No Products Available</h2>
+                        <p class="text-body-1" style="color: #333; font-size: 18px;">
+                            It seems like no products have been registered in the system.
+                            No sales can be made at the moment. Please add products to the system to start making sales.
+                        </p>
+                    </v-col>
+
+                    <!-- Link to Product List -->
+                    <v-col cols="12" class="mt-5">
+                        <v-btn text color="#3674B5" @click="navigateToProductListPage" block style="font-size: 16px;">
+                            <v-icon left style="font-size: 20px;">mdi-view-list</v-icon> Go to Products Page
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
+    </v-row>
+
 </v-container>
 </template>
 
@@ -155,6 +189,12 @@ export default {
     methods: {
         getImageUrl(imageName) {
             return this.$getImageUrl(imageName);
+        },
+        navigateToProductListPage() {
+            // Your logic to navigate to the Product List page
+            this.$router.push({
+                name: 'products'
+            }); // Adjust according to your route
         },
         formatPrice(price) {
             if (!price) return "TZS 0"; // Handle cases where price is null or undefined
@@ -297,7 +337,7 @@ export default {
     height: 100px;
     /* or any height you prefer */
     width: 100%;
-    border-radius: 8%;
+    border-radius: 5%;
 }
 
 .quantity-input {
@@ -403,5 +443,8 @@ export default {
     .cart-item-title {
         font-size: 16px;
     }
+}
+.empty-pos{
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -14,7 +14,9 @@
             <template v-slot:activator="{ props }">
                 <v-chip v-bind="props" class="mx-5 chip-color">
                     <v-icon>mdi-account</v-icon>
-                    {{ user.name }}
+                    <span v-if="user">{{ user.name }}</span>
+                    <span v-else>Guest</span>
+
                     <v-icon>mdi-menu-down</v-icon>
                 </v-chip>
             </template>
@@ -28,9 +30,11 @@
                     </v-list-item>
                 </router-link>
                 <v-list-item @click="logout">
-                    <v-icon color="blue-grey darken-3" class="mx-5">
-                        mdi-arrow-right-bold-box-outline
-                    </v-icon> Logout
+                    <v-list-item-title>
+                        <v-icon color="blue-grey darken-3" class="mx-5">
+                            mdi-arrow-right-bold-box-outline
+                        </v-icon> Logout
+                    </v-list-item-title>
                 </v-list-item>
 
             </v-list>
@@ -45,9 +49,15 @@
 
     <v-footer app>
         <v-container>
-            <v-row class="text-center">
-                <v-col>{{ new Date().getFullYear() }} @Banal TechnologiesTz</v-col>
+            <v-row justify="center" align="center" class="text-center">
+                <v-col cols="auto">
+                    <span class="headline font-weight-bold">Banal TechnologiesTz</span>
+                </v-col>
+                <v-col cols="auto">
+                    <span class="body-1">© {{ new Date().getFullYear() }} All Rights Reserved</span>
+                </v-col>
             </v-row>
+
         </v-container>
     </v-footer>
 </v-app>
@@ -77,8 +87,20 @@ export default {
     }),
     methods: {
         ...mapActions({
-            logoutAction: 'auth/logout'
+            logoutAction: 'auth/logout',
         }),
+
+        logout() {
+            this.logoutAction()
+                .then(() => {
+                    this.$router.replace({
+                        name: 'login'
+                    });
+                })
+                .catch((error) => {
+                    console.error('Logout error:', error);
+                });
+        },
         toggleTheme() {
             this.darkTheme = !this.darkTheme;
         },
@@ -95,6 +117,7 @@ export default {
 </script>
 
 <style>
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 .custom-icon {
     color: #3674B5 !important;
 }

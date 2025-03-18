@@ -1,54 +1,55 @@
 <template>
 <Loader :loading="loading" v-if="loading" />
 <div v-else>
-    <v-container class="my-5">
-        <v-card class=" my-crd mx-auto pa-12 pb-3 " elevation="0" max-width="448" rounded="lg" color="transparent">
-            <div class="d-flex justify-center my-5">
-                <!-- <v-avatar size="150" class="overflow-hidden"> -->
-                    <v-img alt="NIDC Logo" src="@/assets/banal.png" transition="scale-transition" max-width="150" />
-                <!-- </v-avatar> -->
+    <v-container class="d-flex justify-center align-center fill-height">
+        <v-card class="auth-card mx-auto pa-10" elevation="12" max-width="450" rounded="lg">
+            <!-- Logo -->
+            <div class="d-flex justify-center mb-5">
+                <v-img alt="BIMS Logo" src="@/assets/banal.png" transition="scale-transition" max-width="150" />
             </div>
 
-            <h3 class="text-center my-3">BIMS</h3>
-            <v-form @submit.prevent="submit" ref="form">
-                <div class="text-subtitle-1 text-medium-emphasis">Username</div>
-                <v-text-field type="phone" density="compact" v-model="form.username" placeholder="Username" prepend-inner-icon="mdi-account" variant="outlined" autocomplete></v-text-field>
+            <h2 class="text-center font-weight-bold">BIMS Login</h2>
 
-                <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-                    Password
-                    <a class="text-caption text-decoration-none text-blue-grey text-darken-3" href="#" rel="noopener noreferrer" target="_blank">
-                        Forgot login password?
-                    </a>
+            <v-form @submit.prevent="submit" ref="form">
+                <!-- Username -->
+                <v-text-field v-model="form.username" class="my-3" label="Username" prepend-inner-icon="mdi-account" variant="outlined" density="compact" :rules="[v => !!v || 'Username is required']" placeholder="Sammie Richard"></v-text-field>
+
+                <!-- Password -->
+                <v-text-field v-model="form.password" class="my-3" :type="visible ? 'text' : 'password'" label="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined" density="compact" :rules="[v => !!v || 'Password is required']" placeholder="Sammie Richard"></v-text-field>
+
+                <!-- Forgot Password -->
+                <div class="text-right mb-3">
+                    <a href="#" class="forgot-password">Forgot your password?</a>
                 </div>
 
-                <v-text-field v-model="form.password" :type="visible ? 'text' : 'password'" density="compact" placeholder="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined"></v-text-field>
-
-                <v-btn block type="submit" class="mb-8 my-5 btn-color" size="large" prepend-icon="mdi-arrow-right-bold" elevation="0">
-                    LOG IN
+                <!-- Login Button -->
+                <v-btn block type="submit" class="login-btn" size="large" elevation="1">
+                    <v-icon left>mdi-arrow-right-bold</v-icon> LOG IN
                 </v-btn>
             </v-form>
 
-            <v-card-text class="text-center">
-                <!-- Sign up link can be added here if needed -->
-            </v-card-text>
+            <!-- Divider -->
+            <v-divider class="my-5"></v-divider>
+            <!-- Sign-up Section -->
+            <div class="text-center">
+                <span class="text-grey-darken-1">Don't have an account?</span>
+                <router-link to="/register" class="register-link">Sign Up</router-link>
+            </div>
         </v-card>
     </v-container>
 </div>
 </template>
+
 <script>
 import Loader from '@/components/Loader/Loader.vue';
-import loaderSet from '@/mixins/loaderSet.js'
 import {
-    mapActions,
-    mapGetters
+    mapActions
 } from 'vuex';
 
 export default {
-    mixins: [loaderSet],
     components: {
         Loader
     },
-
     data() {
         return {
             visible: false,
@@ -56,87 +57,83 @@ export default {
                 username: '',
                 password: ''
             },
-            inputRules: [
-                v => v.length >= 2 || 'Minimum length is 2 characters'
-            ]
+            loading: false
         };
     },
-
-    props: {
-        source: String
-    },
-
-    computed: {
-        emailRules() {
-            return [v => !!v || 'Email is required'];
-        },
-        passwordRules() {
-            return [v => !!v || 'Password required'];
-        },
-        ...mapGetters({
-            authenticated: 'auth/authenticated',
-            user: 'auth/user',
-            username: 'auth/userName',
-        })
-    },
-
-	methods: {
-		...mapActions({
-			login: 'auth/login'
-		}),
-
-		async submit() {
-			this.loading = true;
-			if (this.$refs.form.validate()) {
-				const errorMessage = await this.login(this.form);
-				if (errorMessage) {
-					this.$swal.fire({
-						icon: 'error',
-						title: errorMessage,
-						timer: 5000
-					}).then(() => {
-						location.reload(); // Reload after error
-					});
-				} else {
-					console.log('Login successful, redirecting...');
-					console.log('Authenticated:', this.$store.getters['auth/authenticated']);
-					this.$router.replace({ name: 'dashboard' });
-				}
-			}
-			this.loading = false;
-		}
-	},
-
-
-    mounted() {
-        // Simulating an asynchronous operation; replace with your logic
-        setTimeout(() => {
-            this.loading = false; // Set loading to false after loading completes
-        }, 2000);
-    },
-
-    unmounted() {
-        this.loading = false; // Stop loading on component unmount
+    methods: {
+        ...mapActions({
+            login: 'auth/login'
+        }),
+        async submit() {
+            this.loading = true;
+            if (this.$refs.form.validate()) {
+                const errorMessage = await this.login(this.form);
+                if (errorMessage) {
+                    this.$swal.fire({
+                        icon: 'error',
+                        title: errorMessage,
+                        timer: 5000
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    this.$router.replace({
+                        name: 'dashboard'
+                    });
+                }
+            }
+            this.loading = false;
+        }
     }
 };
 </script>
 
 <style scoped>
-.btn-color {
-    color: white !important;
-    background-color: #3674B5 !important;
+/* Center the card in the viewport */
+.v-container {
+    height: 100vh;
 }
 
-.btn-color .v-icon {
-    color: white;
-
-    /* Set icon color */
-}
-
-.my-card {
-    border: 0.3px solid #d3d2d2;
-    /* Change the color to your desired border color */
+/* Login Card */
+.auth-card {
+    width: 100%;
+    max-width: 450px;
     border-radius: 12px;
-    /* Adjust radius if needed */
+    margin-top: 15%;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.login-btn {
+    background-color: #3674B5 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.signup-btn {
+    border-color: #3674B5 !important;
+    color: #3674B5 !important;
+    font-weight: bold;
+}
+
+/* Forgot Password */
+.forgot-password {
+    font-size: 14px;
+    color: #3674B5;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Sign-up Button */
+.register-link {
+    color: #3674B5;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
 }
 </style>

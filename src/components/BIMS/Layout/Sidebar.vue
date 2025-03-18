@@ -101,7 +101,7 @@ export default {
                 ['Activity Logs', 'mdi-file-alert', '/activity-logs'],
             ],
             Configurations: [
-                ['Change Password', 'mdi-lock', '/profile-list']
+                ['Change Password', 'mdi-lock', '/change-password']
             ],
             Support: [
                 ['Help Center', 'mdi-help-circle', '/help-center'],

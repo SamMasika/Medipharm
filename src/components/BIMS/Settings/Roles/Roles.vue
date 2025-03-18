@@ -129,7 +129,6 @@ export default {
                 {
                     title: "Actions",
                     value: "actions",
-                    align: "end",
                     sortable: false,
                 },
             ],

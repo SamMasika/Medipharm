@@ -20,7 +20,7 @@
     </v-row>
     <v-row align="center" justify="center" dense>
         <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
-            <v-card class="dashboard-card" @click="navigateTo(card.route)" :data-icon-color="card.iconColor">
+            <v-card class="dashboard-card animate__animated animate__zoomIn animate__delay-{{ index * 0.2 }}s" @click="navigateTo(card.route)" :data-icon-color="card.iconColor" >
                 <v-card-title class="card-title">
                     <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
                     <span class="ml-1">{{ card.title }}</span>

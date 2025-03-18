@@ -1,24 +1,9 @@
-export const statusReasons = {
-  GoodStanding: 'Good Standing',
-  UnderDiscipline: 'Under Discipline',
-  Former: 'Former',
-  Honorary: 'Honorary',
-  Deceased: 'Deceased'
+export const profileType = {
+  Admin: 'Admin',
+  storeOwner: 'Store Owner',
 };
-
-export const statusReasonsOptions = Object.keys(statusReasons).map((key) => ({
-  text: statusReasons[key],  // Display text
+export const profileTypeOptions = Object.keys(profileType).map((key) => ({
+  text: profileType[key],  // Display text
   value: key                  // Corresponding value
 }));
-export const churchProgramCategories = {
-  WorshipServices: 'Worship Services',
-  SpiritualGrowth: 'Spiritual Growth & Prayer',
-  MusicRehearsals: 'Music & Worship Rehearsals',
-  Fellowship: 'Fellowship & Community',
-  SpecialPrograms: 'Special Programs',
-};
 
-export const churchProgramCategoriesOptions = Object.keys(churchProgramCategories).map((key) => ({
-  text: churchProgramCategories[key], // Display text
-  value: key                          // Corresponding value
-}));
