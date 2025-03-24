@@ -1,5 +1,10 @@
 <template>
 <v-container fluid>
+    <div class="my-5" v-if="user?.company?.isComplete===false || user?.loginCount===1 ">
+        <v-alert type="warning" prominent border>
+            You must update your company and store details first in order to access other items in the system.
+        </v-alert>
+    </div>
     <v-card elevation="10" class="pa-5 rounded-lg animate__animated animate__fadeIn">
         <!-- Header Section -->
         <v-sheet class="header-section pa-5 rounded-lg text-center">
@@ -40,10 +45,11 @@
                     </v-list-item>
                     <v-list-item>
                         <v-list-item-title>
-                            <!-- <v-icon class="me-2 text-blue-darken-2">mdi-check-circle</v-icon> -->
-                            <!-- <span :class="statusClass" class="status-badge">{{ user?.company?.status }}</span> -->
-                            <v-chip label color="red" prepend-icon="mdi-checkbox-marked-circle">{{ user?.company?.status }}</v-chip>
+                            <v-chip label :color="user?.company?.status ? 'green' : 'red'" prepend-icon="mdi-checkbox-marked-circle">
+                                {{ user?.company?.status ? 'ACTIVE' : 'INACTIVE' }}
+                            </v-chip>
                         </v-list-item-title>
+
                     </v-list-item>
                 </v-list>
             </v-col>
@@ -107,22 +113,23 @@
                             <v-text-field v-model="editCompany.companyCity" label="City" variant="outlined" />
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.companyCountry" label="Country" variant="outlined" />
+                            <!-- <v-text-field v-model="editCompany.companyCountry" label="Country" variant="outlined" /> -->
+                            <v-autocomplete :items="countries" label="Company Country" variant="outlined" class="rounded-lg" v-model="editCompany.companyCountry"></v-autocomplete>
                         </v-col>
                     </v-row>
 
-                    <!-- <v-row dense>
+                    <v-row dense>
                             <v-col cols="12">
-                                <v-file-input label="Product Image" v-model="product.image" accept="image/*" variant="outlined" density="compact" />
+                                <v-file-input label="Company Image" v-model="editCompany.image" accept="image/*" variant="outlined"  />
                             </v-col>
-                        </v-row> -->
+                        </v-row>
 
                     <v-divider></v-divider>
 
                     <v-card-actions class="pa-4">
                         <v-spacer></v-spacer>
                         <v-btn text="Close" class="text-none" variant="tonal" @click="editDialog = false" rounded="xl"></v-btn>
-                        <v-btn type="submit" text="Update" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
+                        <v-btn type="submit" text="Update" class="text-none button-color" variant="flat" @click="updateCompany" rounded="xl"></v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card-text>
@@ -153,6 +160,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import {
     mapGetters,
 } from 'vuex';
@@ -175,7 +183,7 @@ export default {
                 },
                 {
                     icon: 'mdi-phone',
-                    value: this.user ?.company ?.companyPhone
+                    value: this.user?.company?.companyPhone
                 },
                 {
                     icon: 'mdi-map-marker',
@@ -192,13 +200,20 @@ export default {
             user: 'auth/user',
         }),
         statusClass() {
-            return this.company.status === 'ACTIVE' ? 'text-green-darken-2' : 'text-red-darken-2';
+            return this.user.company.status === 'ACTIVE' ? 'text-green-darken-2' : 'text-red-darken-2';
         }
     },
     methods: {
+        moveTanzaniaToTop() {
+            const tanzaniaIndex = this.countries.findIndex(country => country === 'Tanzania, the United Republic of');
+            if (tanzaniaIndex !== -1) {
+                const tanzania = this.countries.splice(tanzaniaIndex, 1)[0];
+                this.countries.unshift(tanzania);
+            }
+        },
         openEditDialog() {
             this.editCompany = {
-                ...this.user?.company 
+                ...this.user ?.company
             };
             this.editDialog = true;
         },
@@ -208,6 +223,43 @@ export default {
             };
             this.editDialog = false;
         },
+      updateCompany() {
+    const formData = new FormData();
+    formData.append('id', this.editCompany.id);
+    formData.append('name', this.editCompany.companyName);
+    formData.append('email', this.editCompany.companyEmail);
+    formData.append('phone', this.editCompany.companyPhone);
+    formData.append('city', this.editCompany.companyCity);
+    formData.append('country', this.editCompany.companyCountry);
+
+    // Check if the image is a File before appending
+    if (this.editCompany.image instanceof File) {
+        formData.append('image', this.editCompany.image);
+    }
+
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        }
+    };
+
+    // Making the API request
+    axios.post(`/company-update`, formData, config)
+        .then(response => {
+            this.showAlert(response.data.message, 'success');
+            this.EditDialog = false; // Close the dialog after success
+            this.$emit('companyUpdated', response.data.company); // Emit the updated company data to parent component
+        })
+        .catch(error => {
+            const errorMessage = error.response?.data?.message || 'An error occurred';
+            this.showAlert(errorMessage, 'error');
+            // Avoid closing the dialog on error, unless you want to
+            // this.EditDialog = false; // Uncomment only if you want to close the dialog on error
+        });
+}
+,
+
         openStoreEditDialog(store) {
             this.editStore = {
                 ...store
@@ -222,8 +274,37 @@ export default {
                 };
             }
             this.storeEditDialog = false;
-        }
-    }
+        },
+        showAlert(message, type) {
+            this.$swal.fire({
+                icon: type,
+                title: message,
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        },
+    },
+    mounted() {
+        // this.isLoading = true;
+        // Simulating an asynchronous operation that takes some time
+        // Replace this with your actual page loading logic
+        setTimeout(() => {
+            // After the page has finished loading, set isLoading to false
+            this.isLoading = false;
+        }, 2000); // Adjust the timeout value as needed
+
+        fetch('https://api.first.org/data/v1/countries?limit=250&pretty=true')
+            .then(response => response.json())
+            .then(data => {
+                // Extract country names from the response
+                this.countries = Object.values(data.data).map(countryData => countryData.country);
+                // Ensure "Tanzania, the United Republic of" appears first in the list
+                this.moveTanzaniaToTop();
+            })
+            .catch(error => {
+                console.error('Error fetching countries data:', error);
+            });
+    },
 };
 </script>
 

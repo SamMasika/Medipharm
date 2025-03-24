@@ -1,5 +1,5 @@
-<template >
-<div class="my-5" >
+<template>
+<div class="my-5">
     <div align="center" class="my-5">
         <v-img alt="Banal Logo" src="@/assets/banal.png" transition="scale-transition" max-width="130" />
     </div>

@@ -11,7 +11,7 @@
 
     <v-row justify="center" class="mt-5">
         <v-col cols="12" md="6">
-            <v-card class="contact-card">
+            <v-card class="contact-card" elevation="0">
                 <v-card-title class="text-h6 font-weight-bold text-center">Send Us a Message</v-card-title>
                 <v-card-text>
                     <v-form ref="form">
@@ -21,7 +21,7 @@
 
                         <v-textarea label="Message" prepend-inner-icon="mdi-message-text" density="comfortable" variant="outlined" required placeholder="Write your message here"></v-textarea>
 
-                        <v-btn class="submit-btn mt-3" block>
+                        <v-btn class="submit-btn mt-3" block elevation="0">
                             <v-icon left>mdi-send</v-icon> Submit
                         </v-btn>
                     </v-form>
@@ -41,21 +41,27 @@
             <v-row class="contact-info mt-5 d-flex justify-center align-center" dense>
                 <v-col cols="12" sm="4" class="contact-item text-center">
                     <v-card class="pa-3" flat>
-                        <v-icon size="40" color="indigo">mdi-phone</v-icon>
+                        <v-avatar size="50" class="mr-3" color="indigo" dark>
+                            <v-icon size="30">mdi-phone</v-icon>
+                        </v-avatar>
                         <p class="text-body-2 mt-2 font-weight-medium">+255 123 456 789</p>
                     </v-card>
                 </v-col>
 
                 <v-col cols="12" sm="4" class="contact-item text-center">
                     <v-card class="pa-3" flat>
-                        <v-icon size="40" color="green-darken-2">mdi-email</v-icon>
+                        <v-avatar size="50" class="mr-3" color="green-darken-2" dark>
+                            <v-icon size="30">mdi-email</v-icon>
+                        </v-avatar>
                         <p class="text-body-2 mt-2 font-weight-medium">support@inventory.com</p>
                     </v-card>
                 </v-col>
 
                 <v-col cols="12" sm="4" class="contact-item text-center">
                     <v-card class="pa-3" flat>
-                        <v-icon size="40" color="pink-darken-2">mdi-map-marker</v-icon>
+                        <v-avatar size="50" class="mr-3" color="pink-darken-2" dark>
+                            <v-icon size="30">mdi-map-marker</v-icon>
+                        </v-avatar>
                         <p class="text-body-2 mt-2 font-weight-medium">Dar es Salaam, Tanzania</p>
                     </v-card>
                 </v-col>

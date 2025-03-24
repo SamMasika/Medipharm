@@ -1,6 +1,6 @@
 <template>
 <v-container class="d-flex justify-center align-center fill-height">
-    <v-card class="password-card pa-8 animate__animated animate__zoomIn animate__delay-{{ index * 0.1 }}s"  max-width="450">
+    <v-card class="password-card pa-8 animate__animated animate__zoomIn animate__delay-{{ index * 0.1 }}s"  max-width="600">
         <!-- Title -->
         <v-card-title class="text-h5 font-weight-bold text-center">
             Change Password
@@ -14,13 +14,13 @@
         <!-- Form -->
         <v-form @submit.prevent="changePassword" ref="form">
             <!-- Current Password -->
-            <v-text-field v-model="form.currentPassword" label="Current Password" variant="outlined" density="compact" :type="showCurrent ? 'text' : 'password'" :append-inner-icon="showCurrent ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showCurrent = !showCurrent" prepend-inner-icon="mdi-lock" class="my-3" :rules="[v => !!v || 'Current password is required']"></v-text-field>
+            <v-text-field v-model="form.currentPassword" label="Current Password" variant="outlined" :type="showCurrent ? 'text' : 'password'" :append-inner-icon="showCurrent ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showCurrent = !showCurrent" prepend-inner-icon="mdi-lock" class="my-3" :rules="[v => !!v || 'Current password is required']"></v-text-field>
 
             <!-- New Password -->
-            <v-text-field v-model="form.newPassword" label="New Password" variant="outlined" density="compact" :type="showNew ? 'text' : 'password'" :append-inner-icon="showNew ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showNew = !showNew" prepend-inner-icon="mdi-lock-check" class="my-3" :rules="[v => v.length >= 6 || 'Password must be at least 6 characters']"></v-text-field>
+            <v-text-field v-model="form.newPassword" label="New Password" variant="outlined" :type="showNew ? 'text' : 'password'" :append-inner-icon="showNew ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showNew = !showNew" prepend-inner-icon="mdi-lock-check" class="my-3" :rules="[v => v.length >= 6 || 'Password must be at least 6 characters']"></v-text-field>
 
             <!-- Confirm New Password -->
-            <v-text-field v-model="form.confirmPassword" label="Confirm New Password" variant="outlined" density="compact" :type="showConfirm ? 'text' : 'password'" :append-inner-icon="showConfirm ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showConfirm = !showConfirm" prepend-inner-icon="mdi-lock-check" class="my-3" :rules="[v => v === form.newPassword || 'Passwords do not match']"></v-text-field>
+            <v-text-field v-model="form.confirmPassword" label="Confirm New Password" variant="outlined" :type="showConfirm ? 'text' : 'password'" :append-inner-icon="showConfirm ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showConfirm = !showConfirm" prepend-inner-icon="mdi-lock-check" class="my-3" :rules="[v => v === form.newPassword || 'Passwords do not match']"></v-text-field>
 
             <!-- Submit Button -->
             <v-btn type="submit" block class="change-btn" size="large" elevation="2">
