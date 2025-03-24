@@ -132,7 +132,7 @@
 
                     <!-- Link to Product List -->
                     <v-col cols="12" class="mt-5">
-                        <v-btn text color="#3674B5" @click="navigateToProductListPage" block style="font-size: 16px;">
+                        <v-btn text color="#3674B5" @click="navigateToProductListPage" style="font-size: 16px;">
                             <v-icon left style="font-size: 20px;">mdi-view-list</v-icon> Go to Products Page
                         </v-btn>
                     </v-col>
@@ -444,7 +444,8 @@ export default {
         font-size: 16px;
     }
 }
-.empty-pos{
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+.empty-pos {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

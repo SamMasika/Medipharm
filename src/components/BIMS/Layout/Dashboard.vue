@@ -2,7 +2,7 @@
 <v-container fluid class="">
     <v-row align="center" justify="end" class="mb-2">
         <v-col cols="12" md="6" lg="4" class="text-right">
-            <v-btn-toggle v-model="selectedDateRange" dense group mandatory @change="fetchData" class="custom-btn-toggle">
+            <v-btn-toggle v-model="selectedDateRange" dense group mandatory @change="fetchData" class="custom-btn-toggle" rounded="xl">
                 <v-btn value="today" class="custom-btn">
                     Daily
                 </v-btn>
@@ -20,9 +20,12 @@
     </v-row>
     <v-row align="center" justify="center" dense>
         <v-col cols="12" sm="6" md="3" v-for="(card, index) in dashboardCards" :key="index">
-            <v-card class="dashboard-card animate__animated animate__zoomIn animate__delay-{{ index * 0.2 }}s" @click="navigateTo(card.route)" :data-icon-color="card.iconColor" >
+            <v-card class="dashboard-card animate__animated animate__zoomIn animate__delay-{{ index * 0.2 }}s" @click="navigateTo(card.route)" :data-icon-color="card.iconColor">
                 <v-card-title class="card-title">
-                    <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
+                    <v-avatar size="50" class="mr-3" :color="card.iconColor" dark>
+                        <v-icon size="28">{{ card.icon }}</v-icon>
+                    </v-avatar>
+
                     <span class="ml-1">{{ card.title }}</span>
                 </v-card-title>
                 <v-card-text class="card-text">
@@ -61,7 +64,7 @@ export default {
                 },
                 {
                     title: 'Profit',
-                    icon: 'mdi-currency-turkish-lira',
+                    icon: 'mdi-finance', // Alternative icon
                     iconColor: 'success',
                     value: '1,850,000 TZS',
                     route: 'profit'
@@ -90,7 +93,7 @@ export default {
                 {
                     title: 'Suppliers & Vendors',
                     icon: 'mdi-truck',
-                    iconColor: 'charcoal-blue',
+                    iconColor: 'pink',
                     value: '15',
                     route: 'suppliers'
                 }
@@ -150,8 +153,8 @@ export default {
     /* Customers (purple) */
 }
 
-.dashboard-card[data-icon-color="charcoal-blue"] {
-    border-left-color: #344CB7;
+.dashboard-card[data-icon-color="pink"] {
+    border-left-color: #FF1493;
     /* Suppliers (Charcoal Blue) */
 }
 
@@ -172,6 +175,7 @@ export default {
     font-size: 16px;
     font-weight: bold;
 }
+
 .custom-btn-toggle {
     background: linear-gradient(135deg, #1565c0, #42a5f5);
     border-radius: 10px;

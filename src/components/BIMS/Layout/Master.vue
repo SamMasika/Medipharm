@@ -1,22 +1,28 @@
 <template>
 <v-app :theme="darkTheme ? 'dark' : 'light'" id="app">
     <div class="overlay"></div>
-    <v-navigation-drawer app v-model="drawer">
+
+    <!-- Conditionally show the drawer -->
+   <v-navigation-drawer app v-model="drawer" v-if="user?.company?.isComplete !== false">
         <Sidebar />
     </v-navigation-drawer>
+
     <v-app-bar app scroll-behavior="elevate" dark>
-        <v-app-bar-nav-icon @click="drawer = !drawer" color="blue-grey lighten-1" class="mx-5"></v-app-bar-nav-icon>
+        <!-- Conditionally hide nav icon if company is not complete -->
+        <v-app-bar-nav-icon v-if="user?.company?.isComplete !== false" @click="drawer = !drawer" color="blue-grey lighten-1" class="mx-5"></v-app-bar-nav-icon>
+
         <v-spacer></v-spacer>
+
         <v-btn icon @click="toggleTheme" variant="solo-filled">
             <v-icon class="custom-icon">{{ darkTheme ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny' }}</v-icon>
         </v-btn>
+
         <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
                 <v-chip v-bind="props" class="mx-5 chip-color">
                     <v-icon>mdi-account</v-icon>
                     <span v-if="user">{{ user.name }}</span>
                     <span v-else>Guest</span>
-
                     <v-icon>mdi-menu-down</v-icon>
                 </v-chip>
             </template>
@@ -36,7 +42,6 @@
                         </v-icon> Logout
                     </v-list-item-title>
                 </v-list-item>
-
             </v-list>
         </v-menu>
     </v-app-bar>
@@ -57,7 +62,6 @@
                     <span class="body-1">© {{ new Date().getFullYear() }} All Rights Reserved</span>
                 </v-col>
             </v-row>
-
         </v-container>
     </v-footer>
 </v-app>
@@ -118,6 +122,7 @@ export default {
 
 <style>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
 .custom-icon {
     color: #3674B5 !important;
 }

@@ -1,7 +1,7 @@
 <template>
 <v-container fluid>
     <!-- User Management Header and Add User Dialog -->
-    <v-row justify="end">
+    <!-- <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="900">
                 <template v-slot:activator="{ props: activatorProps }">
@@ -50,7 +50,7 @@
                 </v-card>
             </v-dialog>
         </v-col>
-    </v-row>
+    </v-row> -->
 
     <!-- User Table with Actions and Search -->
     <v-card flat>
@@ -60,12 +60,12 @@
         </v-toolbar>
         <v-row justify="end" class="mt-2">
             <v-col cols="12" md="4" class="d-flex justify-end">
-                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" flat variant="solo-filled" hide-details single-line class="search-field" :style="{ maxWidth: '300px' }">
-                </v-text-field>
+                <v-text-field v-model="search" label="Search" rounded="xl" density="compact" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line class="search-field" style="max-width: 300px;" />
             </v-col>
         </v-row>
         <v-card-text>
-            <v-data-table :headers="headers" :items="users" :search="search" :items-per-page="10" v-model:expanded="expanded" sho-expand>
+            <!-- <v-data-table :headers="headers" :items="users" :search="search" :items-per-page="10" v-model:expanded="expanded" sho-expand> -->
+            <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="users" :items-length="totalItems" :loading="loading" item-value="id" :page="currentPage" @update:options="handlePageChange">
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-menu transition="slide-x-transition">
                         <template v-slot:activator="{ props }">
@@ -115,13 +115,15 @@
                                                     <p><strong>Name:</strong> {{ item.name }}</p>
                                                 </v-col>
                                                 <v-col cols="12" sm="6">
-                                                    <p><strong>Phone No.:</strong> {{ item.phoneNumber }}</p>
+                                                    <p><strong>Phone No.:</strong> {{ item.phone }}</p>
                                                 </v-col>
                                                 <v-col cols="12" sm="6">
                                                     <p><strong>Email:</strong> {{ item.email }}</p>
                                                 </v-col>
                                                 <v-col cols="12" sm="6">
-                                                    <p><strong>Status:</strong> {{ item.status }}</p>
+                                                    <p><strong>Company:</strong>{{item.company.companyId }}
+
+                                                    </p>
                                                 </v-col>
                                             </v-row>
                                         </v-card>
@@ -203,7 +205,7 @@
                         </td>
                     </tr>
                 </template>
-            </v-data-table>
+            </v-data-table-server>
 
         </v-card-text>
     </v-card>
@@ -230,6 +232,7 @@
 
 <script>
 import axios from "axios";
+import _ from 'lodash'; // Import lodash
 import {
     profileTypeOptions,
 } from '@/json/enum'
@@ -240,7 +243,12 @@ import {
 export default {
     data() {
         return {
-            search: "",
+            search: "", // Search query
+            itemsPerPage: 10, // Default items per page
+            itemsPerPageOptions: [10, 25, 50, 100, -1], // Options for dropdown (-1 for "All")
+            currentPage: 1,
+            totalItems: 0,
+            totalPages: 1,
             expanded: [],
             users: [],
             profileTypeOptions,
@@ -288,6 +296,26 @@ export default {
                     sortable: false,
                 },
                 {
+                    title: "Mobile Phone",
+                    value: "phone",
+                    sortable: false,
+                },
+                {
+                    title: "Email",
+                    value: "email",
+                    sortable: false,
+                },
+                {
+                    title: "Company Name",
+                    value: "company.companyName",
+                    sortable: false,
+                },
+                {
+                    title: "Company ID",
+                    value: "company.companyId",
+                    sortable: false,
+                },
+                {
                     title: "Email",
                     value: "email",
                     sortable: false,
@@ -315,14 +343,24 @@ export default {
     methods: {
         async fetchData() {
             try {
+                this.loading = true;
+                const params = {
+                    page: this.currentPage,
+                    per_page: this.itemsPerPage === -1 ? this.totalItems : this.itemsPerPage, // Fetch all if -1
+                    search: this.search,
+                };
+
                 const response = await axios.get("/user-list", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
-                    },
+                    params,
                 });
-                this.users = response.data.data.data;
+                const responseData = response.data.data || {};
+                this.users = responseData.data || [];
+                this.totalItems = responseData.meta.total || 0;
+                this.totalPages = responseData.meta.last_page || 1;
             } catch (error) {
-                this.showAlert(error.response.data.meta.message, 'error');
+                console.error("Error fetching data:", error);
+            } finally {
+                this.loading = false;
             }
         },
         addUser() {
@@ -371,8 +409,29 @@ export default {
                     this.confirmDialogVisible = false;
                     this.showAlert(error.message, 'error');
                 });
-        }
+        },
+        handlePageChange(newOptions) {
+            // Capture the new page and itemsPerPage from the updated options
+            this.currentPage = newOptions.page;
+            this.itemsPerPage = newOptions.itemsPerPage;
+            this.fetchData(); // Fetch the data again when page or items per page change
+        },
+
+        onSearchChange: _.debounce(function () {
+            this.currentPage = 1; // Reset to page 1 on search
+            this.fetchData();
+        }, 300), // Debounce to delay search
     },
+    watch: {
+        currentPage() {
+            this.fetchData(); // Fetch data when page changes
+        },
+        itemsPerPage() {
+            this.currentPage = 1; // Reset to page 1 when items per page changes
+            this.fetchData();
+        },
+    },
+
     mounted() {
         this.fetchData();
     }

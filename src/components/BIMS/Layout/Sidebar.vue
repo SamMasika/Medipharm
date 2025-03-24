@@ -1,5 +1,5 @@
-<template>
-<div class="my-5">
+<template >
+<div class="my-5" >
     <div align="center" class="my-5">
         <v-img alt="Banal Logo" src="@/assets/banal.png" transition="scale-transition" max-width="130" />
     </div>
@@ -58,6 +58,9 @@
 </template>
 
 <script>
+import {
+    mapGetters,
+} from 'vuex'
 export default {
     data() {
         return {
@@ -96,11 +99,13 @@ export default {
                 ['Vendor Relations', 'mdi-handshake', '/vendor-relations'],
             ],
             UserManagement: [
+
                 ['Users', 'mdi-account-group', '/users'],
                 ['Roles', 'mdi-lock', '/roles'],
                 ['Activity Logs', 'mdi-file-alert', '/activity-logs'],
             ],
             Configurations: [
+                ['Company Profile', 'mdi-domain', '/company-profile'],
                 ['Change Password', 'mdi-lock', '/change-password']
             ],
             Support: [
@@ -109,6 +114,12 @@ export default {
             ],
         };
     },
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+        }),
+    }
 };
 </script>
 
