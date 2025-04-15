@@ -3,7 +3,7 @@
     <!-- Date Range Selector -->
     <v-row align="center" justify="end" class="mb-4">
       <v-col cols="12" md="6" lg="4" class="text-right">
-        <v-btn-toggle v-model="selectedDateRange" density="compact" elevation="0" variant="outlined" group mandatory @change="fetchData" class="custom-btn-toggle" rounded="xl">
+        <v-btn-toggle v-model="selectedDateRange" density="compact" elevation="0" variant="outlined" group mandatory @change="fetchData" class="custom-btn-toggle">
           <v-btn value="today" class="custom-btn">📅 Daily</v-btn>
           <v-btn value="last7days" class="custom-btn">📅 Weekly</v-btn>
           <v-btn value="thisMonth" class="custom-btn">📅 Monthly</v-btn>

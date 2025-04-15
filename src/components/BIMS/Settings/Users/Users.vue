@@ -181,7 +181,7 @@
     </v-card>
     <v-dialog v-model="userEditDialog" persistent max-width="900px">
         <v-card class="elevation-12 ">
-            <v-card-title class="text-h5 font-weight-bold text-center">
+            <v-card-title class="font-weight-bold text-center">
                 <v-icon left class="mr-2">mdi-pencil</v-icon> Edit User Details
             </v-card-title>
 
@@ -212,15 +212,15 @@
                     <!-- Role Selection -->
                     <v-row>
                         <v-col cols="12">
-													<v-autocomplete v-model="selectedRole[userEdit.id]" :items="filteredRoles" item-title="name" item-value="id" class="rounded-lg custom-autocomplete" color="blue-lighten-1" label="Select Permissions" variant="outlined" multiple>
-															<template v-slot:chip="{ props, item }">
-																	<v-chip v-bind="props" color="blue-lighten-1" closable @click="props.select" @click:close="remove(item)">
-																			{{ item.raw.name }}
-																	</v-chip>
-															</template>
-													</v-autocomplete>
-													</v-col>
-												</v-row>
+                            <v-autocomplete v-model="selectedRole[userEdit.id]" :items="filteredRoles" item-title="name" item-value="id" class="rounded-lg custom-autocomplete" color="blue-lighten-1" label="Select Permissions" variant="outlined" multiple>
+                                <template v-slot:chip="{ props, item }">
+                                    <v-chip v-bind="props" color="blue-lighten-1" closable @click="props.select" @click:close="remove(item)">
+                                        {{ item.raw.name }}
+                                    </v-chip>
+                                </template>
+                            </v-autocomplete>
+                        </v-col>
+                    </v-row>
                 </v-form>
             </v-card-text>
             <v-divider></v-divider>
@@ -240,15 +240,15 @@
     <v-dialog v-model="deactivateConfirm" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
             <!-- Title Section -->
-            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-size: 20px;">
                 <v-icon size="90" color="red" class="mr-3">mdi-lock</v-icon>
                 Confirm Deactivation
             </v-card-title>
 
             <!-- Content Section -->
-            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+            <v-card-text class="text-center py-1" style="font-size: 16px; line-height: 1.6;">
 
-                <div class="font-weight-medium text-body-1 text-center mb-4">
+                <div class="font-weight-medium  text-center mb-4">
                     Are you sure you want to deactivate <b>"{{ UserToActivate.name }} </b>?
                 </div>
 
@@ -259,10 +259,10 @@
 
             <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
-                <v-btn text class="mr-3" variant="outlined" @click="deactivateConfirm = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                <v-btn text class="mr-3" variant="outlined" @click="deactivateConfirm = false" rounded="xl" color="grey lighten-2" style="font-weight: 500;">
                     Cancel
                 </v-btn>
-                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="red" style="font-weight: 600;">
                     <v-icon left>mdi-delete</v-icon> Deactivate
                 </v-btn>
             </v-card-actions>
@@ -271,15 +271,15 @@
     <v-dialog v-model="activateConfirm" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
             <!-- Title Section -->
-            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-size: 20px;">
                 <v-icon size="90" color="green" class="mr-3">mdi-delete</v-icon>
                 Confirm Activation
             </v-card-title>
 
             <!-- Content Section -->
-            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+            <v-card-text class="text-center py-1" style="font-size: 16px; line-height: 1.6;">
 
-                <div class="font-weight-medium text-body-1 text-center mb-4">
+                <div class="font-weight-medium  text-center mb-4">
                     Are you sure you want to activate <b>"{{ UserToActivate.name }} </b>?
                 </div>
             </v-card-text>
@@ -289,10 +289,10 @@
 
             <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
-                <v-btn text class="mr-3" variant="outlined" @click="activateConfirm = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                <v-btn text class="mr-3" variant="outlined" @click="activateConfirm = false" rounded="xl" color="grey lighten-2" style="font-weight: 500;">
                     Cancel
                 </v-btn>
-                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="success" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="success" style="font-weight: 600;">
                     <v-icon left>mdi-check</v-icon> Activate
                 </v-btn>
             </v-card-actions>
@@ -301,18 +301,18 @@
     <v-dialog v-model="confirmDialogVisible" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
             <!-- Title Section -->
-            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-size: 20px;">
                 <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
                 Confirm Deletion
             </v-card-title>
 
             <!-- Content Section -->
-            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+            <v-card-text class="text-center py-1" style="font-size: 16px; line-height: 1.6;">
 
-                <div class="font-weight-medium text-body-1 text-center mb-4">
+                <div class="font-weight-medium  text-center mb-4">
                     Are you sure you want to delete <b>"{{ UserToDelete.name }} </b>?
                 </div>
-                <div class="font-italic text-subtitle-1" style="color: #777;">
+                <div class="font-italic " style="color: #777;">
                     This action cannot be undone.
                 </div>
             </v-card-text>
@@ -322,10 +322,10 @@
 
             <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
-                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-weight: 500;">
                     Cancel
                 </v-btn>
-                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                <v-btn text variant="tonal" @click="activateUser" rounded="xl" color="red" style="font-weight: 600;">
                     <v-icon left>mdi-delete</v-icon> Delete
                 </v-btn>
             </v-card-actions>
@@ -344,8 +344,8 @@ import {
 } from 'vuex';
 
 export default {
-    mixins: [singledatatable,alert],
-   
+    mixins: [singledatatable, alert],
+
     data() {
         return {
             search: "", // Search query         
@@ -368,7 +368,8 @@ export default {
                 },
                 {
                     title: 'Role Name',
-                    value: 'name'
+                    value: 'name',
+                    align: 'end',
                 },
 
             ],
@@ -378,13 +379,10 @@ export default {
                 },
                 {
                     title: 'Permission Name',
-                    value: 'name'
+                    value: 'name',
+                    align: 'end',
                 },
-                {
-                    title: 'Actions',
-                    value: 'actions',
-                    sortable: false
-                },
+
             ],
             headers: [{
                     title: '',
@@ -485,7 +483,6 @@ export default {
                     per_page: this.itemsPerPage === -1 ? this.totalItems : this.itemsPerPage,
                     search: this.search,
                 };
-				
 
                 const [userResponse, roleResponse] = await Promise.all([
                     axios.get("/user-list", {

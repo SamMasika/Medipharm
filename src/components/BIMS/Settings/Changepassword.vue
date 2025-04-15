@@ -2,7 +2,7 @@
   <v-container class="d-flex justify-center align-center fill-height">
     <v-card class="password-card pa-8" max-width="600">
       <!-- Title -->
-      <v-card-title class="text-h5 font-weight-bold text-center">
+      <v-card-title class=" font-weight-bold text-center">
         Change Password
       </v-card-title>
 

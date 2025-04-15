@@ -1,170 +1,171 @@
 <template>
-<v-container fluid>
+  <v-container fluid>
     <div class="my-5" v-if="user?.company?.isComplete===false || user?.loginCount===1 ">
-        <v-alert type="warning" prominent border>
-            You must update your company and store details first in order to access other items in the system.
-        </v-alert>
+      <v-alert type="warning" prominent border>
+        ⚠️ You must update your company and store details first in order to access other items in the system.
+      </v-alert>
     </div>
+
     <v-card elevation="10" class="pa-5 rounded-lg animate__animated animate__fadeIn">
-        <!-- Header Section -->
-        <v-sheet class="header-section pa-5 rounded-lg text-center">
-            <v-icon size="70" class="mb-2 text-white">mdi-domain</v-icon>
-            <h2 class="text-h4 font-weight-bold text-white">Company Profile</h2>
-            <p class="text-subtitle-1 text-grey-lighten-3">Manage and view company details easily</p>
-        </v-sheet>
+      <!-- Header Section -->
+      <v-sheet class="header-section pa-5 rounded-lg text-center">
+        <h1 class="font-weight-bold text-white">🏢 Company Profile</h1>
+        <p class="text-grey-lighten-3">Manage and view company details easily 📊</p>
+      </v-sheet>
 
-        <v-divider class="my-4"></v-divider>
+      <v-divider class="my-4"></v-divider>
 
-        <!-- Company Info -->
-        <v-row align="center" justify="center">
-            <v-col cols="12" md="3" class="text-center">
-              <v-avatar size="140" class="elevation-5">
-    <v-img 
-        v-if="user?.company?.image" 
-        :src="getImageUrl(user.company.image)" 
-        alt="Company Logo" 
-        class="rounded-circle" 
-        cover 
-        aspect-ratio="1"
-    />
-    <v-icon v-else size="100" color="grey-lighten-1">mdi-office-building</v-icon>
-</v-avatar>
+      <!-- Company Info -->
+      <v-row align="center" justify="center">
+        <v-col cols="12" md="3" class="text-center">
+          <v-avatar size="140" class="elevation-5">
+            <v-img 
+                v-if="user?.company?.image" 
+                :src="getImageUrl(user.company.image)" 
+                alt="Company Logo" 
+                class="rounded-circle" 
+                cover 
+                aspect-ratio="1"
+            />
+            <div v-else class="text-center text-white" style="font-size: 50px;">🏢</div>
+          </v-avatar>
+        </v-col>
 
+        <v-col cols="12" md="9">
+          <v-row align="center" no-gutters>
+            <v-col cols="auto">
+              <h2 class="font-weight-bold text-blue-darken-2 mx-2">🏙️{{ user?.company?.companyName }} </h2>
+              <p class="text-grey-darken-1">{{ user?.company?.companyId }} 🆔</p>
             </v-col>
-            <v-col cols="12" md="9">
-                <v-row align="center" no-gutters>
-                    <v-col cols="auto">
-                        <h2 class="text-h5 font-weight-bold text-blue-darken-2">{{ user?.company?.companyName }}</h2>
-                        <p class="text-subtitle-1 text-grey-darken-1">{{ user?.company?.companyId }}</p>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                    <v-col cols="auto">
-                        <v-btn color="primary" class="text-white font-weight-bold rounded-xl shadow-2xl" @click="openEditDialog" elevation="0">
-                            <v-icon class="me-2">mdi-pencil</v-icon> Edit
-                        </v-btn>
-                    </v-col>
-                </v-row>
-                <v-list density="compact">
-                    <v-list-item v-for="(info, index) in companyDetails" :key="index" class="list-hover">
-                        <v-list-item-title>
-                            <v-icon class="me-2 text-blue-darken-2">{{ info.icon }}</v-icon> {{ info.value }}
-                        </v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-list-item-title>
-                            <v-chip label :color="user?.company?.status ? 'green' : 'red'" prepend-icon="mdi-checkbox-marked-circle">
-                                {{ user?.company?.status ? 'ACTIVE' : 'INACTIVE' }}
-                            </v-chip>
-                        </v-list-item-title>
-
-                    </v-list-item>
-                </v-list>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <v-btn color="primary" class="text-white font-weight-bold rounded-xl shadow-2xl" @click="openEditDialog" elevation="0">
+                ✏️ Edit
+              </v-btn>
             </v-col>
+          </v-row>
+          
+         <v-list density="compact">
+    <v-list-item v-for="(info, index) in companyDetails" :key="index" class="list-hover">
+      <v-list-item-title :style="{ marginRight: '25px' }">
+    {{ info.icon }} {{ info.value }}
+</v-list-item-title>
 
-        </v-row>
+    </v-list-item>
 
-        <v-divider class="my-4"></v-divider>
+    <v-list-item>
+        <v-list-item-title>
+            <v-chip label :color="user?.company?.status ? 'green' : 'red'">
+                {{ user?.company?.status ? 'ACTIVE ✅' : 'INACTIVE ❌' }}
+            </v-chip>
+        </v-list-item-title>
+    </v-list-item>
+</v-list>
 
-        <!-- Stores List in Expansion Panel -->
-        <h3 v-if="user?.company?.stores.length > 0" class="text-h6 font-weight-bold mb-3 text-blue-darken-2">Stores</h3>
-        <v-expansion-panels v-if="user?.company?.stores.length > 0">
-            <v-expansion-panel v-for="store in user?.company?.stores" :key="store.id">
-                <v-expansion-panel-title>
-                    <v-icon class="me-2 text-blue-darken-2">mdi-store</v-icon>
-                    <span class="font-weight-bold">{{ store.store_name }}</span>
-                    <v-btn icon density="compact" @click="openStoreEditDialog(store)" class="ml-4" color="primary" elevation="5">
-                        <v-icon size="15">mdi-pencil</v-icon>
-                    </v-btn>
-                </v-expansion-panel-title>
-                <v-expansion-panel-text>
-                    <p class="text-caption text-grey-darken-1">📍 {{ store.location }}</p>
-                    <p class="text-caption text-grey-darken-1">👤 Managed by: {{ store.created_by }}</p>
-                </v-expansion-panel-text>
-            </v-expansion-panel>
-        </v-expansion-panels>
+        </v-col>
+      </v-row>
 
-        <!-- No Stores Message -->
-        <p v-else class="text-center text-grey-darken-2">No stores for this company.</p>
+      <v-divider class="my-4"></v-divider>
 
+      <!-- Stores List in Expansion Panel -->
+      <h3 v-if="user?.company?.stores.length > 0" class="text-h6 font-weight-bold mb-3 text-blue-darken-2">
+        🏬 Stores ({{ user?.company?.stores.length }} 🏢)
+      </h3>
+      <v-expansion-panels v-if="user?.company?.stores.length > 0">
+        <v-expansion-panel v-for="store in user?.company?.stores" :key="store.id">
+          <v-expansion-panel-title>
+            <span class="font-weight-bold">{{ store.store_name }}</span>
+            <v-btn icon density="compact" @click="openStoreEditDialog(store)" class="ml-4" color="primary" elevation="5">
+              ✏️
+            </v-btn>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <p class="text-caption text-grey-darken-1">📍 Location: {{ store.location }}</p>
+            <p class="text-caption text-grey-darken-1">👤 Managed by: {{ store.created_by }}</p>
+            <p class="text-caption text-grey-darken-1">🗓️ Opening Hours: {{ store.opening_hours }}</p>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      <!-- No Stores Message -->
+      <p v-else class="text-center text-grey-darken-2">🚫 No stores for this company.</p>
     </v-card>
 
     <!-- Edit Company Dialog -->
-
     <v-dialog v-model="editDialog" max-width="900">
-        <v-card rounded="xl">
-            <v-card-title class="text-h5 font-weight-bold text-center ">
-                <v-icon>mdi-pencil</v-icon> Edit Company Details
-            </v-card-title>
-            <v-card-text>
-                <v-form>
-                    <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.companyName" label="Company Name" required variant="outlined"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.companyEmail" label="Email" variant="outlined" />
-                        </v-col>
-                    </v-row>
+      <v-card>
+        <v-card-title class="font-weight-bold text-center">
+          ✏️ Edit Company Details
+        </v-card-title>
+        <v-card-text>
+          <v-form>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="editCompany.companyName" label="Company Name 🏙️" required variant="outlined" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="editCompany.companyEmail" label="Email 📧" variant="outlined" />
+              </v-col>
+            </v-row>
 
-                    <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.companyPhone" label="Phone" variant="outlined" />
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.address" label="Address" variant="outlined" />
-                        </v-col>
-                    </v-row>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="editCompany.companyPhone" label="Phone 📱" variant="outlined" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="editCompany.address" label="Postal Address 🏠" variant="outlined" />
+              </v-col>
+            </v-row>
 
-                    <v-row dense>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="editCompany.companyCity" label="City" variant="outlined" />
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <!-- <v-text-field v-model="editCompany.companyCountry" label="Country" variant="outlined" /> -->
-                            <v-autocomplete :items="countries" label="Company Country" variant="outlined" class="rounded-lg" v-model="editCompany.companyCountry"></v-autocomplete>
-                        </v-col>
-                    </v-row>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <v-text-field v-model="editCompany.companyCity" label="City 🌆" variant="outlined" />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-autocomplete :items="countries" label="Company Country 🌍" variant="outlined" class="rounded-lg" v-model="editCompany.companyCountry" />
+              </v-col>
+            </v-row>
 
-                    <v-row dense>
-                        <v-col cols="12">
-                            <v-file-input label="Company Image" v-model="editCompany.image" accept="image/*" variant="outlined" />
-                        </v-col>
-                    </v-row>
-
-                    <v-divider></v-divider>
-
-                    <v-card-actions class="pa-4">
-                        <v-spacer></v-spacer>
-                        <v-btn text="Close" class="text-none" variant="tonal" @click="editDialog = false" rounded="xl"></v-btn>
-                        <v-btn type="submit" text="Update" class="text-none button-color" variant="flat" @click="updateCompany" rounded="xl"></v-btn>
-                    </v-card-actions>
-                </v-form>
-            </v-card-text>
-
-        </v-card>
-    </v-dialog>
-    <!-- Edit Store Dialog -->
-    <v-dialog v-model="storeEditDialog" max-width="800px">
-       <v-card rounded="xl">
-              <v-card-title class="text-h5 font-weight-bold text-center">
-                <v-icon>mdi-pencil</v-icon> Edit Store Details
-            </v-card-title>
-            <v-card-text class="pa-5">
-                <v-text-field v-model="editStore.store_name" label="Store Name" variant="outlined"></v-text-field>
-                <v-text-field v-model="editStore.location" label="Location" variant="outlined"></v-text-field>
-                <!-- <v-text-field v-model="editStore.created_by" label="Managed By" variant="outlined" ></v-text-field> -->
-            </v-card-text>
+            <v-row dense>
+              <v-col cols="12">
+                <v-file-input label="Company Image 📸" v-model="editCompany.image" accept="image/*" variant="outlined" />
+              </v-col>
+            </v-row>
 
             <v-divider></v-divider>
 
-            <v-card-actions>
-                <v-btn color="grey" class="text-none"  rounded="xl" text @click="storeEditDialog = false">Cancel</v-btn>
-                <v-btn class=" button-color text-none" rounded="xl" @click="saveStoreChanges">Update</v-btn>
+            <v-card-actions class="pa-4">
+              <v-spacer></v-spacer>
+              <v-btn text="Close ❌" class="text-none" variant="tonal" @click="editDialog = false" rounded="xl"></v-btn>
+              <v-btn type="submit" text="Update 🛠️" class="text-none button-color" variant="flat" @click="updateCompany" rounded="xl"></v-btn>
             </v-card-actions>
-        </v-card>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-dialog>
-</v-container>
+
+    <!-- Edit Store Dialog -->
+    <v-dialog v-model="storeEditDialog" max-width="900px">
+      <v-card>
+        <v-card-title class="font-weight-bold text-center">
+          ✏️ Edit Store Details
+        </v-card-title>
+        <v-card-text class="pa-5">
+          <v-text-field v-model="editStore.store_name" label="Store Name 🏬" variant="outlined" />
+          <v-text-field v-model="editStore.location" label="Location 📍" variant="outlined" />
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-btn color="grey" class="text-none" rounded="xl" text @click="storeEditDialog = false">Cancel ❌</v-btn>
+          <v-btn class="button-color text-none" rounded="xl" @click="saveStoreChanges">Update 🔄</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -186,24 +187,25 @@ export default {
     },
     computed: {
         companyDetails() {
-            return [{
-                    icon: 'mdi-email',
-                    value: this.user ?.company ?.companyEmail
-                },
-                {
-                    icon: 'mdi-phone',
-                    value: this.user ?.company ?.companyPhone
-                },
-                {
-                    icon: 'mdi-map-marker',
-                    value: `${this.user?.company?.address}, ${this.user?.company?.companyCity}, ${this.user?.company?.companyCountry}`
-                },
-                {
-                    icon: 'mdi-store',
-                    value: `${this.user?.company?.store_counts} Store(s)`
-                },
-            ];
+    return [
+        {
+            icon: '📧',
+            value: this.user?.company?.companyEmail
         },
+        {
+            icon: '📠',
+            value: this.user?.company?.companyPhone
+        },
+        {
+            icon: '📍',
+            value: `${this.user?.company?.address}, ${this.user?.company?.companyCity}, ${this.user?.company?.companyCountry}`
+        },
+        {
+            icon: '🏢',
+            value: `${this.user?.company?.store_counts} Store(s)`
+        }
+    ];
+},
         ...mapGetters({
             authenticated: 'auth/authenticated',
             user: 'auth/user',

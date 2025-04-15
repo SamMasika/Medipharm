@@ -133,9 +133,7 @@ export default {
 </script>
 
 <style scoped>
-.product-details {
-    font-family: 'Segoe UI', sans-serif;
-}
+
 
 
 

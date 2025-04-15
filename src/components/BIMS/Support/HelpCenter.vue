@@ -16,10 +16,10 @@
             <!-- <v-avatar size="50" class="mr-3" :color="item.color" dark> -->
               <span style="font-size: 28px" class="mr-3">{{ item.emoji }}</span>
             <!-- </v-avatar> -->
-            <span class="text-h6 font-weight-bold">{{ item.title }}</span>
+            <span class=" font-weight-bold">{{ item.title }}</span>
           </v-card-title>
           <v-card-text>
-            <p class="text-body-2 text-grey-darken-1">{{ item.description }}</p>
+            <p class="text-grey-darken-1">{{ item.description }}</p>
           </v-card-text>
           <v-card-actions>
             <v-btn :to="item.link" color="primary" class="text-weight-bold " elevation="0">
@@ -33,8 +33,8 @@
 
     <v-row justify="center" class="text-center animate__animated animate__fadeInUp animate__delay-1s my-5">
       <v-col cols="12" md="6">
-        <h2 class="text-h5 font-weight-bold">Need More Help?</h2>
-        <p class="text-body-2 text-grey-darken-1">
+        <h2 class=" font-weight-bold">Need More Help?</h2>
+        <p class=" text-grey-darken-1">
           If you need further assistance, feel free to contact our support team.
         </p>
         <v-btn class="contact-support-btn" to="/contact-support">

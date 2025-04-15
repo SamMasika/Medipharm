@@ -165,7 +165,6 @@ body,
 
 .title {
     font-size: 50px;
-    font-family: 'Segoe UI', sans-serif;
     font-weight: 700;
     color: #1a237e;
 }

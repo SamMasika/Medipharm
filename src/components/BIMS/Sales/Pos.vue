@@ -15,7 +15,7 @@
                     <v-card class="product-card">
                         <div class="card-top-border"></div>
                         <v-img :src="getImageUrl(product.image)" class="product-image" cover></v-img>
-                        <v-card-title class="product-title">🍬 {{ product.name }}
+                        <v-card-title class="product-title"> {{ product.name }}
                         </v-card-title>
                         <v-card-subtitle class="product-price">💸 {{ formatPrice(product.selling_price.toLocaleString()) }}
                         </v-card-subtitle>
@@ -170,7 +170,7 @@
 
     <!-- Add Customer Dialog -->
     <v-dialog v-model="dialog" max-width="900">
-        <v-card prepend-icon="mdi-plus" title="👥 Add Customer">
+        <v-card prepend-icon="mdi-plus" title="Add Customer">
             <v-form>
                 <v-card-text>
                     <v-row dense>
