@@ -26,6 +26,12 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in SalesTransactions" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
+        <v-list-group value="Accounts" append-icon="mdi-menu-right">
+            <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" link prepend-icon="mdi-bank" title="Accounts" v-tooltip="'Manage Accounts'"></v-list-item>
+            </template>
+            <v-list-item v-for="([title, icon, path], i) in Accounts" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+        </v-list-group>
 
         <v-list-group value="Reports" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
