@@ -2,8 +2,8 @@
   <v-container class="help-center" fluid>
     <v-row>
       <v-col cols="12" class="text-center">
-        <h1 class="text-h3 font-weight-bold text-primary mt-3 animate__animated animate__fadeInDown">Welcome to the Help Center</h1>
-        <p class="text-subtitle-1 text-grey-darken-1 animate__animated animate__fadeInUp animate__delay-1s">
+        <h1 class="title animate__animated animate__fadeInDown">Welcome to the Help Center</h1>
+        <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">
           Find answers to your questions, explore guides, and get the support you need.
         </p>
       </v-col>
@@ -13,9 +13,9 @@
       <v-col cols="12" sm="6" md="4" v-for="(item, index) in helpTopics" :key="index">
         <v-card class="help-card animate__animated animate__zoomIn animate__delay-{{ index * 0.2 }}s">
           <v-card-title class="d-flex align-center">
-            <v-avatar size="50" class="mr-3" :color="item.color" dark>
-              <v-icon size="28">{{ item.icon }}</v-icon>
-            </v-avatar>
+            <!-- <v-avatar size="50" class="mr-3" :color="item.color" dark> -->
+              <span style="font-size: 28px" class="mr-3">{{ item.emoji }}</span>
+            <!-- </v-avatar> -->
             <span class="text-h6 font-weight-bold">{{ item.title }}</span>
           </v-card-title>
           <v-card-text>
@@ -30,8 +30,6 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <!-- <v-divider class="my-8"></v-divider> -->
 
     <v-row justify="center" class="text-center animate__animated animate__fadeInUp animate__delay-1s my-5">
       <v-col cols="12" md="6">
@@ -52,12 +50,12 @@ export default {
   data() {
     return {
       helpTopics: [
-        { title: "Getting Started", description: "Learn how to set up your inventory system quickly.", link: "/help/getting-started", icon: "mdi-play-circle-outline", color: "blue" },
-        { title: "Managing Products", description: "Add, edit, and manage your products efficiently.", link: "/help/managing-products", icon: "mdi-package-variant", color: "green" },
-        { title: "Processing Sales", description: "Guide on handling transactions and sales reports.", link: "/help/processing-sales", icon: "mdi-cash-register", color: "red" },
-        { title: "Stock Management", description: "Monitor and control your stock levels with ease.", link: "/help/stock-management", icon: "mdi-warehouse", color: "purple" },
-        { title: "User Accounts", description: "Learn how to manage user roles and permissions.", link: "/help/user-accounts", icon: "mdi-account-cog", color: "orange" },
-        { title: "Frequently Asked Questions", description: "Find quick answers to common questions.", link: "/help/faq", icon: "mdi-help-circle-outline", color: "teal" },
+        { title: "Getting Started", description: "Learn how to set up your inventory system quickly.", link: "/help/getting-started", emoji: "🚀", color: "blue" },
+        { title: "Managing Products", description: "Add, edit, and manage your products efficiently.", link: "/help/managing-products", emoji: "📦", color: "green" },
+        { title: "Processing Sales", description: "Guide on handling transactions and sales reports.", link: "/help/processing-sales", emoji: "💳", color: "red" },
+        { title: "Stock Management", description: "Monitor and control your stock levels with ease.", link: "/help/stock-management", emoji: "🏭", color: "purple" },
+        { title: "User Accounts", description: "Learn how to manage user roles and permissions.", link: "/help/user-accounts", emoji: "👥", color: "orange" },
+        { title: "Frequently Asked Questions", description: "Find quick answers to common questions.", link: "/help/faq", emoji: "❓", color: "teal" },
       ],
     };
   },
@@ -65,16 +63,12 @@ export default {
 </script>
 
 <style scoped>
-
-
 .help-center {
   padding: 40px 20px;
 }
 
 .help-card {
-  /* border-radius: px; */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  /* background: linear-gradient(145deg, #ffffff, #f0f0f0); */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

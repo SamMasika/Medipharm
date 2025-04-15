@@ -1,53 +1,58 @@
 <template>
 <v-container fluid>
+    <!-- Add Account Dialog -->
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="900">
+            <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Customer" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Account" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Customer">
-                    <v-form>
+                <v-card prepend-icon="mdi-plus" title="Add Account">
+                    <v-form @submit.prevent="addAccount">
                         <v-card-text>
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="customer.name" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12">
+                                    <v-text-field label="Account Name*" v-model="account.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Phone*" v-model="customer.phone" required variant="outlined" density="compact"></v-text-field>
+                                <v-col cols="12">
+                                    <v-text-field label="Account Description*" v-model="account.description" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12">
+                                    <v-text-field label="Account Type*" v-model="account.type" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
                         <v-divider></v-divider>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addCustomer" rounded="xl"></v-btn>
+                            <v-btn text class="text-none" variant="tonal" @click="dialog = false" rounded="xl">Close</v-btn>
+                            <v-btn type="submit" text class="text-none button-color" variant="flat" rounded="xl">Save</v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
         </v-col>
     </v-row>
+
+    <!-- Chart of Accounts Table -->
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-account" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Customers
+            Chart of Accounts
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'/customer-list'" :headers="headers">
+        <DataTable :api-url="'/account-list'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props">
-                            mdi-dots-vertical
-                        </v-icon>
+                        <v-icon v-bind="props">mdi-dots-vertical</v-icon>
                     </template>
-                    <!-- List for actions -->
                     <v-list>
-                        <v-list-item @click="editCustomer(item)">
+                        <v-list-item @click="editAccount(item)">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                             </template>
@@ -64,67 +69,63 @@
                 </v-menu>
             </template>
         </DataTable>
-
     </v-card>
-    <v-dialog v-model="customerEditDialog" max-width="900">
-        <v-card prepend-icon="mdi-plus" title="Update Customer">
-            <v-form>
+
+    <!-- Edit Account Dialog -->
+    <v-dialog v-model="accountEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Account">
+            <v-form @submit.prevent="updateAccount">
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="customer.name" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12">
+                            <v-text-field label="Account Name*" v-model="accountEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
-                        <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Phone*" v-model="customer.phone" required variant="outlined" density="compact"></v-text-field>
+                        <v-col cols="12">
+                            <v-text-field label="Account Description*" v-model="accountEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-text-field label="Account Type*" v-model="accountEdit.type" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                    </v-row>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="customerEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateCustomer" rounded="xl"></v-btn>
+                    <v-btn text class="text-none" variant="tonal" @click="accountEditDialog = false" rounded="xl">Close</v-btn>
+                    <v-btn type="submit" text class="text-none button-color" variant="flat" rounded="xl">Save</v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
     </v-dialog>
+
+    <!-- Delete Confirmation Dialog -->
     <v-dialog v-model="confirmDialogVisible" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
-            <!-- Title Section -->
-            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2">
                 <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
                 Confirm Deletion
             </v-card-title>
-
-            <!-- Content Section -->
-            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
-
+            <v-card-text class="text-center py-1">
                 <div class="font-weight-medium text-body-1 text-center mb-4">
-                    Are you sure you want to delete <b>"{{ itemToDelete.name }} </b>?
+                    Are you sure you want to delete <b>"{{ itemToDelete.name }}"</b>?
                 </div>
                 <div class="font-italic text-subtitle-1" style="color: #777;">
                     This action cannot be undone.
                 </div>
             </v-card-text>
-
-            <!-- Divider -->
             <v-divider></v-divider>
-
-            <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
-                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
-                    Cancel
-                </v-btn>
-                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2">Cancel</v-btn>
+                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red">
                     <v-icon left>mdi-delete</v-icon> Delete
                 </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
-
 </v-container>
 </template>
 
@@ -132,114 +133,116 @@
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 import alert from '@/mixins/swtalert';
+
 export default {
-	mixins:[alert],
+    mixins: [alert],
     components: {
         DataTable
     },
     data() {
         return {
             search: "",
-            customers: [],
-            customer: {},
+            accounts: [],
+            account: {},
             dialog: false,
-            customerEditDialog: false,
-            customerEdit: {},
-            dialogDelete: false,
+            accountEditDialog: false,
+            accountEdit: {},
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
-			headers: [
-				{
-                    title: 'Name',
-                    value: 'name',
+            headers: [{
+                    title: 'Code',
+                    value: 'name'
                 },
-				{
-                    title: 'Phone',
-                    value: 'phone',
+                {
+                    title: 'Account Name',
+                    value: 'type'
+                },
+                {
+                    title: 'Type',
+                    value: 'name'
+                },
+                {
+                    title: 'Category',
+                    value: 'type'
+                },
+                {
+                    title: 'Description',
+                    value: 'name'
                 },
                 {
                     title: 'Action',
                     value: 'actions'
                 }
-
             ],
         };
     },
 
     methods: {
-
-        addCustomer() {
+        addAccount() {
             const data = {
-                ...this.customer,
+                ...this.account
             };
-            axios.post('/customer-store', data, {
+            axios.post('/account-store', data, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
                     }
                 })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
-                    this.dialog = false; // Close the dialog after success
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                    this.dialog = false;
+                    setTimeout(() => window.location.reload(), 500);
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
-        //UpdateCustomer
-        editCustomer(item) {
-            this.customerEdit = item
-            this.customerEditDialog = true
+
+        editAccount(item) {
+            this.accountEdit = item;
+            this.accountEditDialog = true;
         },
-        updateCustomer() {
+
+        updateAccount() {
             const {
                 id,
-                customerName,
-                description
-
-            } = this.customerEdit;
-
-            axios.put(`/customer-update/${id}`, {
-                    customerName,
-                    description
+                name,
+                description,
+                type
+            } = this.accountEdit;
+            axios.put(`/account-update/${id}`, {
+                    name,
+                    description,
+                    type
                 })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
-                    this.customerEditDialog = false; // Close the dialog after success
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                    this.accountEditDialog = false;
+                    setTimeout(() => window.location.reload(), 500);
                 })
                 .catch(error => {
-                    this.showAlert(error.response.data.message, 'error')
-                    this.customerEditDialog = false;
+                    this.showAlert(error.response.data.message, 'error');
+                    this.accountEditDialog = false;
                 });
         },
 
         deleteItem() {
-            axios.delete(`/customer-delete/${this.itemToDelete.id}`)
+            axios.delete(`/account-delete/${this.itemToDelete.id}`)
                 .then(response => {
-                    // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.customers.indexOf(this.itemToDelete);
+                    const index = this.accounts.indexOf(this.itemToDelete);
                     if (index > -1) {
-                        this.customers.splice(index, 1);
+                        this.accounts.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.message, 'success');
-
-                    setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                    setTimeout(() => window.location.reload(), 500);
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
+
         deleteDialog(item) {
             this.itemToDelete = item;
             this.confirmDialogVisible = true;
         },
     },
-
 };
 </script>
 

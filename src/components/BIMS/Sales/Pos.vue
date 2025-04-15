@@ -2,61 +2,64 @@
 <v-container fluid>
     <v-row v-if="paginatedProducts.length > 0">
         <!-- Products Section -->
-        <v-col cols="12">
-            <h1 class="text-center title">Point of Sale</h1>
+        <v-col cols="12" class="text-center">
+            <h1 class="title animate__animated animate__fadeInDown">💳 Point of Sale</h1>
+            <p class="subtitle  animate__animated animate__fadeInUp animate__delay-1s">Quick and simple selling interface</p>
         </v-col>
+        <v-card>
+
+        </v-card>
         <v-col cols="12" md="8">
             <v-row>
                 <v-col v-for="product in paginatedProducts" :key="product.id" cols="6" sm="4" md="3">
                     <v-card class="product-card">
                         <div class="card-top-border"></div>
                         <v-img :src="getImageUrl(product.image)" class="product-image" cover></v-img>
-                        <v-card-title class="product-title">{{ product.name }}</v-card-title>
-                        <v-card-subtitle class="product-price">{{ formatPrice(product.selling_price.toLocaleString()) }}</v-card-subtitle>
-                        <v-card-text>
-                            <template v-if="product.quantity > 0">
-                                <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input"></v-text-field>
-                            </template>
-                            <template v-else>
-                                <v-text-field v-model.number="product.quantity" label="Qty" type="number" min="1" density="compact" class="quantity-input" disabled></v-text-field>
-                            </template>
+                        <v-card-title class="product-title">🍬 {{ product.name }}
+                        </v-card-title>
+                        <v-card-subtitle class="product-price">💸 {{ formatPrice(product.selling_price.toLocaleString()) }}
+                        </v-card-subtitle>
+                        <v-card-text class="text-center">
+                            <div>
+                                <strong>🔢 Qty:</strong> {{ product.quantity > 0 ? product.quantity : 0 }}
+                            </div>
                         </v-card-text>
                         <v-card-actions class="d-flex justify-center">
                             <template v-if="product.quantity > 0">
-                                <v-btn color="primary" variant="tonal" block @click="addToCart(product)">Add to Cart</v-btn>
+                                <v-btn color="primary" variant="tonal" block @click="addToCart(product)">
+                                    🛒 Add to Cart
+                                </v-btn>
                             </template>
                             <template v-else>
-                                <v-chip small color="red lighten-1" dark>
-                                    Out of Stock
-                                </v-chip>
+                                <v-chip small color="red lighten-1" dark>🚫 Out of Stock</v-chip>
                             </template>
                         </v-card-actions>
                     </v-card>
                 </v-col>
-
             </v-row>
             <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5"></v-pagination>
         </v-col>
 
         <!-- Cart and Checkout Section -->
         <v-col cols="12" md="4">
-            <v-card class="cart ">
+            <v-card class="cart">
                 <div class="cart-top-border"></div>
-                <v-card-title class="cart-title">Cart</v-card-title>
+                <v-card-title class="cart-title">🛒 Cart</v-card-title>
                 <v-divider></v-divider>
                 <v-alert v-if="cart.length === 0" type="warning" color="#F0B268FF" border="left" elevation="0" icon="mdi-cart-off" class="cart-empty-alert">
                     <v-row align="center" justify="center">
                         <v-col class="text-center">
-                            <span class="font-weight-bold text-h6">Oops!</span>
-                            <p class="mt-2">It looks like you haven't added any products to the cart yet. Start shopping now!</p>
+                            <span class="font-weight-bold text-h6">⚠️ Oops!</span>
+                            <p class="mt-2">It looks like you haven't added any products to the cart yet. Start shopping now! 🍭</p>
                         </v-col>
                     </v-row>
                 </v-alert>
+
                 <v-list v-else class="cart-list">
                     <v-list-item v-for="item in cart" :key="item.id" class="cart-item">
                         <v-row align="center" justify="space-between" no-gutters>
                             <v-col cols="8">
-                                <div class="cart-item-title">{{ item.name }}</div>
+                                <div class="cart-item-title">🏦 {{ item.name }}</div>
                                 <v-row>
                                     <v-col cols="6">
                                         <div class="cart-item-details">
@@ -77,63 +80,87 @@
                             </v-col>
                         </v-row>
                     </v-list-item>
-
                 </v-list>
+
                 <v-divider></v-divider>
 
                 <!-- Checkout Form Section -->
                 <v-card-text v-if="cart.length > 0" class="checkout-form">
-                    <!-- <v-text-field label="Select Customer" v-model="selectedCustomer" :items="customers" item-text="name" item-value="id" outlined dense /> -->
-                    <v-autocomplete v-model="selectedCustomer" :items="customers" item-title="name" item-value="id" density="compact" placeholder="Select Customer" prepend-inner-icon="mdi-account" variant="outlined" @update:modelValue="handleCustomerSelection">
+                    <PaginatedDropdown :api-endpoint="'/customer-list'" v-model="selectedCustomer" label="👤 Search Customer..." placeholder="Search Product" item-title="name">
                         <template v-slot:append-item>
                             <v-list-item @click="addNewCustomer">
-                                <v-list-item-title class="text-primary" @click="addNewCustomer">
-                                    <v-icon left>mdi-plus</v-icon> Add New Customer
+                                <v-list-item-title class="text-primary">
+                                    <v-icon left>mdi-plus</v-icon>
+                                    Add New Customer
                                 </v-list-item-title>
                             </v-list-item>
                         </template>
-                    </v-autocomplete>
+                    </PaginatedDropdown>
 
-                    <v-menu v-model="dateMenu" :close-on-content-click="false" transition="slide-x-reverse" offset-y>
-                        <template #activator="{ on, attrs }">
-                            <v-text-field v-bind="attrs" v-on="on" type="date" placeholder="Date of Sale" variant="outlined" density="compact" />
-                        </template>
-                        <v-date-picker v-model="saleDate" @input="dateMenu = false"></v-date-picker>
-                    </v-menu>
-                    <v-select v-model="paymentMode" :items="paymentModes" placeholder="Payment Mode" variant="outlined" density="compact"></v-select>
-                    <v-textarea v-model="additionalNotes" label="Additional Notes (Optional)" variant="outlined" density="compact"></v-textarea>
+                    <v-row>
+                        <v-col cols sm="12">
+                            <v-text-field type="date" v-model="sale.sales_date" :max="maxDate" label="🗓️ Sales Date" variant="outlined" show-adjacent-months></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12">
+                            <v-select v-model="sale.sale_status" placeholder="--Sale Status--" :items="SaleOptions" item-title="text" item-value="value" variant="outlined"></v-select>
+                        </v-col>
+                        <v-col cols="12" v-if="sale.sale_status === 'PAY'">
+                            <v-select v-model="sale.payment_status" :items="paymentOptions" item-title="text" item-value="value" placeholder="💳 Payment Status" variant="outlined"></v-select>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
+                        <v-col cols="12" v-if="sale.payment_status === 'COMPLETED' || sale.payment_status === 'PARTIAL' || sale.sale_status === 'GETINVOICE'">
+                            <v-select v-model="sale.payment_mode" :items="modeOptions" item-title="text" item-value="value" placeholder="🏦 Payment Mode" variant="outlined"></v-select>
+                        </v-col>
+                        <v-col cols="12" v-if="(sale.payment_status === 'COMPLETED' || sale.payment_status === 'PARTIAL') && sale.payment_mode === 'CASH'">
+                            <v-select v-model="sale.account_id" :items="cash" item-title="name" item-value="id" placeholder="Deposit to" variant="outlined"></v-select>
+                        </v-col>
+                        <v-col cols="12" v-if="(sale.payment_status === 'COMPLETED' || sale.payment_status === 'PARTIAL' || sale.sale_status === 'GETINVOICE') && sale.payment_mode === 'BANK'">
+                            <v-select v-model="sale.account_id" :items="bank" item-title="name" item-value="id" placeholder="Deposit to" variant="outlined"></v-select>
+                        </v-col>
+                        <v-col cols="12" v-if="sale.payment_status === 'PARTIAL'">
+                            <v-text-field v-model="sale.paid_amount" placeholder="💵 Received Amount" variant="outlined"></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-textarea v-model="sale.remarks" label="📖 Additional Notes (Optional)" variant="outlined"></v-textarea>
                 </v-card-text>
+
                 <v-divider></v-divider>
+
                 <!-- Total Amount & Checkout Button -->
                 <v-card-text v-if="cart.length > 0" class="total">
-                    Total: <span>{{ totalAmount }}/= TZS</span>
+                    📄 Total: <span>{{ totalAmount }}/= TZS</span>
                 </v-card-text>
-                <v-btn v-if="cart.length > 0" color="#3674B5" block @click="checkout" elevation="0" class="checkout-btn">Checkout</v-btn>
+                <v-btn v-if="cart.length > 0" color="#3674B5" block @click="checkout" elevation="0" class="checkout-btn">👋 Checkout</v-btn>
             </v-card>
         </v-col>
     </v-row>
+
     <v-row v-else>
         <v-col>
             <v-card class="d-flex align-center justify-center text-center pa-5 empty-pos" outlined style="border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
                 <v-row>
-                    <!-- Icon Section -->
                     <v-col cols="12" class="mb-4">
-                        <v-icon large color="red" style="font-size: 70px;">mdi-alert-circle-outline</v-icon>
+                        <v-icon large color="red" style="font-size: 70px;">
+                            mdi-alert-circle-outline
+                        </v-icon>
                     </v-col>
-
-                    <!-- Heading Section -->
                     <v-col cols="12">
-                        <h2 class="text-h4 font-weight-bold text-center mb-4" style="color: #A82228; font-size: 28px;">No Products Available</h2>
+                        <h2 class="text-h4 font-weight-bold text-center mb-4" style="color: #A82228; font-size: 28px;">🚫 No Products Available</h2>
                         <p class="text-body-1" style="color: #333; font-size: 18px;">
                             It seems like no products have been registered in the system.
-                            No sales can be made at the moment. Please add products to the system to start making sales.
+                            ❌ No sales can be made at the moment. Please add products to the system to start making sales.
                         </p>
                     </v-col>
-
-                    <!-- Link to Product List -->
                     <v-col cols="12" class="mt-5">
-                        <v-btn text color="#3674B5" @click="navigateToProductListPage" style="font-size: 16px;">
-                            <v-icon left style="font-size: 20px;">mdi-view-list</v-icon> Go to Products Page
+                        <v-btn text flat class="text-none text-blue" @click="navigateToProductListPage">
+                            <v-icon left style="font-size: 20px;">mdi-view-list</v-icon>
+                            📃 Go to Products Page
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -141,36 +168,75 @@
         </v-col>
     </v-row>
 
+    <!-- Add Customer Dialog -->
+    <v-dialog v-model="dialog" max-width="900">
+        <v-card prepend-icon="mdi-plus" title="👥 Add Customer">
+            <v-form>
+                <v-card-text>
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-text-field label="Name*" v-model="customer.name" required variant="outlined"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field label="Phone*" v-model="customer.phone" required variant="outlined"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addCustomer" rounded="xl"></v-btn>
+                </v-card-actions>
+            </v-form>
+        </v-card>
+    </v-dialog>
 </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import swtalert from "@/mixins/swtalert";
+import PaginatedDropdown from '@/components/BIMS/SharedComponents/paginatedDropdown'
+import {
+    SaleOptions,
+    paymentOptions,
+    modeOptions
+} from '@/json/enum'
 export default {
+    mixins: [swtalert],
+    components: {
+        PaginatedDropdown
+    },
     data() {
         return {
             products: [],
             cart: [],
+            dialog: false,
+            maxDate: null,
             currentPage: 1,
             perPage: 8,
-            customers: [{
-                    id: 1,
-                    name: 'Customer 1'
-                },
-                {
-                    id: 2,
-                    name: 'Customer 2'
-                },
-                {
-                    id: 3,
-                    name: 'Customer 3'
-                },
-            ],
+            sale: {
+                sales_date: null,
+                sale_code: null,
+                tax: null,
+                discount: null,
+                totalTD: null,
+                account_id: null,
+                sale_status: null,
+                payment_status: null,
+                payment_mode: null,
+                paid_amount: null,
+                remarks: null,
+            },
+            customer: {},
             selectedCustomer: null,
             saleDate: new Date().toISOString().substr(0, 10), // default to today's date
             paymentModes: ['Cash', 'Card', 'Bank Transfer'],
             paymentMode: null,
-            additionalNotes: '',
+            SaleOptions,
+            paymentOptions,
+            modeOptions,
             dateMenu: false,
         };
     },
@@ -220,70 +286,122 @@ export default {
             }
         },
         addNewCustomer() {
-            const newCustomerName = prompt("Enter the new customer's name:");
-            if (newCustomerName) {
-                const newCustomer = {
-                    id: this.customers.length + 1, // Unique ID
-                    name: newCustomerName
-                };
-                this.customers.push(newCustomer); // Add to dropdown list
-                this.selectedCustomer = newCustomer.id; // Select the new customer
-            }
+            this.dialog = true
+        },
+        addCustomer() {
+            const data = {
+                ...this.customer,
+            };
+            axios.post('/customer-store', data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                    }
+                })
+                .then(response => {
+                    this.showAlert(response.data.message, 'success');
+                    this.dialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload the window after success
+                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                })
+                .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
         addToCart(product) {
-            // Check if the product already exists in the cart
-            let item = this.cart.find((i) => i.id === product.id);
-
-            // If product already exists in the cart, increase its quantity
-            if (item) {
-                item.quantity += product.quantity; // Adds the selected quantity
-            } else {
-                // If product doesn't exist in the cart, add it with initial quantity of 1
-                this.cart.push({
-                    ...product,
-                    quantity: product.quantity || 1, // Use the selected quantity or default to 1
-                });
-            }
-
-            // Reset the quantity input to 1 after adding to the cart
-            product.quantity = 1;
-        },
-        removeFromCart(item) {
-            this.cart = this.cart.filter((i) => i.id !== item.id);
-        },
-        checkout() {
-            if (!this.selectedCustomer || !this.paymentMode) {
-                this.$swal.fire({
-                    title: 'Error!',
-                    text: 'Please select a customer and a payment method before proceeding.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+            if (product.quantity === 0) {
+                // Product is out of stock, do not add to cart
                 return;
             }
-            const orderDetails = {
-                customer: this.selectedCustomer,
-                saleDate: this.saleDate,
-                paymentMode: this.paymentMode,
-                additionalNotes: this.additionalNotes,
-                totalAmount: this.totalAmount,
-                cart: this.cart,
-            };
-            alert(`Order details: ${JSON.stringify(orderDetails)}`);
+
+            const existingItem = this.cart.find((item) => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                this.cart.push({
+                    id: product.id,
+                    name: product.name,
+                    selling_price: product.selling_price,
+                    quantity: 1,
+                });
+            }
+
+            // Decrease stock quantity
+            product.quantity--;
         },
+        removeFromCart(item) {
+            // Increase the stock quantity of the product associated with the item being removed
+            const product = this.products.find((product) => product.id === item.id);
+            if (product) {
+                product.quantity += item.quantity;
+            }
+            // Remove the item from the cartItems array
+            this.cart = this.cart.filter((cartItem) => cartItem.id !== item.id);
+        },
+
+        checkout() {
+            // if (!this.selectedCustomer || !this.sale.payment_mode || this.sale.sales_date) {
+            //     this.$swal.fire({
+            //         title: 'Error!',
+            //         text: 'Please enter the sales date,select a customer and a payment method before proceeding.',
+            //         icon: 'error',
+            //         confirmButtonText: 'OK'
+            //     });
+            //     return;
+            // }
+
+            const salesData = {
+                customer_id: this.selectedCustomer,
+                sales_date: this.sale.sales_date,
+                sale_status: this.sale.sale_status,
+                payment_status: this.sale.payment_status,
+                paid_amount: this.sale.paid_amount,
+                payment_mode: this.sale.payment_mode,
+                account_id: this.sale.account_id,
+                remarks: this.sale.remarks,
+                totalTD: this.totalAmount,
+                cartItems: this.cart.map(item => ({
+                    id: item.id,
+                    quantity: item.quantity,
+                })),
+            };
+
+            axios.post('/save-sales', salesData)
+                .then(response => {
+                    this.showAlert(response.data.message, 'success');
+                    this.invoiceNumber = response.data.sale_code;
+                    this.cart = [];
+                    this.selectedCustomer = null;
+                    setTimeout(() => location.reload(), 500); // Delay reload slightly
+                })
+                .catch(error => {
+                    this.showAlert(error.response.data.message, 'error');
+                });
+
+        },
+        setDateLimits() {
+            const today = new Date();
+
+            // Format today's date
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+
+            this.maxDate = `${year}-${month}-${day}`; // Today
+            this.minDate = `${year}-01-01`; // Example: start of current year
+        },
+
     },
     created() {
         this.fetchData();
+        // this.setMaxDate();
     },
+    mounted() {
+        this.setDateLimits();
+    }
 };
 </script>
 
 <style scoped>
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #3674B5;
-}
+
 
 .product-card {
     height: 100%;

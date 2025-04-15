@@ -1,7 +1,10 @@
 <template>
 <div class="my-5">
-    <div align="center" class="my-5">
-        <v-img alt="Banal Logo" src="@/assets/banal.png" transition="scale-transition" max-width="130" />
+    <div align="center" class="my-3 emoji">
+        <!-- <v-img alt="Banal Logo" v-if="user?.company?.image" :src="getImageUrl(user.company.image)" transition="scale-transition" cover max-height="120" /> -->
+        <!-- <v-img alt="Banal Logo" src="@/assets/banal.png" transition="scale-transition" max-width="130" /> -->
+        🛍️
+        <!-- <v-icon v-else size="130" class="default-color">mdi-account-circle</v-icon> -->
     </div>
     <v-list nav active-class="my-selected-item">
         <v-list-item v-for="([title, icon, path], i) in dashboard" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to Dashboard'"></v-list-item>
@@ -23,6 +26,7 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in SalesTransactions" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
+
         <v-list-group value="Reports" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" link prepend-icon="mdi-chart-line" title="Reports" v-tooltip="'View Reports'"></v-list-item>
@@ -64,6 +68,7 @@ import {
 export default {
     data() {
         return {
+            openedGroups: {},
             drawer: true,
             rail: false,
             dashboard: [
@@ -75,8 +80,8 @@ export default {
                 ['Units', 'mdi-weight', '/product-units'],
             ],
             Inventory: [
+                ['Purchases', 'mdi-cube-outline', '/purchases'],
                 ['Stock Overview', 'mdi-cube', '/stock-overview'],
-                ['Manage Stock', 'mdi-cube-outline', '/manage-stock'],
                 ['Stock Movements', 'mdi-arrow-up-down', '/stock-movements'],
                 ['Purchase Orders', 'mdi-cart', '/purchase-orders'],
                 ['Stock Alerts', 'mdi-bell-ring', '/stock-alerts'],
@@ -88,6 +93,13 @@ export default {
                 ['Record Transactions', 'mdi-credit-card', '/record-transactions'],
                 ['Returns', 'mdi-arrow-collapse', '/returns'],
                 ['Customers', 'mdi-account', '/customers'],
+            ],
+            Accounts: [
+                ['Chart of Accounts', 'mdi-format-list-bulleted', '/chart-of-accounts'],
+                ['Journals', 'mdi-book-open-variant', '/journals'],
+                ['Ledger', 'mdi-book', '/ledger'],
+                ['Trial Balance', 'mdi-scale-balance', '/trial-balance'],
+                ['Financial Reports', 'mdi-finance', '/financial-reports'],
             ],
             Reports: [
                 ['Sales Report', 'mdi-chart-line', '/sales-report'],
@@ -114,6 +126,12 @@ export default {
             ],
         };
     },
+    methods: {
+        getImageUrl(imageName) {
+            return this.$getImageUrl(imageName);
+        },
+
+    },
     computed: {
         ...mapGetters({
             authenticated: 'auth/authenticated',
@@ -131,5 +149,9 @@ export default {
 
 .default-color {
     color: #3674B5;
+}
+
+.emoji {
+    font-size: 90px;
 }
 </style>

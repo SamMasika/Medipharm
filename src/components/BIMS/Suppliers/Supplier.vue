@@ -152,8 +152,10 @@
 
 <script>
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
+import alert from '@/mixins/swtalert';
 import axios from "axios";
 export default {
+	mixins:[alert],
     components: {
         DataTable
     },
@@ -171,7 +173,7 @@ export default {
             itemToDelete: {},
             headers: [{
                     title: 'Name',
-                    value: 'name',
+                    value: 'fullName',
                 },
                 {
                     title: 'Contact Person',
@@ -183,7 +185,7 @@ export default {
                 },
                 {
                     title: 'Phone',
-                    value: 'phone',
+                    value: 'mobileNo',
                 },
                 {
                     title: 'Location',
@@ -268,15 +270,6 @@ export default {
         deleteDialog(item) {
             this.itemToDelete = item;
             this.confirmDialogVisible = true;
-        },
-
-        showAlert(message, type) {
-            this.$swal.fire({
-                icon: type,
-                title: message,
-                showConfirmButton: false,
-                timer: 2000,
-            });
         },
     },
 

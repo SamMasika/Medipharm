@@ -2,21 +2,26 @@
 <v-container fluid>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="900">
+            <v-dialog v-model="dialog" max-width="600">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Unit" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Ledger" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
-                <v-card prepend-icon="mdi-plus" title="Add Unit">
+                <v-card prepend-icon="mdi-plus" title="Add Ledger">
                     <v-form>
                         <v-card-text>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Name*" v-model="unit.name" required variant="outlined"></v-text-field>
+                                    <v-text-field label="Ledger Name*" v-model="ledger.name" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col cols="12" sm="12" md="12">
-                                    <v-textarea label="Description*(Optional)" placeholder=""  rows="2" v-model="unit.description" required variant="outlined"></v-textarea>
+                                    <v-text-field label="Ledger Description*" v-model="ledger.description" required variant="outlined" density="compact"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12" sm="12" md="12">
+                                    <v-text-field label="Ledger Type*" v-model="ledger.type" required variant="outlined" density="compact"></v-text-field>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -24,20 +29,21 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addUnit" rounded="xl"></v-btn>
+                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addLedger" rounded="xl"></v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card>
             </v-dialog>
         </v-col>
     </v-row>
+
     <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-weight" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Units
+            <v-icon icon="mdi-book-open-page-variant" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            Ledger Entries
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'/unit-list'" :headers="headers">
+        <DataTable :api-url="'/ledger-list'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -47,7 +53,7 @@
                     </template>
                     <!-- List for actions -->
                     <v-list>
-                        <v-list-item @click="editUnit(item)">
+                        <v-list-item @click="editLedger(item)">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                             </template>
@@ -64,51 +70,58 @@
                 </v-menu>
             </template>
         </DataTable>
-
     </v-card>
-    <v-dialog v-model="unitEditDialog" max-width="600">
-        <v-card prepend-icon="mdi-plus" title="Update Unit">
+
+    <!-- Edit Ledger Dialog -->
+    <v-dialog v-model="ledgerEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-pencil" title="Update Ledger">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Name*" v-model="unitEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Ledger Name*" v-model="ledgerEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
-
+                    <v-row dense>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-text-field label="Ledger Description*" v-model="ledgerEdit.description" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row dense>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-text-field label="Ledger Type*" v-model="ledgerEdit.type" required variant="outlined" density="compact"></v-text-field>
+                        </v-col>
+                    </v-row>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="unitEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateUnit" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="ledgerEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateLedger" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
     </v-dialog>
+
+    <!-- Confirm Delete Dialog -->
     <v-dialog v-model="confirmDialogVisible" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
-            <!-- Title Section -->
             <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
                 <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
                 Confirm Deletion
             </v-card-title>
 
-            <!-- Content Section -->
             <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
-
                 <div class="font-weight-medium text-body-1 text-center mb-4">
-                    Are you sure you want to delete <b>"{{ itemToDelete.name }} </b>?
+                    Are you sure you want to delete <b>"{{ itemToDelete.name }}"</b>?
                 </div>
                 <div class="font-italic text-subtitle-1" style="color: #777;">
                     This action cannot be undone.
                 </div>
             </v-card-text>
 
-            <!-- Divider -->
             <v-divider></v-divider>
 
-            <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
                 <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
                     Cancel
@@ -127,103 +140,89 @@
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 import alert from '@/mixins/swtalert';
+
 export default {
-	mixins:[alert],
+    mixins: [alert],
     components: {
         DataTable
     },
     data() {
         return {
-            search: "",
-            units: [],
-            unit: {},
+            ledger: {},
+            ledgerEdit: {},
             dialog: false,
-            unitEditDialog: false,
-            unitEdit: {},
-            dialogDelete: false,
+            ledgerEditDialog: false,
             confirmDialogVisible: false,
-            isLoading: false,
             itemToDelete: {},
-           headers: [{
-                    title: 'Name',
-                    value: 'name',
-                },
-                {
-                    title: 'Action',
-                    value: 'actions'
-                }
-
+            headers: [
+                { title: 'Code', value: 'name' },
+                { title: 'Ledger Name', value: 'type' },
+                { title: 'Type', value: 'name' },
+                { title: 'Category', value: 'type' },
+                { title: 'Description', value: 'name' },
+                { title: 'Actions', value: 'actions' },
             ],
         };
     },
 
     methods: {
-       
-        addUnit() {
-            const data = {
-                ...this.unit,
-            };
-            axios.post('/unit-store', data, {
+        addLedger() {
+            const data = { ...this.ledger };
+            axios.post('/ledger-store', data, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                     }
                 })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
                     this.dialog = false; // Close the dialog after success
                     setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                        window.location.reload(); // Reload after success
+                    }, 500);
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
-        //UpdateUnit
-        editUnit(item) {
-            this.unitEdit = item
-            this.unitEditDialog = true
+
+        // Edit Ledger
+        editLedger(item) {
+            this.ledgerEdit = item;
+            this.ledgerEditDialog = true;
         },
-        updateUnit() {
-    const { id, name } = this.unitEdit;
 
-    axios.put(`/unit-update/${id}`, { name })
-        .then(response => {
-            this.showAlert(response.data.message, 'success');
-            this.unitEditDialog = false; // Close the dialog after success
-            setTimeout(() => {
-                window.location.reload(); // Reload the window after success
-            }, 500); // Delay the reload slightly to allow the success message to be shown
-        })
-        .catch(error => {
-			this.showAlert(error.response.data.message, 'error');
-            this.unitEditDialog = false;
-        });
-},
+        updateLedger() {
+            const { id, name, description, type } = this.ledgerEdit;
 
+            axios.put(`/ledger-update/${id}`, { name, description, type })
+                .then(response => {
+                    this.showAlert(response.data.message, 'success');
+                    this.ledgerEditDialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload after success
+                    }, 500);
+                })
+                .catch(error => {
+                    this.showAlert(error.response.data.message, 'error');
+                    this.ledgerEditDialog = false;
+                });
+        },
 
         deleteItem() {
-            axios.delete(`/unit-delete/${this.itemToDelete.id}`)
+            axios.delete(`/ledger-delete/${this.itemToDelete.id}`)
                 .then(response => {
-                    // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.units.indexOf(this.itemToDelete);
-                    if (index > -1) {
-                        this.units.splice(index, 1);
-                    }
-                    this.confirmDialogVisible = false;
                     this.showAlert(response.data.message, 'success');
-
+                    this.confirmDialogVisible = false;
                     setTimeout(() => {
-                        window.location.reload(); // Reload the window after success
-                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                        window.location.reload();
+                    }, 500);
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
+
         deleteDialog(item) {
             this.itemToDelete = item;
             this.confirmDialogVisible = true;
         },
     },
-  
-
 };
 </script>
 

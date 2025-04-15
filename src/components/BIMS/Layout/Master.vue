@@ -1,70 +1,74 @@
 <template>
-<v-app :theme="darkTheme ? 'dark' : 'light'" id="app">
-    <div class="overlay"></div>
+<!-- Fixed Sidebar -->
+<v-navigation-drawer v-model="drawer" app v-if="user?.company?.isComplete !== false">
+    <Sidebar />
+</v-navigation-drawer>
 
-    <!-- Conditionally show the drawer -->
-   <v-navigation-drawer app v-model="drawer" v-if="user?.company?.isComplete !== false">
-        <Sidebar />
-    </v-navigation-drawer>
+<!-- App Bar -->
+<v-app-bar scroll-behavior="elevate" dark>
+    <v-app-bar-nav-icon v-if="user?.company?.isComplete !== false" @click="drawer = !drawer" color="blue-grey lighten-1" class="mx-5" />
 
-    <v-app-bar app scroll-behavior="elevate" dark>
-        <!-- Conditionally hide nav icon if company is not complete -->
-        <v-app-bar-nav-icon v-if="user?.company?.isComplete !== false" @click="drawer = !drawer" color="blue-grey lighten-1" class="mx-5"></v-app-bar-nav-icon>
+    <v-spacer></v-spacer>
 
-        <v-spacer></v-spacer>
+    <!-- Theme Toggle -->
+    <v-btn icon @click="toggleTheme" variant="solo-filled">
+        <v-icon class="custom-icon">
+            {{ darkTheme ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny' }}
+        </v-icon>
+    </v-btn>
 
-        <v-btn icon @click="toggleTheme" variant="solo-filled">
-            <v-icon class="custom-icon">{{ darkTheme ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny' }}</v-icon>
-        </v-btn>
+    <!-- User Menu -->
+    <v-menu open-on-hover>
+        <template v-slot:activator="{ props }">
+            <v-chip v-bind="props" class="mx-5 chip-clor">
+                <div style="font-size: 60;">🤵‍♂️</div>
+                <span v-if="user">{{ user.name }}</span>
+                <span v-else>Guest</span>
+                <v-icon>mdi-menu-down</v-icon>
+            </v-chip>
+        </template>
 
-        <v-menu open-on-hover>
-            <template v-slot:activator="{ props }">
-                <v-chip v-bind="props" class="mx-5 chip-color">
-                    <v-icon>mdi-account</v-icon>
-                    <span v-if="user">{{ user.name }}</span>
-                    <span v-else>Guest</span>
-                    <v-icon>mdi-menu-down</v-icon>
-                </v-chip>
-            </template>
-            <v-list>
+        <v-list>
+            <v-list-item>
+                <v-icon color="blue-grey darken-3" class="mx-5">mdi-account</v-icon>Profile
+            </v-list-item>
+
+            <router-link to="/change-password" style="text-decoration: none; color: inherit;">
                 <v-list-item>
-                    <v-icon color="blue-grey darken-3" class="mx-5">mdi-account</v-icon>Profile
+                    <v-icon color="blue-grey darken-3" class="mx-5">mdi-lock-minus</v-icon>Change Password
                 </v-list-item>
-                <router-link to="/change-password" style="text-decoration: none; color: inherit;">
-                    <v-list-item>
-                        <v-icon color="blue-grey darken-3" class="mx-5">mdi-lock-minus</v-icon>Change Password
-                    </v-list-item>
-                </router-link>
-                <v-list-item @click="logout">
-                    <v-list-item-title>
-                        <v-icon color="blue-grey darken-3" class="mx-5">
-                            mdi-arrow-right-bold-box-outline
-                        </v-icon> Logout
-                    </v-list-item-title>
-                </v-list-item>
-            </v-list>
-        </v-menu>
-    </v-app-bar>
+            </router-link>
 
-    <v-main>
-        <v-container fluid class="ma-2">
-            <router-view></router-view>
-        </v-container>
-    </v-main>
+            <v-list-item @click="logout">
+                <v-list-item-title>
+                    <v-icon color="blue-grey darken-3" class="mx-5">mdi-arrow-right-bold-box-outline</v-icon>
+                    Logout
+                </v-list-item-title>
+            </v-list-item>
+        </v-list>
+    </v-menu>
+</v-app-bar>
 
-    <v-footer app>
-        <v-container>
-            <v-row justify="center" align="center" class="text-center">
-                <v-col cols="auto">
-                    <span class="headline font-weight-bold">Banal TechnologiesTz</span>
-                </v-col>
-                <v-col cols="auto">
-                    <span class="body-1">© {{ new Date().getFullYear() }} All Rights Reserved</span>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-footer>
-</v-app>
+<!-- Scrollable Main Content -->
+<v-main class="main-content">
+    <v-container fluid class="fill-height d-flex align-center justify-center">
+        <router-view />
+    </v-container>
+</v-main>
+
+<!-- Footer -->
+<v-footer app class="footer">
+    <v-container>
+        <v-row justify="center" align="center" class="text-center">
+            <v-col cols="auto">
+                <span class="headline font-weight-bold">Banal TechnologiesTz</span>
+            </v-col>
+            <v-col cols="auto">
+                <span class="body-1">© {{ new Date().getFullYear() }} All Rights Reserved</span>
+            </v-col>
+        </v-row>
+    </v-container>
+</v-footer>
 </template>
 
 <script>
@@ -79,49 +83,71 @@ export default {
     components: {
         Sidebar,
     },
+    data: () => ({
+        drawer: true,
+        darkTheme: false,
+    }),
     computed: {
         ...mapGetters({
             authenticated: 'auth/authenticated',
             user: 'auth/user',
-        })
+        }),
     },
-    data: () => ({
-        drawer: true,
-        darkTheme: false, // Default to light theme
-    }),
     methods: {
         ...mapActions({
             logoutAction: 'auth/logout',
         }),
-
         logout() {
             this.logoutAction()
-                .then(() => {
-                    this.$router.replace({
-                        name: 'login'
-                    });
-                })
-                .catch((error) => {
-                    console.error('Logout error:', error);
-                });
+                .then(() => this.$router.replace({
+                    name: 'login'
+                }))
+                .catch((error) => console.error('Logout error:', error));
         },
         toggleTheme() {
             this.darkTheme = !this.darkTheme;
         },
         setThemeBasedOnTime() {
             const hour = new Date().getHours();
-            this.darkTheme = hour >= 18 || hour < 6; // Dark theme from 6 PM to 6 AM
-        }
+            this.darkTheme = hour >= 18 || hour < 6;
+        },
     },
     created() {
         this.setThemeBasedOnTime();
-        setInterval(this.setThemeBasedOnTime, 60000); // Check every minute
-    }
+        setInterval(this.setThemeBasedOnTime, 60000);
+    },
 };
 </script>
 
 <style>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+html,
+body,
+/* #app {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+} */
+
+.v-application {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    /* Allows content to take remaining space */
+    overflow-y: auto;
+    /* Enables scrolling */
+    padding: 16px;
+    /* height: calc(100vh - 64px);  */
+}
+
+.v-footer {
+    flex-shrink: 0;
+}
 
 .custom-icon {
     color: #3674B5 !important;
@@ -135,5 +161,17 @@ export default {
 .button-color {
     background-color: #3674B5 !important;
     color: white !important;
+}
+
+.title {
+    font-size: 50px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+    color: #1a237e;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #546e7a;
 }
 </style>

@@ -18,12 +18,19 @@
         <!-- Company Info -->
         <v-row align="center" justify="center">
             <v-col cols="12" md="3" class="text-center">
-                <v-avatar size="140" class="elevation-5">
-                    <v-img v-if="company.image" :src="company.image" alt="Company Logo" class="rounded-circle" />
-                    <v-icon v-else size="100" color="grey-lighten-1">mdi-office-building</v-icon>
-                </v-avatar>
-            </v-col>
+              <v-avatar size="140" class="elevation-5">
+    <v-img 
+        v-if="user?.company?.image" 
+        :src="getImageUrl(user.company.image)" 
+        alt="Company Logo" 
+        class="rounded-circle" 
+        cover 
+        aspect-ratio="1"
+    />
+    <v-icon v-else size="100" color="grey-lighten-1">mdi-office-building</v-icon>
+</v-avatar>
 
+            </v-col>
             <v-col cols="12" md="9">
                 <v-row align="center" no-gutters>
                     <v-col cols="auto">
@@ -84,9 +91,9 @@
     <!-- Edit Company Dialog -->
 
     <v-dialog v-model="editDialog" max-width="900">
-        <v-card>
-            <v-card-title class="text-h5 font-weight-bold text-center mb-4 my-5">
-                <v-icon>mdi-pencil</v-icon> Update Company Details
+        <v-card rounded="xl">
+            <v-card-title class="text-h5 font-weight-bold text-center ">
+                <v-icon>mdi-pencil</v-icon> Edit Company Details
             </v-card-title>
             <v-card-text>
                 <v-form>
@@ -119,10 +126,10 @@
                     </v-row>
 
                     <v-row dense>
-                            <v-col cols="12">
-                                <v-file-input label="Company Image" v-model="editCompany.image" accept="image/*" variant="outlined"  />
-                            </v-col>
-                        </v-row>
+                        <v-col cols="12">
+                            <v-file-input label="Company Image" v-model="editCompany.image" accept="image/*" variant="outlined" />
+                        </v-col>
+                    </v-row>
 
                     <v-divider></v-divider>
 
@@ -137,22 +144,22 @@
         </v-card>
     </v-dialog>
     <!-- Edit Store Dialog -->
-    <v-dialog v-model="storeEditDialog" max-width="600px">
-        <v-card>
-            <v-card-title class="bg-blue-darken-2 text-white">
-                <v-icon class="me-2">mdi-store</v-icon> Edit Store Details
+    <v-dialog v-model="storeEditDialog" max-width="800px">
+       <v-card rounded="xl">
+              <v-card-title class="text-h5 font-weight-bold text-center">
+                <v-icon>mdi-pencil</v-icon> Edit Store Details
             </v-card-title>
             <v-card-text class="pa-5">
-                <v-text-field v-model="editStore.store_name" label="Store Name" outlined dense></v-text-field>
-                <v-text-field v-model="editStore.location" label="Location" outlined dense></v-text-field>
-                <v-text-field v-model="editStore.created_by" label="Managed By" outlined dense></v-text-field>
+                <v-text-field v-model="editStore.store_name" label="Store Name" variant="outlined"></v-text-field>
+                <v-text-field v-model="editStore.location" label="Location" variant="outlined"></v-text-field>
+                <!-- <v-text-field v-model="editStore.created_by" label="Managed By" variant="outlined" ></v-text-field> -->
             </v-card-text>
 
             <v-divider></v-divider>
 
             <v-card-actions>
-                <v-btn color="grey" text @click="storeEditDialog = false">Cancel</v-btn>
-                <v-btn color="primary" class="text-white" @click="saveStoreChanges">Save Changes</v-btn>
+                <v-btn color="grey" class="text-none"  rounded="xl" text @click="storeEditDialog = false">Cancel</v-btn>
+                <v-btn class=" button-color text-none" rounded="xl" @click="saveStoreChanges">Update</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -161,11 +168,13 @@
 
 <script>
 import axios from "axios";
+import alert from "@/mixins/swtalert";
 import {
     mapGetters,
 } from 'vuex';
 
 export default {
+	mixins:[alert],
     data() {
         return {
             editDialog: false,
@@ -183,7 +192,7 @@ export default {
                 },
                 {
                     icon: 'mdi-phone',
-                    value: this.user?.company?.companyPhone
+                    value: this.user ?.company ?.companyPhone
                 },
                 {
                     icon: 'mdi-map-marker',
@@ -223,19 +232,53 @@ export default {
             };
             this.editDialog = false;
         },
-      updateCompany() {
-    const formData = new FormData();
-    formData.append('id', this.editCompany.id);
-    formData.append('name', this.editCompany.companyName);
-    formData.append('email', this.editCompany.companyEmail);
-    formData.append('phone', this.editCompany.companyPhone);
-    formData.append('city', this.editCompany.companyCity);
-    formData.append('country', this.editCompany.companyCountry);
+        updateCompany() {
+            const formData = new FormData();
+            formData.append('id', this.editCompany.id);
+            formData.append('name', this.editCompany.companyName);
+            formData.append('email', this.editCompany.companyEmail);
+            formData.append('phone', this.editCompany.companyPhone);
+            formData.append('city', this.editCompany.companyCity);
+            formData.append('country', this.editCompany.companyCountry);
 
-    // Check if the image is a File before appending
-    if (this.editCompany.image instanceof File) {
-        formData.append('image', this.editCompany.image);
-    }
+            // Check if the image is a File before appending
+            if (this.editCompany.image instanceof File) {
+                formData.append('image', this.editCompany.image);
+            }
+
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                }
+            };
+
+            // Making the API request
+            axios.post(`/company-update`, formData, config)
+                .then(response => {
+                    this.showAlert(response.data.message, 'success');
+                    this.EditDialog = false; // Close the dialog after success
+                    this.$emit('companyUpdated', response.data.company); // Emit the updated company data to parent component
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000); // Adding a small delay before reload to allow alert display
+                })
+                .catch(error => {
+                    const errorMessage = error.response ?.data ?.message || 'An error occurred';
+                    this.showAlert(errorMessage, 'error');
+                });
+        },
+        openStoreEditDialog(store) {
+            this.editStore = {
+                ...store
+            };
+            this.storeEditDialog = true;
+        },
+      saveStoreChanges() {
+    const formData = new FormData();
+    formData.append('id', this.editStore.id);
+    formData.append('store_name', this.editStore.store_name);
+    formData.append('location', this.editStore.location);
 
     const config = {
         headers: {
@@ -244,45 +287,49 @@ export default {
         }
     };
 
-    // Making the API request
-    axios.post(`/company-update`, formData, config)
+    axios.post(`/store-update`, formData, config)
         .then(response => {
             this.showAlert(response.data.message, 'success');
-            this.EditDialog = false; // Close the dialog after success
-            this.$emit('companyUpdated', response.data.company); // Emit the updated company data to parent component
+
+            this.storeEditDialog = false; // Close the dialog
+
+            // Ensure response contains the expected structure
+            if (response.data.company?.stores) {
+                const updatedStore = response.data.company.stores.find(store => store.id === this.editStore.id);
+                if (updatedStore) {
+                    this.$emit('storeUpdated', updatedStore); // Emit only the updated store
+                }
+            }
+
+            setTimeout(() => {
+                window.location.reload(); // Ensure this doesn't block execution
+            }, 1000);
         })
         .catch(error => {
-            const errorMessage = error.response?.data?.message || 'An error occurred';
-            this.showAlert(errorMessage, 'error');
-            // Avoid closing the dialog on error, unless you want to
-            // this.EditDialog = false; // Uncomment only if you want to close the dialog on error
-        });
-}
-,
+            console.error("Update Store Error:", error); // Debugging
 
-        openStoreEditDialog(store) {
-            this.editStore = {
-                ...store
-            };
-            this.storeEditDialog = true;
+            // Improved error handling
+            const errorMessage = error.response && error.response.data && error.response.data.message 
+                ? error.response.data.message 
+                : 'An error occurred';
+            this.showAlert(errorMessage, 'error');
+        });
+},
+
+        getImageUrl(imageName) {
+            return this.$getImageUrl(imageName);
         },
-        saveStoreChanges() {
-            const index = this.company.stores.findIndex(store => store.id === this.editStore.id);
-            if (index !== -1) {
-                this.company.stores[index] = {
-                    ...this.editStore
-                };
-            }
-            this.storeEditDialog = false;
-        },
-        showAlert(message, type) {
-            this.$swal.fire({
-                icon: type,
-                title: message,
-                showConfirmButton: false,
-                timer: 2000,
-            });
-        },
+
+        // saveStoreChanges() {
+        //     const index = this.company.stores.findIndex(store => store.id === this.editStore.id);
+        //     if (index !== -1) {
+        //         this.company.stores[index] = {
+        //             ...this.editStore
+        //         };
+        //     }
+        //     this.storeEditDialog = false;
+        // },
+     
     },
     mounted() {
         // this.isLoading = true;
