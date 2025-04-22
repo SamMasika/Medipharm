@@ -12,21 +12,57 @@
         <template v-slot:item="props">
             <tr :key="props.item.id">
                 <td v-for="(column, index) in headers" :key="index">
-                    <!-- Display Image -->
+                    <!-- Image Column -->
                     <span v-if="column.value === 'image'">
                         <v-img v-if="getImageUrl(getNestedValue(props.item, column.value))" :src="getImageUrl(getNestedValue(props.item, column.value))" alt="Product Image" class="product-image" cover aspect-ratio="1" />
                         <v-img v-else src="/path/to/default-image.jpg" alt="Placeholder Image" class="product-image" cover aspect-ratio="1" />
                     </span>
 
-                    <!-- Handle Other Columns -->
-                    <span v-else-if="column.value !== 'actions'">
-                        <span v-if="column.format && column.value.toLowerCase().includes('price')">
-                            {{ formatPrice(getNestedValue(props.item, column.value)) }}
-                        </span>
-                        <span v-else>
-                            {{ getNestedValue(props.item, column.value) }}
-                        </span>
+                    <!-- Stock Status Column -->
+                    <span v-else-if="column.value === 'low_stock_level'">
+                        <v-chip :color="getStockStatusColor(props.item.low_stock_level, props.item.quantity)" size="small" dark class="d-inline-flex align-center">
+                            <v-icon start size="16">
+                                {{ getStockStatusIcon(props.item.low_stock_level, props.item.quantity) }}
+                            </v-icon>
+                            {{ getStockStatusMessage(props.item.low_stock_level, props.item.quantity) }}
+                            ({{ props.item.quantity }}/{{ props.item.low_stock_level }})
+                        </v-chip>
                     </span>
+
+                    <!-- Payment Status Chip -->
+                    <span v-else-if="column.value === 'payment_status'">
+                        <v-chip :color="getStatusColor(getNestedValue(props.item, column.value), 'payment_status')" size="small" dark class="d-inline-flex align-center">
+                            <v-icon start size="16">
+                                {{ getStatusIcon(getNestedValue(props.item, column.value), 'payment_status') }}
+                            </v-icon>
+                            {{ getNestedValue(props.item, column.value) }}
+                        </v-chip>
+                    </span>
+
+                    <!-- Sale Status Chip -->
+                    <span v-else-if="column.value === 'sale_status'">
+                        <v-chip :color="getStatusColor(getNestedValue(props.item, column.value), 'sale_status')" size="small" dark class="d-inline-flex align-center">
+                            <v-icon start size="16">
+                                {{ getStatusIcon(getNestedValue(props.item, column.value), 'sale_status') }}
+                            </v-icon>
+                            {{ getNestedValue(props.item, column.value) }}
+                        </v-chip>
+                    </span>
+
+                    <!-- Formatted Price -->
+                    <span v-else-if="column.format && (
+    ['price', 'amount'].some(term => column.value.toLowerCase().includes(term)) ||
+    ['totalTD'].includes(column.value)
+  )">
+                        <v-icon size="14" class="mr-1" color="green">mdi-currency-tzs</v-icon>
+                        {{ formatPrice(getNestedValue(props.item, column.value)) }}
+                    </span>
+
+                    <!-- Regular Values -->
+                    <span v-else-if="column.value !== 'actions'">
+                        {{ getNestedValue(props.item, column.value) }}
+                    </span>
+
                     <!-- Actions Slot -->
                     <span v-else>
                         <slot name="actions" :item="props.item"></slot>
@@ -35,31 +71,32 @@
             </tr>
         </template>
     </v-data-table-server>
+	
 </v-card-text>
 </template>
 
 <script>
 import axios from "axios";
-import _ from "lodash"; // For debounce
+import _ from "lodash";
 
 export default {
     name: "SharedDataTable",
     props: {
         apiUrl: {
             type: String,
-            required: true,
+            required: true
         },
         headers: {
             type: Array,
-            required: true,
+            required: true
         },
     },
     data() {
         return {
             items: [],
             search: "",
-            itemsPerPage: 10, // Default items per page
-            itemsPerPageOptions: [10, 25, 50, 100, -1], // Options for dropdown (-1 for "All")
+            itemsPerPage: 10,
+            itemsPerPageOptions: [10, 25, 50, 100, -1],
             currentPage: 1,
             totalItems: 0,
             totalPages: 1,
@@ -72,12 +109,12 @@ export default {
                 this.loading = true;
                 const params = {
                     page: this.currentPage,
-                    per_page: this.itemsPerPage === -1 ? this.totalItems : this.itemsPerPage, // Fetch all if -1
+                    per_page: this.itemsPerPage === -1 ? this.totalItems : this.itemsPerPage,
                     search: this.search,
                 };
 
                 const response = await axios.get(this.apiUrl, {
-                    params,
+                    params
                 });
                 const responseData = response.data.data || {};
                 this.items = responseData.data || [];
@@ -90,79 +127,130 @@ export default {
             }
         },
 
-        // Format price to include commas and currency symbol (e.g., TZS 1,000,000)
         formatPrice(price) {
-            if (!price) return "TZS 0"; // Handle cases where price is null or undefined
+            if (!price) return "TZS 0";
             return "TZS " + parseInt(price).toLocaleString();
         },
 
-        // Method to handle nested properties (e.g., item.selling_price or item.details.selling_price)
         getNestedValue(item, field) {
-            const value = field.split(".").reduce((obj, key) => (obj && obj[key] ? obj[key] : ""), item);
+            const value = field.split(".").reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : ""), item);
 
-            // If the value is a date string, format it with ordinal suffix
-            if (value && !isNaN(Date.parse(value))) {
+            // If the field name includes 'date' or ends with '_at', format as date
+            const isDateField = field.toLowerCase().includes("date") || field.toLowerCase().endsWith("_at");
+
+            if (isDateField && typeof value === "string" && !isNaN(Date.parse(value))) {
                 return this.formatDateWithOrdinal(new Date(value));
             }
 
             return value;
         },
+
         getImageUrl(imagePath) {
             if (!imagePath) return null;
             return this.$getImageUrl(imagePath);
         },
 
-        // Method to format date with ordinal suffix (e.g., 1st, 2nd, 3rd, 4th)
         formatDateWithOrdinal(date) {
             const day = date.getDate();
-            const month = date.toLocaleString('default', {
-                month: 'long',
+            const month = date.toLocaleString("default", {
+                month: "long"
             });
             const year = date.getFullYear();
-
-            const suffix = this.getOrdinalSuffix(day); // Get the ordinal suffix (st, nd, rd, th)
-
+            const suffix = this.getOrdinalSuffix(day);
             return `${day}${suffix} ${month} ${year}`;
         },
 
-        // Helper method to get the ordinal suffix for a day (1st, 2nd, 3rd, etc.)
         getOrdinalSuffix(day) {
-            if (day > 3 && day < 21) return 'th'; // Handle 11th, 12th, 13th etc.
+            if (day > 3 && day < 21) return "th";
             switch (day % 10) {
                 case 1:
-                    return 'st';
+                    return "st";
                 case 2:
-                    return 'nd';
+                    return "nd";
                 case 3:
-                    return 'rd';
+                    return "rd";
                 default:
-                    return 'th';
+                    return "th";
             }
         },
 
         handlePageChange(newOptions) {
-            // Capture the new page and itemsPerPage from the updated options
             this.currentPage = newOptions.page;
             this.itemsPerPage = newOptions.itemsPerPage;
-            this.fetchData(); // Fetch the data again when page or items per page change
+            this.fetchData();
         },
 
         onSearchChange: _.debounce(function () {
-            this.currentPage = 1; // Reset to page 1 on search
+            this.currentPage = 1;
             this.fetchData();
-        }, 300), // Debounce to delay search
+        }, 300),
+        getStockStatusIcon(low_stock_level, quantity) {
+            if (quantity === 0) {
+                return 'mdi-close-circle';
+            } else if (quantity < low_stock_level) {
+                return 'mdi-alert-circle';
+            } else {
+                return 'mdi-check-circle';
+            }
+        },
+
+        // 🔴 Stock color and message functions
+        getStockStatusColor(low_stock_level, quantity) {
+            if (quantity === 0) return "red";
+            else if (quantity < low_stock_level && quantity > 0) return "orange";
+            else return "green";
+        },
+
+        getStockStatusMessage(low_stock_level, quantity) {
+            if (quantity === 0) return "Out of Stock";
+            else if (quantity < low_stock_level && quantity > 0) return "Low Stock";
+            else return "In Stock";
+        },
+        getStatusColor(status, field = "") {
+            const val = (status || "").toString().toUpperCase();
+
+            if (field === "payment_status") {
+                if (val === "COMPLETED") return "green";
+                if (val === "PARTIAL") return "orange";
+                if (val === "DUE") return "red";
+            }
+
+            if (field === "sale_status") {
+                if (val === "PAY") return "blue";
+                if (val === "GETINVOICE") return "teal";
+            }
+
+            return "grey"; // fallback
+        },
+        getStatusIcon(status, field = "") {
+            const val = (status || "").toString().toUpperCase();
+
+            if (field === "payment_status") {
+                if (val === "COMPLETED") return "mdi-check-circle";
+                if (val === "PARTIAL") return "mdi-alert-circle";
+                if (val === "DUE") return "mdi-close-circle";
+            }
+
+            if (field === "sale_status") {
+                if (val === "PAY") return "mdi-cash";
+                if (val === "GETINVOICE") return "mdi-file-document";
+            }
+
+            return "mdi-help-circle"; // fallback icon
+        }
+
     },
     watch: {
         currentPage() {
-            this.fetchData(); // Fetch data when page changes
+            this.fetchData();
         },
         itemsPerPage() {
-            this.currentPage = 1; // Reset to page 1 when items per page changes
+            this.currentPage = 1;
             this.fetchData();
         },
     },
     mounted() {
-        this.fetchData(); // Initial data fetch
+        this.fetchData();
     },
 };
 </script>
@@ -173,9 +261,7 @@ export default {
     max-height: 100px;
     max-width: 100px;
     min-height: 100px;
-    /* Ensures consistent height even when image is missing */
     min-width: 100px;
-    /* Ensures consistent width even when image is missing */
     object-fit: cover;
 }
 </style>

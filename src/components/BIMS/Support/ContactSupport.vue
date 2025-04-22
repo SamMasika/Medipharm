@@ -1,5 +1,10 @@
 <template>
   <v-container class="contact-support" fluid>
+		<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Contact Support</span>
+	</nav>
     <v-row justify="center">
       <v-col cols="12" md="8" class="text-center">
         <h1 class="title animate__animated animate__fadeInDown">
@@ -14,7 +19,7 @@
     <v-row justify="center" class="mt-5">
       <v-col cols="12" md="6">
         <v-card class="contact-card" elevation="0">
-          <v-card-title class="text-h6 font-weight-bold text-center">💬 Send Us a Message</v-card-title>
+          <v-card-title class=" font-weight-bold text-center">💬 Send Us a Message</v-card-title>
           <v-card-text>
             <v-form ref="form">
               <v-text-field
@@ -53,8 +58,8 @@
 
     <v-row justify="center" class="animate__animated animate__fadeInUp animate__delay-1s my-5">
       <v-col cols="12" md="6" class="text-center">
-        <h2 class="text-h5 font-weight-bold">📡 Other Ways to Reach Us</h2>
-        <p class="text-body-2 text-grey-darken-1">
+        <h3 class=" font-weight-bold">📡 Other Ways to Reach Us</h3>
+        <p class=" text-grey-darken-1">
           You can also contact us through the following methods:
         </p>
 
@@ -62,21 +67,21 @@
           <v-col cols="12" sm="4" class="contact-item text-center">
             <v-card class="pa-3" flat>
               <div class="emoji">📱</div>
-              <p class="text-body-2 mt-2 font-weight-medium">+255 123 456 789</p>
+              <p class="mt-2 font-weight-medium">+255 123 456 789</p>
             </v-card>
           </v-col>
 
           <v-col cols="12" sm="4" class="contact-item text-center">
             <v-card class="pa-3" flat>
               <div class="emoji">📧</div>
-              <p class="text-body-2 mt-2 font-weight-medium">support@inventory.com</p>
+              <p class=" mt-2 font-weight-medium">support@inventory.com</p>
             </v-card>
           </v-col>
-
+ 
           <v-col cols="12" sm="4" class="contact-item text-center">
             <v-card class="pa-3" flat>
               <div class="emoji">📍</div>
-              <p class="text-body-2 mt-2 font-weight-medium">Dar es Salaam, Tanzania</p>
+              <p class=" mt-2 font-weight-medium">Dar es Salaam, Tanzania</p>
             </v-card>
           </v-col>
         </v-row>

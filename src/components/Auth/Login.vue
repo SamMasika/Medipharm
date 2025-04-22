@@ -14,18 +14,18 @@
 
                 <v-form @submit.prevent="submit" ref="form">
                     <!-- Username -->
-                    <v-text-field v-model="form.username" class="my-3" label="Username" prepend-inner-icon="mdi-account" variant="outlined" density="compact" :rules="[v => !!v || 'Username is required']" placeholder="Sammie Richard"></v-text-field>
+                    <v-text-field v-model="form.username" class="my-2" label="Username" prepend-inner-icon="mdi-account" variant="outlined" density="compact" :rules="[v => !!v || 'Username is required']" placeholder="Sammie Richard"></v-text-field>
 
                     <!-- Password -->
-                    <v-text-field v-model="form.password" class="my-3" :type="visible ? 'text' : 'password'" label="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined" density="compact" :rules="[v => !!v || 'Password is required']" placeholder="Sammie Richard"></v-text-field>
+                    <v-text-field v-model="form.password" class="my-2" :type="visible ? 'text' : 'password'" label="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="visible = !visible" variant="outlined" density="compact" :rules="[v => !!v || 'Password is required']" placeholder="Sammie Richard"></v-text-field>
 
                     <!-- Forgot Password -->
-                    <div class="text-right mb-3">
+                    <div class="text-right mb-2">
                         <a href="#" class="forgot-password">Forgot your password?</a>
                     </div>
 
                     <!-- Login Button -->
-                    <v-btn block type="submit" class="login-btn" size="large" elevation="1">
+                    <v-btn block type="submit" class="login-btn"  elevation="1">
                         <v-icon left>mdi-arrow-right-bold</v-icon> LOG IN
                     </v-btn>
                 </v-form>

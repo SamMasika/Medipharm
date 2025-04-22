@@ -1,69 +1,73 @@
 <template>
-<v-container fluid>
+<v-dialog v-model="dialog" max-width="900">
+    <v-card prepend-icon="mdi-plus" title="Add Product">
+        <v-form>
+            <v-card-text>
+                <v-row dense>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Name*" placeholder="Name" v-model="product.name" required variant="outlined"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <PaginatedDropdown v-model="product.category_id" :api-endpoint="'/category-list'" label="Select Category..." placeholder="Search Category" item-title="categoryName"></PaginatedDropdown>
+                    </v-col>
+                </v-row>
+
+                <v-row dense>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Selling Price*" placeholder="Selling Price" v-model="product.selling_price" required variant="outlined" type="number"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Purchasing Price*" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
+                    </v-col>
+                </v-row>
+
+                <v-row dense>
+                    <v-col cols="12" sm="6">
+                        <PaginatedDropdown v-model="product.unit_id" :api-endpoint="'/unit-list'" label="Select Unit..." placeholder="Search Unit" item-title="name"></PaginatedDropdown>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Low Stock Level*" placeholder="Low Stock Level" v-model="product.low_stock_level" required variant="outlined" type="number"></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="4">
+                        <v-text-field label="Brand(Optional)" placeholder="Brand(Optional)" v-model="product.selling_price" required variant="outlined"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-text-field label="Weight(Optional)" placeholder="Weight(Optional)" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-text-field label="Length(Optional)" placeholder="Length(Optional)" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
+                    </v-col>
+                </v-row>
+
+                <v-row dense>
+                    <v-col cols="12">
+                        <v-file-input label="Product Image" v-model="product.image" accept="image/*" variant="outlined"></v-file-input>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+            <v-divider></v-divider>
+
+            <v-card-actions class="pa-4">
+                <v-spacer></v-spacer>
+                <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
+            </v-card-actions>
+        </v-form>
+
+    </v-card>
+</v-dialog>
+<v-container fluid v-if="itemsLength > 0">
+		<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Products</span>
+	</nav>
+    <!-- Add Account Dialog -->
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="900">
-                <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5"  prepend-icon="mdi-plus" text="Add Product" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
-                </template>
-                <v-card prepend-icon="mdi-plus" title="Add Product">
-                    <v-form>
-                        <v-card-text>
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Name*" placeholder="Name" v-model="product.name" required variant="outlined"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <PaginatedDropdown v-model="product.category_id" :api-endpoint="'/category-list'" label="Select Category..." placeholder="Search Category" item-title="categoryName"></PaginatedDropdown>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Selling Price*" placeholder="Selling Price" v-model="product.selling_price" required variant="outlined" type="number"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Purchasing Price*" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12" sm="6">
-                                        <PaginatedDropdown v-model="product.unit_id" :api-endpoint="'/unit-list'" label="Select Unit..." placeholder="Search Unit" item-title="name"></PaginatedDropdown>
-                                    </v-col>
-                                    <v-col cols="12" sm="6">
-                                        <v-text-field label="Low Stock Level*" placeholder="Low Stock Level" v-model="product.low_stock_level" required variant="outlined" type="number"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row dense>
-                                    <v-col cols="12" sm="4">
-                                        <v-text-field label="Brand(Optional)" placeholder="Brand(Optional)" v-model="product.selling_price" required variant="outlined"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="4">
-                                        <v-text-field label="Weight(Optional)" placeholder="Weight(Optional)" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" sm="4">
-                                        <v-text-field label="Length(Optional)" placeholder="Length(Optional)" v-model="product.purchasing_price" required variant="outlined" type="number"></v-text-field>
-                                    </v-col>
-                                </v-row>
-
-                                <v-row dense>
-                                    <v-col cols="12">
-                                        <v-file-input label="Product Image" v-model="product.image" accept="image/*" variant="outlined"></v-file-input>
-                                    </v-col>
-                                </v-row>
-                        </v-card-text>
-                        <v-divider></v-divider>
-
-                        <v-card-actions class="pa-4">
-                            <v-spacer></v-spacer>
-                            <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
-                        </v-card-actions>
-                    </v-form>
-
-                </v-card>
-            </v-dialog>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Product" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
         </v-col>
     </v-row>
     <v-card flat>
@@ -73,6 +77,7 @@
             <v-spacer></v-spacer>
         </v-toolbar>
         <DataTable :api-url="'/product-list'" :headers="headers">
+
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -87,20 +92,20 @@
                             <template v-slot:prepend>
                                 <v-icon> mdi-eye</v-icon>
                             </template>
-                            <v-list-item-title >View </v-list-item-title>
+                            <v-list-item-title>View Details </v-list-item-title>
                         </v-list-item>
                         <v-list-item @click="editProduct(item)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon>
                             </template>
-                            <v-list-item-title >Edit</v-list-item-title>
+                            <v-list-item-title>Edit</v-list-item-title>
                         </v-list-item>
 
                         <v-list-item @click="deleteDialog(item)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
                             <template v-slot:prepend>
                                 <v-icon> mdi-delete</v-icon>
                             </template>
-                            <v-list-item-title >Delete</v-list-item-title>
+                            <v-list-item-title>Delete</v-list-item-title>
                         </v-list-item>
 
                     </v-list>
@@ -189,7 +194,19 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+</v-container>
+<v-container class="relative-container" fluid v-else>
+    <div class="centered-message">
+        <v-card class="pa-6 text-center" elevation="0" max-width="500">
+            <v-icon size="48" color="grey">mdi-file-document-outline</v-icon>
+            <h2 class="mt-4 mb-2 text-grey-darken-2">No Products Data Found</h2>
+            <p class="text-grey">
+                There are no products records found at the moment.
+            </p>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Category" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
 
+        </v-card>
+    </div>
 </v-container>
 </template>
 
@@ -197,9 +214,10 @@
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import PaginatedDropdown from '@/components/BIMS/SharedComponents/paginatedDropdown'
 import alert from '@/mixins/swtalert';
+import NoRecords from '@/mixins/NoRecords';
 import axios from "axios";
 export default {
-	mixins:[alert],
+    mixins: [alert,NoRecords],
     components: {
         DataTable,
         PaginatedDropdown
@@ -208,7 +226,7 @@ export default {
         return {
             search: "",
             products: [],
-            product: {},
+			product: {},
             dialog: false,
             productEditDialog: false,
             productEdit: {},
@@ -219,6 +237,10 @@ export default {
             headers: [{
                     title: 'Image',
                     value: 'image',
+                },
+                {
+                    title: 'SKU',
+                    value: 'SKU',
                 },
                 {
                     title: 'Name',
@@ -247,6 +269,10 @@ export default {
                     title: 'Quantity',
                     value: 'quantity',
                 },
+                {
+                    title: 'Stock Status',
+                    value: 'low_stock_level',
+                },
 
                 {
                     title: 'Action',
@@ -258,7 +284,16 @@ export default {
     },
 
     methods: {
-
+        fetchItems() {
+            axios.get('/product-list') // Replace with your actual API URL
+                .then(response => {
+					this.itemsLength = response.data.data.meta.total; // Store the fetched data in 'purchases'
+					console.log(this.itemsLength)
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        },
         addProduct() {
             const formData = new FormData();
             formData.append('name', this.product.name);
@@ -340,7 +375,7 @@ export default {
             this.itemToDelete = item;
             this.confirmDialogVisible = true;
         },
-		goToProductDetails(id) {
+        goToProductDetails(id) {
             this.$router.push({
                 name: 'product-details',
                 params: {

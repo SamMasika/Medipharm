@@ -5,8 +5,12 @@
         ⚠️ You must update your company and store details first in order to access other items in the system.
       </v-alert>
     </div>
-
-    <v-card elevation="10" class="pa-5 rounded-lg animate__animated animate__fadeIn">
+<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Company Profile</span>
+	</nav>
+    <v-card  class="pa-5 rounded-lg animate__animated animate__fadeIn">
       <!-- Header Section -->
       <v-sheet class="header-section pa-5 rounded-lg text-center">
         <h1 class="font-weight-bold text-white">🏢 Company Profile</h1>
@@ -55,8 +59,8 @@
 
     <v-list-item>
         <v-list-item-title>
-            <v-chip label :color="user?.company?.status ? 'green' : 'red'">
-                {{ user?.company?.status ? 'ACTIVE ✅' : 'INACTIVE ❌' }}
+            <v-chip  :color="user?.company?.status ? 'green' : 'red'" size="small">
+                {{ user?.company?.status ? 'Active ✅' : 'Inactive ❌' }}
             </v-chip>
         </v-list-item-title>
     </v-list-item>
@@ -68,21 +72,21 @@
       <v-divider class="my-4"></v-divider>
 
       <!-- Stores List in Expansion Panel -->
-      <h3 v-if="user?.company?.stores.length > 0" class="text-h6 font-weight-bold mb-3 text-blue-darken-2">
-        🏬 Stores ({{ user?.company?.stores.length }} 🏢)
+      <h3 v-if="user?.company?.stores.length > 0" class="font-weight-bold mb-3 text-blue-darken-2">
+        🏬 Store(s) ({{ user?.company?.stores.length }})
       </h3>
       <v-expansion-panels v-if="user?.company?.stores.length > 0">
         <v-expansion-panel v-for="store in user?.company?.stores" :key="store.id">
           <v-expansion-panel-title>
             <span class="font-weight-bold">{{ store.store_name }}</span>
             <v-btn icon density="compact" @click="openStoreEditDialog(store)" class="ml-4" color="primary" elevation="5">
-              ✏️
+            <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <p class="text-caption text-grey-darken-1">📍 Location: {{ store.location }}</p>
-            <p class="text-caption text-grey-darken-1">👤 Managed by: {{ store.created_by }}</p>
-            <p class="text-caption text-grey-darken-1">🗓️ Opening Hours: {{ store.opening_hours }}</p>
+            <p class=" text-grey-darken-1">📍 Location: {{ store.location }}</p>
+            <p class=" text-grey-darken-1">👤 Managed by: {{ store.created_by }}</p>
+            <p class=" text-grey-darken-1">🗓️ Opening Hours: {{ store.opening_hours }}</p>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -95,7 +99,7 @@
     <v-dialog v-model="editDialog" max-width="900">
       <v-card>
         <v-card-title class="font-weight-bold text-center">
-          ✏️ Edit Company Details
+          <v-icon>mdi-pencil</v-icon> Edit Company Details
         </v-card-title>
         <v-card-text>
           <v-form>
@@ -136,7 +140,7 @@
 
             <v-card-actions class="pa-4">
               <v-spacer></v-spacer>
-              <v-btn text="Close ❌" class="text-none" variant="tonal" @click="editDialog = false" rounded="xl"></v-btn>
+              <v-btn text="Close " class="text-none" variant="tonal" @click="editDialog = false" rounded="xl"></v-btn>
               <v-btn type="submit" text="Update 🛠️" class="text-none button-color" variant="flat" @click="updateCompany" rounded="xl"></v-btn>
             </v-card-actions>
           </v-form>
@@ -148,7 +152,7 @@
     <v-dialog v-model="storeEditDialog" max-width="900px">
       <v-card>
         <v-card-title class="font-weight-bold text-center">
-          ✏️ Edit Store Details
+          <v-icon>mdi-pencil</v-icon> Edit Store Details
         </v-card-title>
         <v-card-text class="pa-5">
           <v-text-field v-model="editStore.store_name" label="Store Name 🏬" variant="outlined" />

@@ -3,7 +3,7 @@
     <div align="center" class="my-3 emoji">
         <!-- <v-img alt="Banal Logo" v-if="user?.company?.image" :src="getImageUrl(user.company.image)" transition="scale-transition" cover max-height="120" /> -->
         <!-- <v-img alt="Banal Logo" src="@/assets/banal.png" transition="scale-transition" max-width="130" /> -->
-        🛍️
+        🧾
         <!-- <v-icon v-else size="130" class="default-color">mdi-account-circle</v-icon> -->
     </div>
     <v-list nav active-class="my-selected-item">
@@ -39,11 +39,11 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in Reports" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
-        <v-list-group value="SuppliersVendors" append-icon="mdi-menu-right">
+        <v-list-group value="Suppliers" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" link prepend-icon="mdi-truck" title="Suppliers & Vendors" v-tooltip="'Manage Suppliers and Vendors'"></v-list-item>
+                <v-list-item v-bind="props" link prepend-icon="mdi-truck" title="Suppliers" v-tooltip="'Manage Suppliers'"></v-list-item>
             </template>
-            <v-list-item v-for="([title, icon, path], i) in SuppliersVendors" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+            <v-list-item v-for="([title, icon, path], i) in Suppliers" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
         <v-list-group value="UserManagement" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
@@ -88,15 +88,14 @@ export default {
             Inventory: [
                 ['Purchases', 'mdi-cube-outline', '/purchases'],
                 ['Stock Overview', 'mdi-cube', '/stock-overview'],
-                ['Stock Movements', 'mdi-arrow-up-down', '/stock-movements'],
+                // ['Stock Movements', 'mdi-arrow-up-down', '/stock-movements'],
                 ['Purchase Orders', 'mdi-cart', '/purchase-orders'],
-                ['Stock Alerts', 'mdi-bell-ring', '/stock-alerts'],
+                // ['Stock Alerts', 'mdi-bell-ring', '/stock-alerts'],
             ],
             SalesTransactions: [
                 ['POS (Point of Sale)', 'mdi-cash-register', '/pos'],
                 ['Sales History', 'mdi-cart', '/sales-history'],
-                ['Generate Invoices', 'mdi-file-document', '/generate-invoices'],
-                ['Record Transactions', 'mdi-credit-card', '/record-transactions'],
+                ['Invoices', 'mdi-file-document', '/invoices'],
                 ['Returns', 'mdi-arrow-collapse', '/returns'],
                 ['Customers', 'mdi-account', '/customers'],
             ],
@@ -112,9 +111,8 @@ export default {
                 ['Inventory Report', 'mdi-archive', '/inventory-report'],
                 ['Stock Valuation', 'mdi-cash', '/stock-valuation'],
             ],
-            SuppliersVendors: [
+            Suppliers: [
                 ['Suppliers', 'mdi-truck', '/suppliers'],
-                ['Vendor Relations', 'mdi-handshake', '/vendor-relations'],
             ],
             UserManagement: [
 
@@ -151,13 +149,13 @@ export default {
 .my-selected-item {
     background-color: #3674B5 !important;
     color: #ffffff;
-}
+}Purchases
 
 .default-color {
     color: #3674B5;
 }
 
 .emoji {
-    font-size: 90px;
+    font-size: 70px;
 }
 </style>

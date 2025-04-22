@@ -29,19 +29,21 @@
         </template>
 
         <v-list>
-            <v-list-item>
-                <v-icon color="blue-grey darken-3" class="mx-5">mdi-account</v-icon>Profile
+            <v-list-item @click="goToProfile">
+                <v-icon  class="mx-5">mdi-account</v-icon>
+				Profile
             </v-list-item>
 
             <router-link to="/change-password" style="text-decoration: none; color: inherit;">
                 <v-list-item>
-                    <v-icon color="blue-grey darken-3" class="mx-5">mdi-lock-minus</v-icon>Change Password
+                    <v-icon  class="mx-5">mdi-lock-minus</v-icon>
+					Change Password
                 </v-list-item>
             </router-link>
 
             <v-list-item @click="logout">
                 <v-list-item-title>
-                    <v-icon color="blue-grey darken-3" class="mx-5">mdi-arrow-right-bold-box-outline</v-icon>
+                    <v-icon  class="mx-5">mdi-arrow-right-bold-box-outline</v-icon>
                     Logout
                 </v-list-item-title>
             </v-list-item>
@@ -111,6 +113,11 @@ export default {
             const hour = new Date().getHours();
             this.darkTheme = hour >= 18 || hour < 6;
         },
+        goToProfile() {
+            this.$router.push({
+                name: 'user-profile',
+            });
+        },
     },
     created() {
         this.setThemeBasedOnTime();
@@ -129,7 +136,12 @@ body,
     margin: 0;
     overflow: hidden;
 } */
-
+/* Buttons */
+/* .login-btn {
+    background-color: #3674B5 !important;
+    color: white !important;
+    font-weight: bold;
+} */
 .v-application {
     display: flex;
     flex-direction: column;
@@ -173,4 +185,86 @@ body,
     font-size: 16px;
     color: #546e7a;
 }
+
+.section-title {
+    font-weight: 600;
+    font-size: 17px;
+    padding: 10px 14px;
+    border-left: 5px solid #3f51b5;
+    background-color: #e3f2fd;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    color: #263238;
+}
+
+.detail {
+    font-size: 15px;
+    color: #37474f;
+    padding: 8px 0;
+    margin-top: 10px;
+}
+
+.detail-spacing {
+    margin-right: 5px;
+}
+.relative-container {
+  position: relative;
+  height: 70vh; /* Adjust height as needed */
+}
+
+.centered-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%); /* center, but push slightly up */
+}
+.custom-breadcrumbs {
+  /* background-color: #f9fbfd; */
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #455a64;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04); */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb-item {
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+  padding-bottom: 2px;
+}
+
+.breadcrumb-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #1976d2; /* Vuetify primary */
+  transition: width 0.3s ease;
+}
+
+.breadcrumb-item:hover::after {
+  width: 100%;
+}
+
+.breadcrumb-item:hover {
+  color: #1976d2;
+}
+
+
+.breadcrumb-item.active {
+  color: #90a4ae;
+  cursor: default;
+  text-decoration: none;
+}
+
+.breadcrumb-separator {
+  color: #b0bec5;
+}
+
 </style>

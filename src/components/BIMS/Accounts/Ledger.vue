@@ -1,42 +1,46 @@
 <template>
-<v-container fluid>
+<v-dialog v-model="dialog" max-width="900">
+
+    <v-card prepend-icon="mdi-plus" title="Add Ledger">
+        <v-form>
+            <v-card-text>
+                <v-row dense>
+                    <v-col cols="12" sm="12" md="12">
+                        <v-text-field label="Ledger Name*" v-model="ledger.name" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="12" md="12">
+                        <v-text-field label="Ledger Description*" v-model="ledger.description" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="12" md="12">
+                        <v-text-field label="Ledger Type*" v-model="ledger.type" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addLedger" rounded="xl"></v-btn>
+            </v-card-actions>
+        </v-form>
+    </v-card>
+</v-dialog>
+<v-container fluid v-if="itemsLength>0">
+		<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Ledger</span>
+	</nav>
+    <!-- Add Account Dialog -->
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="600">
-                <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Ledger" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
-                </template>
-                <v-card prepend-icon="mdi-plus" title="Add Ledger">
-                    <v-form>
-                        <v-card-text>
-                            <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Ledger Name*" v-model="ledger.name" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Ledger Description*" v-model="ledger.description" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field label="Ledger Type*" v-model="ledger.type" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                        <v-divider></v-divider>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addLedger" rounded="xl"></v-btn>
-                        </v-card-actions>
-                    </v-form>
-                </v-card>
-            </v-dialog>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Ledger" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
         </v-col>
     </v-row>
-
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-book-open-page-variant" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
@@ -79,17 +83,17 @@
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Ledger Name*" v-model="ledgerEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Ledger Name*" v-model="ledgerEdit.name" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Ledger Description*" v-model="ledgerEdit.description" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Ledger Description*" v-model="ledgerEdit.description" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field label="Ledger Type*" v-model="ledgerEdit.type" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field label="Ledger Type*" v-model="ledgerEdit.type" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -132,7 +136,19 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+</v-container>
+<v-container class="relative-container" fluid v-else>
+    <div class="centered-message">
+        <v-card class="pa-6 text-center" elevation="0" max-width="500">
+            <v-icon size="48" color="grey">mdi-file-document-outline</v-icon>
+            <h2 class="mt-4 mb-2 text-grey-darken-2">No Ledger Data Found</h2>
+            <p class="text-grey">
+                There are no ledger records found at the moment.
+            </p>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Ledger" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
 
+        </v-card>
+    </div>
 </v-container>
 </template>
 
@@ -140,9 +156,9 @@
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 import alert from '@/mixins/swtalert';
-
+import NoRecords from '@/mixins/NoRecords';
 export default {
-    mixins: [alert],
+    mixins: [alert,NoRecords],
     components: {
         DataTable
     },
@@ -153,21 +169,49 @@ export default {
             dialog: false,
             ledgerEditDialog: false,
             confirmDialogVisible: false,
-            itemToDelete: {},
-            headers: [
-                { title: 'Code', value: 'name' },
-                { title: 'Ledger Name', value: 'type' },
-                { title: 'Type', value: 'name' },
-                { title: 'Category', value: 'type' },
-                { title: 'Description', value: 'name' },
-                { title: 'Actions', value: 'actions' },
+			itemToDelete: {},
+            headers: [{
+                    title: 'Code',
+                    value: 'name'
+                },
+                {
+                    title: 'Ledger Name',
+                    value: 'type'
+                },
+                {
+                    title: 'Type',
+                    value: 'name'
+                },
+                {
+                    title: 'Category',
+                    value: 'type'
+                },
+                {
+                    title: 'Description',
+                    value: 'name'
+                },
+                {
+                    title: 'Actions',
+                    value: 'actions'
+                },
             ],
         };
     },
 
     methods: {
+        fetchItems() {
+            axios.get('/ledger-list') // Replace with your actual API URL
+                .then(response => {
+                    this.itemsLength = response.data.data.meta.total; // Store the fetched data in 'purchases'
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        },
         addLedger() {
-            const data = { ...this.ledger };
+            const data = {
+                ...this.ledger
+            };
             axios.post('/ledger-store', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -190,9 +234,18 @@ export default {
         },
 
         updateLedger() {
-            const { id, name, description, type } = this.ledgerEdit;
+            const {
+                id,
+                name,
+                description,
+                type
+            } = this.ledgerEdit;
 
-            axios.put(`/ledger-update/${id}`, { name, description, type })
+            axios.put(`/ledger-update/${id}`, {
+                    name,
+                    description,
+                    type
+                })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
                     this.ledgerEditDialog = false; // Close the dialog after success

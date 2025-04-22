@@ -1,9 +1,6 @@
 <template>
 <v-dialog v-model="dialog" max-width="900">
-    <!-- <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Purchase" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
-                </template> -->
-    <v-card prepend-icon="mdi-plus" title="Add Purchase">
+    <v-card prepend-icon="mdi-plus" title="Add Purchase Order">
         <v-form>
             <v-card-text>
                 <v-row dense>
@@ -46,21 +43,21 @@
 		<nav class="custom-breadcrumbs">
 			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
 			<span class="breadcrumb-separator">/</span>
-			<span class="breadcrumb-item active">Purchases</span>
+			<span class="breadcrumb-item active">Purchase Orders</span>
 	</nav>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Purchase" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Purchase Order" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
 
         </v-col>
     </v-row>
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-cube-outline" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Purchases
+            Purchase Orders
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'/purchase-list'" :headers="headers">
+        <DataTable :api-url="'/purchase-orders'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -105,7 +102,7 @@
 
     </v-card>
     <v-dialog v-model="itemEditDialog" max-width="900">
-        <v-card prepend-icon="mdi-plus" title="Update Product">
+        <v-card prepend-icon="mdi-plus" title="Update Purchase Order">
             <v-form>
                 <v-card-text>
                     <v-row dense>
@@ -182,11 +179,11 @@
     <div class="centered-message">
         <v-card class="pa-6 text-center" elevation="0" max-width="500">
             <v-icon size="48" color="grey">mdi-file-document-outline</v-icon>
-            <h2 class="mt-4 mb-2 text-grey-darken-2">No Purchase Data Found</h2>
+            <h2 class="mt-4 mb-2 text-grey-darken-2">No Purchase Order Data Found</h2>
             <p class="text-grey">
-                There are no purchase records found at the moment.
+                There are no purchase order records found at the moment.
             </p>
-            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Purchase" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Purchase Order" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
 
         </v-card>
     </div>
@@ -256,7 +253,7 @@ export default {
 
     methods: {
         fetchItems() {
-            axios.get('/purchase-list') // Replace with your actual API URL
+            axios.get('/purchase-orders') // Replace with your actual API URL
                 .then(response => {
                     this.itemsLength = response.data.data.meta.total; // Store the fetched data in 'purchases'
                 })

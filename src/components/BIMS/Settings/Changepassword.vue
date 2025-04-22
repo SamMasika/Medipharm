@@ -1,5 +1,15 @@
 <template>
-  <v-container class="d-flex justify-center align-center fill-height">
+<v-row class="mb-4" justify="start" align="start">
+  <v-col cols="12" md="6">
+    <nav class="custom-breadcrumbs">
+      <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-item active">Change Password</span>
+    </nav>
+  </v-col>
+</v-row>
+
+  <v-container class="d-flex justify-center align-center fill-height" fluid>
     <v-card class="password-card pa-8" max-width="600">
       <!-- Title -->
       <v-card-title class=" font-weight-bold text-center">

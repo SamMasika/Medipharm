@@ -1,5 +1,10 @@
 <template>
 <v-container fluid>
+		<nav class="custom-breadcrumbs mb-4">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Users</span>
+	</nav>
     <!-- User Table with Actions and Search -->
     <v-card flat>
         <v-toolbar>
@@ -74,24 +79,58 @@
 
                                     <v-col cols="12" md="9">
                                         <v-card flat class="user-details-card pa-4">
-                                            <v-card-title class="font-weight-bold grey--text text--darken-3">User Details</v-card-title>
+                                            <v-col cols="12" md="8" class="text-center">
+                                                <h1 class="title">👤 User Details</h1>
+                                                <p class="subtitle">Here is everything you need to know about this user</p>
+                                            </v-col>
                                             <v-divider></v-divider>
 
-                                            <v-row class="mt-4">
-                                                <v-col cols="12" sm="6">
-                                                    <p><strong>Name:</strong> {{ item.name }}</p>
+                                            <!-- General Info -->
+                                            <div class="section-title blue lighten-4">📝 General Info</div>
+                                            <v-row dense>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Name:</strong> {{ item.name }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Username:</strong> {{ item.username }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Email:</strong> {{ item.email }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Phone:</strong> {{ item.phone }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Status:</strong>
+                                                    <v-chip :color="item.status ? 'green' : 'red'" variant="flat" dark size="small">
+                                                        {{ item.status ? 'Active' : 'Inactive' }}
+                                                    </v-chip>
                                                 </v-col>
-                                                <v-col cols="12" sm="6">
-                                                    <p><strong>Phone No.:</strong> {{ item.phone }}</p>
+                                            </v-row>
+                                            <!-- Company Info -->
+                                            <div class="section-title green lighten-4 mt-6">🏢 Company Info</div>
+                                            <v-row dense>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Name:</strong> {{ item.company.companyName }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Email:</strong> {{ item.company.companyEmail }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Phone:</strong> {{ item.company.companyPhone }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">City:</strong> {{ item.company.companyCity }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Country:</strong> {{ item.company.companyCountry }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Status:</strong>
+                                                    <v-chip :color="item.company.status === 'Active' ? 'green' : 'red'" variant="flat" dark size="small">
+                                                        {{ item.company.status }}
+                                                    </v-chip>
                                                 </v-col>
-                                                <v-col cols="12" sm="6">
-                                                    <p><strong>Email:</strong> {{ item.email }}</p>
-                                                </v-col>
-                                                <v-col cols="12" sm="6">
-                                                    <p><strong>Company:</strong>{{item.company.companyId }}
+                                            </v-row>
 
-                                                    </p>
+                                            <!-- Store Info -->
+                                            <div class="section-title amber lighten-4 mt-6">🏬 Store Info</div>
+                                            <v-row dense>
+                                                <v-col v-for="store in item.company.stores" :key="store.id" cols="12" sm="6" class="detail">
+                                                    <strong class="detail-spacing">Store Name:</strong> {{ store.store_name }}<br />
                                                 </v-col>
+                                                <v-col v-for="store in item.company.stores" :key="store.id" cols="12" sm="6" class="detail">
+                                                    <strong class="detail-spacing">Location:</strong> {{ store.location }}
+                                                </v-col>
+                                            </v-row>
+
+                                            <!-- Metadata -->
+                                            <div class="section-title grey lighten-3 mt-6">📅 Metadata</div>
+                                            <v-row dense>
+                                                <v-col cols="12" sm="6" class="detail"><strong>Created At:</strong> {{ formatDate(item.createdAt) }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong>Updated At:</strong> {{ formatDate(item.updatedAt) }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong>Last Login:</strong> {{ formatDate(item.lastLogin) }}</v-col>
+                                                <v-col cols="12" sm="6" class="detail"><strong>Login Count:</strong> {{ item.loginCount }} time(s)</v-col>
                                             </v-row>
                                         </v-card>
                                     </v-col>
@@ -494,15 +533,15 @@ export default {
                 // Process Users
                 const responseData = userResponse.data.data || {};
                 this.users = Array.isArray(responseData.data) ? responseData.data : [];
-                this.totalItems = responseData.meta ?.total || 0;
-                this.totalPages = responseData.meta ?.last_page || 1;
+                this.totalItems = responseData.meta.total || 0;
+                this.totalPages = responseData.meta.last_page || 1;
                 this.users.forEach(user => {
                     const selectedRoles = Array.isArray(user.roles) ? user.roles.map(role => role.id) : [];
                     this.selectedRole[user.id] = selectedRoles;
                 });
 
                 // Process Roles with correct data path
-                const roleData = roleResponse.data.data ?.data || [];
+                const roleData = roleResponse.data.data.data || [];
                 if (Array.isArray(roleData)) {
                     this.role = roleData.map(role => ({
                         id: role.id,
@@ -524,7 +563,10 @@ export default {
         hasRole(user, roleName) {
             return user.roles.some(role => role.name === roleName);
         },
-
+        formatDate(date) {
+            if (!date) return "N/A";
+            return new Date(date).toLocaleString();
+        },
         remove(item) {
             const userId = this.userEdit.id;
             const index = this.selectedRole[userId].indexOf(item.id);
@@ -545,7 +587,7 @@ export default {
                 if (userRoles.length === this.role.length) {
                     this.selectedRole[userId] = []; // Directly update in Vue 3
                 } else {
-                    const selectedRoles = this.$refs.roleDropdown[userId] ?.internalValue || [];
+                    const selectedRoles = this.$refs.roleDropdown[userId].internalValue || [];
 
                     this.selectedRole[userId] = this.role
                         .filter(role => selectedRoles.includes(role.id))
@@ -702,11 +744,6 @@ export default {
     border-bottom: 1px solid #e0e0e0;
 }
 
-.title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
 
 .add-button {
     border-radius: 24px;

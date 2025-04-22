@@ -1,5 +1,10 @@
 <template>
 <v-container fluid>
+		<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Point Of Sale</span>
+	</nav>
     <v-row v-if="paginatedProducts.length > 0">
         <!-- Products Section -->
         <v-col cols="12" class="text-center">
@@ -26,12 +31,12 @@
                         </v-card-text>
                         <v-card-actions class="d-flex justify-center">
                             <template v-if="product.quantity > 0">
-                                <v-btn color="primary" variant="tonal" block @click="addToCart(product)">
+                                <v-btn color="primary" variant="tonal" block @click="addToCart(product)" size="small">
                                     🛒 Add to Cart
                                 </v-btn>
                             </template>
                             <template v-else>
-                                <v-chip small color="red lighten-1" dark>🚫 Out of Stock</v-chip>
+                                <v-chip small color="red lighten-1" dark size="small">🚫 Out of Stock</v-chip>
                             </template>
                         </v-card-actions>
                     </v-card>
@@ -151,15 +156,14 @@
                         </v-icon>
                     </v-col>
                     <v-col cols="12">
-                        <h2 class="text-h4 font-weight-bold text-center mb-4" style="color: #A82228; font-size: 28px;">🚫 No Products Available</h2>
-                        <p class="text-body-1" style="color: #333; font-size: 18px;">
+                        <h2 class=" font-weight-bold text-center mb-4" style="color: #A82228; font-size: 28px;"> No Products Available</h2>
+                        <p class="" style="color: #333; font-size: 18px;">
                             It seems like no products have been registered in the system.
                             ❌ No sales can be made at the moment. Please add products to the system to start making sales.
                         </p>
                     </v-col>
                     <v-col cols="12" class="mt-5">
                         <v-btn text flat class="text-none text-blue" @click="navigateToProductListPage">
-                            <v-icon left style="font-size: 20px;">mdi-view-list</v-icon>
                             📃 Go to Products Page
                         </v-btn>
                     </v-col>

@@ -24,6 +24,11 @@ import Purchases from "@/components/BIMS/Products/Purchases.vue";
 import ChartOfAccount from "@/components/BIMS/Accounts/ChartOfAccount.vue";
 import Journals from "@/components/BIMS/Accounts/Journals.vue";
 import Ledger from "@/components/BIMS/Accounts/Ledger.vue";
+import SalesHistory from "@/components/BIMS/Sales/SalesHistory.vue";
+import Profile from "@/components/Auth/Profile.vue";
+import SaleDetails from "@/components/BIMS/Sales/SaleDetails.vue";
+import Stock from "@/components/BIMS/Products/Stock.vue";
+import PurchaseOrders from "@/components/BIMS/Products/PurchaseOrders.vue";
 
 
 const routes = [
@@ -55,10 +60,13 @@ const routes = [
     component: Master,
     children: [
       { path: "/dashboard", name: "dashboard", component: Dashboard },
+      { path: "/user-profile", name: "user-profile", component: Profile },
       { path: "/products", name: "products", component: Products },
       { path: "/product-categories", name: "product-categories", component: Category },
       { path: "/product-units", name: "product-units", component: Unit },
       { path: "/pos", name: "pos", component: Pos },
+      { path: "/sales-history", name: "sales-history", component: SalesHistory },
+      { path: '/sale-details/:id' , name: "sale-details", component: SaleDetails },
       { path: "/users", name: "users", component: Users },
       { path: "/roles", name: "roles", component: Roles },
       { path: "/customers", name: "customers", component: Customer },
@@ -71,6 +79,8 @@ const routes = [
       { path: "/company-profile", name: "company-profile", component: CompanyProfile },
       { path: "/product-details/:id", name: "product-details", component: ProductDetails },
       { path: "/purchases", name: "purchases", component: Purchases },
+      { path: "/purchase-orders", name: "purchase-orders", component: PurchaseOrders },
+      { path: "/stock-overview", name: "stock-overview", component: Stock },
       { path: "/chart-of-accounts", name: "chart-of-accounts", component: ChartOfAccount },
       { path: "/journals", name: "journals", component: Journals },
       { path: "/ledger", name: "ledger", component: Ledger },

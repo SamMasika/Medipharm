@@ -1,45 +1,48 @@
 <template>
-<v-container fluid>
+<v-dialog v-model="dialog" max-width="900">
+    <v-card prepend-icon="mdi-plus" title="Add Supplier">
+        <v-form>
+            <v-card-text>
+                <v-row dense>
+                    <v-col cols="12" sm="6" md="6">
+                        <v-text-field placeholder="Name*" v-model="supplier.name" required variant="outlined" ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                        <v-text-field placeholder="Contact Person*" v-model="supplier.contact_person" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="6" md="6">
+                        <v-text-field placeholder="Phone*" v-model="supplier.phone" required variant="outlined" ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                        <v-text-field placeholder="Email*" type="email" v-model="supplier.email" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="12" md="12">
+                        <v-text-field placeholder="Location*" v-model="supplier.location" required variant="outlined" ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addSupplier" rounded="xl"></v-btn>
+            </v-card-actions>
+        </v-form>
+    </v-card>
+</v-dialog>
+<v-container fluid v-if="itemsLength > 0">
+	<nav class="custom-breadcrumbs">
+				<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+				<span class="breadcrumb-separator">/</span>
+				<span class="breadcrumb-item active">Suppliers</span>
+		</nav>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-dialog v-model="dialog" max-width="800">
-                <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-2" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
-                </template>
-                <v-card prepend-icon="mdi-plus" title="Add Supplier">
-                    <v-form>
-                        <v-card-text>
-                            <v-row dense>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field placeholder="Name*" v-model="supplier.name" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field placeholder="Contact Person*" v-model="supplier.contact_person" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field placeholder="Phone*" v-model="supplier.phone" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="6" md="6">
-                                    <v-text-field placeholder="Email*" type="email" v-model="supplier.email" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row dense>
-                                <v-col cols="12" sm="12" md="12">
-                                    <v-text-field placeholder="Location*" v-model="supplier.location" required variant="outlined" density="compact"></v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                        <v-divider></v-divider>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                            <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addSupplier" rounded="xl"></v-btn>
-                        </v-card-actions>
-                    </v-form>
-                </v-card>
-            </v-dialog>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
         </v-col>
     </v-row>
     <v-card flat>
@@ -77,29 +80,29 @@
         </DataTable>
 
     </v-card>
-    <v-dialog v-model="supplierEditDialog" max-width="600">
+    <v-dialog v-model="supplierEditDialog" max-width="900">
         <v-card prepend-icon="mdi-plus" title="Update Supplier">
             <v-form>
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Name*" v-model="supplierEdit.name" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field placeholder="Name*" v-model="supplierEdit.name" required variant="outlined" ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Contact Person*" v-model="supplierEdit.contact_person" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field placeholder="Contact Person*" v-model="supplierEdit.contact_person" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Phone*" v-model="supplierEdit.phone" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field placeholder="Phone*" v-model="supplierEdit.phone" required variant="outlined" ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Email*" type="email" v-model="supplierEdit.email" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field placeholder="Email*" type="email" v-model="supplierEdit.email" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field placeholder="Location*" v-model="supplierEdit.location" required variant="outlined" density="compact"></v-text-field>
+                            <v-text-field placeholder="Location*" v-model="supplierEdit.location" required variant="outlined" ></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -148,14 +151,27 @@
     </v-dialog>
 
 </v-container>
+<v-container class="relative-container" fluid v-else>
+    <div class="centered-message">
+        <v-card class="pa-6 text-center" elevation="0" max-width="500">
+            <v-icon size="48" color="grey">mdi-file-document-outline</v-icon>
+            <h2 class="mt-4 mb-2 text-grey-darken-2">No Suppliers Data Found</h2>
+            <p class="text-grey">
+                There are no supplier records found at the moment.
+            </p>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+        </v-card>
+    </div>
+</v-container>
 </template>
 
 <script>
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import alert from '@/mixins/swtalert';
+import NoRecords from '@/mixins/NoRecords';
 import axios from "axios";
 export default {
-	mixins:[alert],
+    mixins: [alert,NoRecords],
     components: {
         DataTable
     },
@@ -201,7 +217,15 @@ export default {
     },
 
     methods: {
-
+        fetchItems() {
+            axios.get('/supplier-list') // Replace with your actual API URL
+                .then(response => {
+                    this.itemsLength = response.data.data.meta.total; // Store the fetched data in 'purchases'
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        },
         addSupplier() {
             const data = {
                 ...this.supplier,
@@ -272,7 +296,6 @@ export default {
             this.confirmDialogVisible = true;
         },
     },
-
 };
 </script>
 

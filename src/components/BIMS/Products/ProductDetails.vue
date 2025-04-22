@@ -1,20 +1,24 @@
 <template>
 <v-container fluid class="product-details">
+		<nav class="custom-breadcrumbs">
+				<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+				<span class="breadcrumb-separator">/</span>
+				<span class="breadcrumb-item" @click="$router.push('/products')">Products</span>
+				<span class="breadcrumb-separator">/</span>
+				<span class="breadcrumb-item active">Product Details</span>
+		</nav>
     <!-- Header -->
-    <v-row justify="center" class="mb-10">
+    <v-row justify="center" >
         <v-col cols="12" md="8" class="text-center">
             <h1 class="title">🛍️ Product Details</h1>
             <p class="subtitle">Here is everything you need to know about this product</p>
         </v-col>
-        <v-btn color="primary" variant="outlined" rounded="xl" elevation="0" @click="goBack">
-            <v-icon>mdi-arrow-left-bold</v-icon>Back
-        </v-btn>
     </v-row>
 
     <!-- Main Card -->
     <v-row justify="center">
         <v-col cols="12" md="10">
-            <v-card elevation="10" class="product-card">
+            <v-card  class="product-card">
                 <v-row>
                     <!-- Product Image -->
                     <v-col cols="12" md="4" class="d-flex justify-center align-center">
@@ -26,27 +30,27 @@
                         <!-- General Info -->
                         <div class="section-title blue lighten-4">📝 General Info</div>
                         <v-row dense>
-                            <v-col cols="12" sm="6" class="detail"><strong>Name:</strong> {{ product.name }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>SKU:</strong> {{ product.SKU }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Barcode:</strong> {{ product.barcode }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Category:</strong> {{ product.category }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Unit:</strong> {{ product.unit }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Created By:</strong> {{ product.createdBy }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Weight:</strong> {{ product.weight || 'N/A' }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Dimensions:</strong> {{ product.dimensions || 'N/A' }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Store ID:</strong> {{ product.store_id || 'N/A' }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Company ID:</strong> {{ product.company_id }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Name:</strong> {{ product.name }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">SKU:</strong> {{ product.SKU }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Barcode:</strong> {{ product.barcode }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Category:</strong> {{ product.category }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Unit:</strong> {{ product.unit }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Created By:</strong> {{ product.createdBy }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Weight:</strong> {{ product.weight || 'N/A' }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Dimensions:</strong> {{ product.dimensions || 'N/A' }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Store ID:</strong> {{ product.store_id || 'N/A' }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Company ID:</strong> {{ product.company_id }}</v-col>
                         </v-row>
 
                         <!-- Pricing -->
                         <div class="section-title green lighten-4 mt-6">💰 Pricing</div>
                         <v-row dense>
                             <v-col cols="12" sm="6" class="detail">
-                                <strong>Selling Price:</strong>
+                                <strong class="detail-spacing">Selling Price:</strong>
                                 <span class="green--text font-weight-bold">{{ formatCurrency(product.selling_price) }}</span>
                             </v-col>
                             <v-col cols="12" sm="6" class="detail">
-                                <strong>Purchasing Price:</strong>
+                                <strong class="detail-spacing">Purchasing Price:</strong>
                                 <span class="red--text font-weight-bold">{{ formatCurrency(product.purchasing_price) }}</span>
                             </v-col>
                         </v-row>
@@ -54,11 +58,11 @@
                         <!-- Stock Info -->
                         <div class="section-title amber lighten-4 mt-6">📦 Stock</div>
                         <v-row dense>
-                            <v-col cols="12" sm="6" class="detail"><strong>Stock Alert:</strong> {{ product.low_stock_level }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Max Stock Level:</strong> {{ product.max_stock_level || 'N/A' }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Stock Alert:</strong> {{ product.low_stock_level }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Max Stock Level:</strong> {{ product.max_stock_level || 'N/A' }}</v-col>
                             <v-col cols="12" sm="6" class="detail">
-                                <strong>Status:</strong>
-                                <v-chip class="ml-2" :color="product.flug === 'ACTIVE' ? 'green' : 'red'" variant="flat" dark>
+                                <strong class="detail-spacing">Status:</strong>
+                                <v-chip class="ml-2" :color="product.flug === 'ACTIVE' ? 'green' : 'red'" variant="flat" dark size="small">
                                     {{ product.flug }}
                                 </v-chip>
                             </v-col>
@@ -75,8 +79,8 @@
                         <!-- Metadata -->
                         <div class="section-title grey lighten-3 mt-6">📅 Metadata</div>
                         <v-row dense>
-                            <v-col cols="12" sm="6" class="detail"><strong>Created At:</strong> {{ formatDate(product.created_at) }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong>Updated At:</strong> {{ formatDate(product.updated_at) }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Created At:</strong> {{ formatDate(product.created_at) }}</v-col>
+                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Updated At:</strong> {{ formatDate(product.updated_at) }}</v-col>
                         </v-row>
                     </v-col>
                 </v-row>
@@ -143,22 +147,7 @@ export default {
     padding: 30px;
 }
 
-.section-title {
-    font-weight: 600;
-    font-size: 17px;
-    padding: 10px 14px;
-    border-left: 5px solid #3f51b5;
-    background-color: #e3f2fd;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    color: #263238;
-}
 
-.detail {
-    font-size: 15px;
-    color: #37474f;
-    padding: 8px 0;
-}
 
 .product-image {
     max-width: 280px;

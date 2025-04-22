@@ -1,10 +1,15 @@
 <template>
 <v-container fluid>
+	<nav class="custom-breadcrumbs">
+			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+			<span class="breadcrumb-separator">/</span>
+			<span class="breadcrumb-item active">Roles</span>
+	</nav>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
             <v-dialog v-model="dialog" max-width="900">
                 <template v-slot:activator="{ props: activatorProps }">
-                    <v-btn class="text-none font-weight-regular button-color my-3" prepend-icon="mdi-plus" text="Add Role" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
+                    <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Role" variant="flat" v-bind="activatorProps" rounded="xl"></v-btn>
                 </template>
                 <v-card prepend-icon="mdi-plus" title="Add Role">
                     <v-form>
