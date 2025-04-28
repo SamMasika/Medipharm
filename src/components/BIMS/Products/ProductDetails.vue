@@ -1,14 +1,14 @@
 <template>
 <v-container fluid class="product-details">
-		<nav class="custom-breadcrumbs">
-				<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
-				<span class="breadcrumb-separator">/</span>
-				<span class="breadcrumb-item" @click="$router.push('/products')">Products</span>
-				<span class="breadcrumb-separator">/</span>
-				<span class="breadcrumb-item active">Product Details</span>
-		</nav>
+    <nav class="custom-breadcrumbs">
+        <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item" @click="$router.push('/products')">Products</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Product Details</span>
+    </nav>
     <!-- Header -->
-    <v-row justify="center" >
+    <v-row justify="center">
         <v-col cols="12" md="8" class="text-center">
             <h1 class="title">🛍️ Product Details</h1>
             <p class="subtitle">Here is everything you need to know about this product</p>
@@ -18,7 +18,7 @@
     <!-- Main Card -->
     <v-row justify="center">
         <v-col cols="12" md="10">
-            <v-card  class="product-card">
+            <v-card class="product-card">
                 <v-row>
                     <!-- Product Image -->
                     <v-col cols="12" md="4" class="d-flex justify-center align-center">
@@ -58,13 +58,22 @@
                         <!-- Stock Info -->
                         <div class="section-title amber lighten-4 mt-6">📦 Stock</div>
                         <v-row dense>
-                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Stock Alert:</strong> {{ product.low_stock_level }}</v-col>
-                            <v-col cols="12" sm="6" class="detail"><strong class="detail-spacing">Max Stock Level:</strong> {{ product.max_stock_level || 'N/A' }}</v-col>
+                            <!-- Stock Alert -->
                             <v-col cols="12" sm="6" class="detail">
-                                <strong class="detail-spacing">Status:</strong>
-                                <v-chip class="ml-2" :color="product.flug === 'ACTIVE' ? 'green' : 'red'" variant="flat" dark size="small">
-                                    {{ product.flug }}
-                                </v-chip>
+                                <strong class="detail-spacing">Stock Alert:</strong>
+                                {{ product.low_stock_level }}
+                            </v-col>
+
+                            <!-- Max Stock Level -->
+                            <v-col cols="12" sm="6" class="detail">
+															<strong class="detail-spacing">Stock Status:</strong>
+															<v-chip :color="getStockStatusColor(product.low_stock_level, product.quantity)" size="small" dark class="mt-1">
+																	<v-icon start size="16">
+																			{{ getStockStatusIcon(product.low_stock_level, product.quantity) }}
+																	</v-icon>
+																	{{ getStockStatusMessage(product.low_stock_level, product.quantity) }}
+																	({{ product.quantity }}/{{ product.low_stock_level }})
+															</v-chip>
                             </v-col>
                         </v-row>
 
@@ -107,6 +116,59 @@ export default {
         getImageUrl(imageName) {
             return this.$getImageUrl(imageName);
         },
+        // 🔴 Stock color and message functions
+        getStockStatusColor(low_stock_level, quantity) {
+            if (quantity === 0) return "red";
+            else if (quantity < low_stock_level && quantity > 0) return "orange";
+            else return "green";
+        },
+
+        getStockStatusMessage(low_stock_level, quantity) {
+            if (quantity === 0) return "Out of Stock";
+            else if (quantity < low_stock_level && quantity > 0) return "Low Stock";
+            else return "In Stock";
+        },
+        getStatusColor(status, field = "") {
+            const val = (status || "").toString().toUpperCase();
+
+            if (field === "payment_status") {
+                if (val === "COMPLETED") return "green";
+                if (val === "PARTIAL") return "orange";
+                if (val === "DUE") return "red";
+            }
+
+            if (field === "sale_status") {
+                if (val === "PAY") return "blue";
+                if (val === "GETINVOICE") return "teal";
+            }
+
+            return "grey"; // fallback
+        },
+        getStockStatusIcon(low_stock_level, quantity) {
+            if (quantity === 0) {
+                return 'mdi-close-circle';
+            } else if (quantity < low_stock_level) {
+                return 'mdi-alert-circle';
+            } else {
+                return 'mdi-check-circle';
+            }
+        },
+        getStatusIcon(status, field = "") {
+            const val = (status || "").toString().toUpperCase();
+
+            if (field === "payment_status") {
+                if (val === "COMPLETED") return "mdi-check-circle";
+                if (val === "PARTIAL") return "mdi-alert-circle";
+                if (val === "DUE") return "mdi-close-circle";
+            }
+
+            if (field === "sale_status") {
+                if (val === "PAY") return "mdi-cash";
+                if (val === "GETINVOICE") return "mdi-file-document";
+            }
+
+            return "mdi-help-circle"; // fallback icon
+        },
         async fetchProductDetails(id) {
             try {
                 const response = await axios.get(`/product-show/${id}`, {
@@ -137,17 +199,11 @@ export default {
 </script>
 
 <style scoped>
-
-
-
-
 .product-card {
     background: #ffffff;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     padding: 30px;
 }
-
-
 
 .product-image {
     max-width: 280px;

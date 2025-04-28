@@ -29,6 +29,7 @@ import Profile from "@/components/Auth/Profile.vue";
 import SaleDetails from "@/components/BIMS/Sales/SaleDetails.vue";
 import Stock from "@/components/BIMS/Products/Stock.vue";
 import PurchaseOrders from "@/components/BIMS/Products/PurchaseOrders.vue";
+import Expense from "@/components/BIMS/Expenses/Expense.vue";
 
 
 const routes = [
@@ -66,6 +67,7 @@ const routes = [
       { path: "/product-units", name: "product-units", component: Unit },
       { path: "/pos", name: "pos", component: Pos },
       { path: "/sales-history", name: "sales-history", component: SalesHistory },
+      { path: "/expenses", name: "expenses", component: Expense },
       { path: '/sale-details/:id' , name: "sale-details", component: SaleDetails },
       { path: "/users", name: "users", component: Users },
       { path: "/roles", name: "roles", component: Roles },

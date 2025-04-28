@@ -1,27 +1,27 @@
 <template>
 <v-dialog v-model="dialog" max-width="900">
-    <v-card prepend-icon="mdi-plus" title="Add Supplier">
+    <v-card prepend-icon="mdi-plus" title="Add Expense">
         <v-form>
             <v-card-text>
                 <v-row dense>
                     <v-col cols="12" sm="6" md="6">
-                        <v-text-field placeholder="Name*" v-model="supplier.name" required variant="outlined" ></v-text-field>
+                        <v-text-field type="date" label="Expense Date*" v-model="category.expense_date" required variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                        <v-text-field placeholder="Contact Person*" v-model="supplier.contact_person" required variant="outlined" ></v-text-field>
+                        <PaginatedDropdown v-model="expense.account_id" :api-endpoint="'/expense-account'" label="Expense Account..." placeholder="Search Accounts" item-title="name"></PaginatedDropdown>
                     </v-col>
                 </v-row>
                 <v-row dense>
-                    <v-col cols="12" sm="6" md="6">
-                        <v-text-field placeholder="Phone*" v-model="supplier.phone" required variant="outlined" ></v-text-field>
+                    <v-col cols="12" sm="4" md="4">
+                        <v-text-field label="Amount*" v-model="expense.amount" required variant="outlined" density="compact"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
-                        <v-text-field placeholder="Email*" type="email" v-model="supplier.email" required variant="outlined" ></v-text-field>
+                        <PaginatedDropdown v-model="expense.account_id" :api-endpoint="'/asset-account'" label="Paid Through..." placeholder="Search Accounts" item-title="name"></PaginatedDropdown>
                     </v-col>
                 </v-row>
                 <v-row dense>
                     <v-col cols="12" sm="12" md="12">
-                        <v-text-field placeholder="Location*" v-model="supplier.location" required variant="outlined" ></v-text-field>
+                        <v-textarea label="Description*" row-height="25" rows="3" v-model="expense.description" required variant="outlined" density="compact"></v-textarea>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -29,29 +29,29 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
-                <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addSupplier" rounded="xl"></v-btn>
+                <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addExpense" rounded="xl"></v-btn>
             </v-card-actions>
         </v-form>
     </v-card>
 </v-dialog>
 <v-container fluid v-if="itemsLength > 0">
-	<nav class="custom-breadcrumbs">
-				<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
-				<span class="breadcrumb-separator">/</span>
-				<span class="breadcrumb-item active">Suppliers</span>
-		</nav>
+    <nav class="custom-breadcrumbs">
+        <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Categories</span>
+    </nav>
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
-            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Expense" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
         </v-col>
     </v-row>
     <v-card flat>
         <v-toolbar>
-            <v-icon icon="mdi-truck" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
-            Suppliers
+            <v-icon icon="mdi-tag" class="mx-5 custom-icon" size="40"></v-icon> &nbsp;
+            Expenses
             <v-spacer></v-spacer>
         </v-toolbar>
-        <DataTable :api-url="'/supplier-list'" :headers="headers">
+        <DataTable :api-url="'/expense-list'" :headers="headers">
             <template v-slot:actions="{ item }">
                 <v-menu transition="slide-x-transition">
                     <template v-slot:activator="{ props }">
@@ -61,7 +61,7 @@
                     </template>
                     <!-- List for actions -->
                     <v-list>
-                        <v-list-item @click="editSupplier(item)">
+                        <v-list-item @click="editExpense(item)">
                             <template v-slot:prepend>
                                 <v-icon>mdi-pencil</v-icon> <!-- Edit Icon -->
                             </template>
@@ -80,29 +80,18 @@
         </DataTable>
 
     </v-card>
-    <v-dialog v-model="supplierEditDialog" max-width="900">
-        <v-card prepend-icon="mdi-plus" title="Update Supplier">
+    <v-dialog v-model="expenseEditDialog" max-width="600">
+        <v-card prepend-icon="mdi-plus" title="Update Category">
             <v-form>
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Name*" v-model="supplierEdit.fullName" required variant="outlined" ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Contact Person*" v-model="supplierEdit.contact_person" required variant="outlined" ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row dense>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Phone*" v-model="supplierEdit.mobileNo" required variant="outlined" ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-text-field placeholder="Email*" type="email" v-model="supplierEdit.email" required variant="outlined" ></v-text-field>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-text-field label="Name*" v-model="expenseEdit.name" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12" sm="12" md="12">
-                            <v-text-field placeholder="Location*" v-model="supplierEdit.location" required variant="outlined" ></v-text-field>
+                            <v-text-field label="Description*" v-model="expenseEdit.description" required variant="outlined" density="compact"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -110,8 +99,8 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text="Close" class="text-none" variant="tonal" @click="supplierEditDialog = false" rounded="xl"></v-btn>
-                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateSupplier" rounded="xl"></v-btn>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="expenseEditDialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="updateExpense" rounded="xl"></v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -149,17 +138,17 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-
 </v-container>
 <v-container class="relative-container" fluid v-else>
     <div class="centered-message">
         <v-card class="pa-6 text-center" elevation="0" max-width="500">
             <v-icon size="48" color="grey">mdi-file-document-outline</v-icon>
-            <h2 class="mt-4 mb-2 text-grey-darken-2">No Suppliers Data Found</h2>
+            <h2 class="mt-4 mb-2 text-grey-darken-2">No Expenses Data Found</h2>
             <p class="text-grey">
-                There are no supplier records found at the moment.
+                There are no expense records found at the moment.
             </p>
-            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Supplier" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Expense" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+
         </v-card>
     </div>
 </v-container>
@@ -167,45 +156,29 @@
 
 <script>
 import DataTable from '@/components/BIMS/SharedComponents/dataTable';
+import axios from "axios";
 import alert from '@/mixins/swtalert';
 import NoRecords from '@/mixins/NoRecords';
-import axios from "axios";
 export default {
-    mixins: [alert,NoRecords],
+    mixins: [alert, NoRecords],
     components: {
         DataTable
     },
     data() {
         return {
             search: "",
-            suppliers: [],
-            supplier: {},
+            categories: [],
+            category: {},
             dialog: false,
-            supplierEditDialog: false,
-            supplierEdit: {},
+            expenseEditDialog: false,
+            expenseEdit: {},
             dialogDelete: false,
             confirmDialogVisible: false,
             isLoading: false,
             itemToDelete: {},
             headers: [{
                     title: 'Name',
-                    value: 'fullName',
-                },
-                {
-                    title: 'Contact Person',
-                    value: 'contact_person',
-                },
-                {
-                    title: 'Email',
-                    value: 'email',
-                },
-                {
-                    title: 'Phone',
-                    value: 'mobileNo',
-                },
-                {
-                    title: 'Location',
-                    value: 'location',
+                    value: 'name',
                 },
                 {
                     title: 'Action',
@@ -218,19 +191,19 @@ export default {
 
     methods: {
         fetchItems() {
-            axios.get('/supplier-list') // Replace with your actual API URL
+            axios.get('/expense-list') // Replace with your actual API URL
                 .then(response => {
-                    this.itemsLength = response.data.data.meta.total; // Store the fetched data in 'purchases'
+                    this.itemsLength = response.data.data; // Store the fetched data in 'purchases'
                 })
                 .catch(error => {
                     console.error("Error fetching data:", error);
                 });
         },
-        addSupplier() {
+        addExpense() {
             const data = {
-                ...this.supplier,
+                ...this.category,
             };
-            axios.post('/supplier-store', data, {
+            axios.post('/category-store', data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
                     }
@@ -244,43 +217,43 @@ export default {
                 })
                 .catch(error => this.showAlert(error.response.data.message, 'error'));
         },
-        //UpdateSupplier
-        editSupplier(item) {
-            this.supplierEdit = item
-            this.supplierEditDialog = true
+        //UpdateCategory
+        editExpense(item) {
+            this.expenseEdit = item
+            this.expenseEditDialog = true
         },
-        updateSupplier() {
+        updateExpense() {
             const {
                 id,
-                supplierName,
+                name,
                 description
 
-            } = this.supplierEdit;
+            } = this.expenseEdit;
 
-            axios.put(`/supplier-update/${id}`, {
-                    supplierName,
+            axios.put(`/category-update/${id}`, {
+                    name,
                     description
                 })
                 .then(response => {
                     this.showAlert(response.data.message, 'success');
-                    this.supplierEditDialog = false; // Close the dialog after success
+                    this.expenseEditDialog = false; // Close the dialog after success
                     setTimeout(() => {
                         window.location.reload(); // Reload the window after success
                     }, 500); // Delay the reload slightly to allow the success message to be shown
                 })
                 .catch(error => {
                     this.showAlert(error.response.data.message, 'error')
-                    this.supplierEditDialog = false;
+                    this.expenseEditDialog = false;
                 });
         },
 
         deleteItem() {
-            axios.delete(`/supplier-delete/${this.itemToDelete.id}`)
+            axios.delete(`/category-delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
-                    const index = this.suppliers.indexOf(this.itemToDelete);
+                    const index = this.categories.indexOf(this.itemToDelete);
                     if (index > -1) {
-                        this.suppliers.splice(index, 1);
+                        this.categories.splice(index, 1);
                     }
                     this.confirmDialogVisible = false;
                     this.showAlert(response.data.message, 'success');
@@ -296,6 +269,7 @@ export default {
             this.confirmDialogVisible = true;
         },
     },
+
 };
 </script>
 

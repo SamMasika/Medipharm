@@ -4,18 +4,27 @@
         <v-form @submit.prevent="addAccount">
             <v-card-text>
                 <v-row dense>
-                    <v-col cols="12">
-                        <v-text-field label="Account Name*" v-model="account.name" required variant="outlined" ></v-text-field>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Account Name*" v-model="account.name" required variant="outlined"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-autocomplete label="--Account Type--" class="rounded-lg" variant="outlined" v-model="account.account_type" :items="accountOptions">
+                        </v-autocomplete>
+                    </v-col>
+                </v-row>
+                <v-row dense>
+                    <v-col cols="12" sm="6">
+                        <v-autocomplete label="--Account Currency--" placeholder="Select Currency" class="rounded-lg" variant="outlined" item-title="text" item-value="value" v-model="account.account_currency" :items="currencyOptions">
+                        </v-autocomplete>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-text-field label="Account Currency" placeholder="Select Currency" v-model="account.name" required variant="outlined"></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row dense>
                     <v-col cols="12">
-                        <v-text-field label="Account Description*" v-model="account.description" required variant="outlined" ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row dense>
-                    <v-col cols="12">
-                        <v-text-field label="Account Type*" v-model="account.type" required variant="outlined" ></v-text-field>
+                        <v-textarea label="Account Description*" rows="3" v-model="account.description" required variant="outlined" placeholder="Enter a brief description of the account"></v-textarea>
+
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -29,11 +38,11 @@
     </v-card>
 </v-dialog>
 <v-container fluid v-if="itemsLength>0">
-		<nav class="custom-breadcrumbs">
-			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
-			<span class="breadcrumb-separator">/</span>
-			<span class="breadcrumb-item active">Chart of Accounts</span>
-	</nav>
+    <nav class="custom-breadcrumbs">
+        <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Chart of Accounts</span>
+    </nav>
     <!-- Add Account Dialog -->
     <v-row justify="end">
         <v-col cols="12" md="auto" class="d-flex justify-end">
@@ -81,17 +90,17 @@
                 <v-card-text>
                     <v-row dense>
                         <v-col cols="12">
-                            <v-text-field label="Account Name*" v-model="accountEdit.name" required variant="outlined" ></v-text-field>
+                            <v-text-field label="Account Name*" v-model="accountEdit.name" required variant="outlined"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12">
-                            <v-text-field label="Account Description*" v-model="accountEdit.description" required variant="outlined" ></v-text-field>
+                            <v-text-field label="Account Description*" v-model="accountEdit.description" required variant="outlined"></v-text-field>
                         </v-col>
                     </v-row>
                     <v-row dense>
                         <v-col cols="12">
-                            <v-text-field label="Account Type*" v-model="accountEdit.type" required variant="outlined" ></v-text-field>
+                            <v-text-field label="Account Type*" v-model="accountEdit.type" required variant="outlined"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -150,8 +159,11 @@ import DataTable from '@/components/BIMS/SharedComponents/dataTable';
 import axios from "axios";
 import alert from '@/mixins/swtalert';
 import NoRecords from '@/mixins/NoRecords';
+import {
+    currencyOptions
+} from '@/json/enum'
 export default {
-    mixins: [alert,NoRecords],
+    mixins: [alert, NoRecords],
     components: {
         DataTable
     },
@@ -160,7 +172,8 @@ export default {
             search: "",
             accounts: [],
             account: {},
-			dialog: false,
+            dialog: false,
+            currencyOptions,
             accountEditDialog: false,
             accountEdit: {},
             confirmDialogVisible: false,

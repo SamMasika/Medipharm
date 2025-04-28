@@ -203,7 +203,7 @@
             <p class="text-grey">
                 There are no products records found at the moment.
             </p>
-            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Category" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add Product" variant="flat" @click="dialog = true" rounded="xl"></v-btn>
 
         </v-card>
     </div>
@@ -355,7 +355,7 @@ export default {
         },
 
         deleteItem() {
-            axios.delete(`department/delete/${this.itemToDelete.id}`)
+            axios.delete(`product-delete/${this.itemToDelete.id}`)
                 .then(response => {
                     // Remove the item from the data arraythis.dialogRole = true
                     const index = this.products.indexOf(this.itemToDelete);

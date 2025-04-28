@@ -1,11 +1,11 @@
 <template>
 <v-container fluid>
-		<nav class="custom-breadcrumbs">
-			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
-			<span class="breadcrumb-separator">/</span>
-			<span class="breadcrumb-item active">Point Of Sale</span>
-	</nav>
-    <v-row v-if="paginatedProducts.length > 0">
+    <nav class="custom-breadcrumbs">
+        <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Point Of Sale</span>
+    </nav>
+    <v-row v-if="products.length > 0">
         <!-- Products Section -->
         <v-col cols="12" class="text-center">
             <h1 class="title animate__animated animate__fadeInDown">💳 Point of Sale</h1>
@@ -16,7 +16,7 @@
         </v-card>
         <v-col cols="12" md="8">
             <v-row>
-                <v-col v-for="product in paginatedProducts" :key="product.id" cols="6" sm="4" md="3">
+                <v-col v-for="product in products" :key="product.id" cols="6" sm="4" md="3">
                     <v-card class="product-card">
                         <div class="card-top-border"></div>
                         <v-img :src="getImageUrl(product.image)" class="product-image" cover></v-img>
@@ -42,9 +42,10 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5"></v-pagination>
-        </v-col>
 
+            <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5 " @input="fetchData()" :total-visible="7"></v-pagination>
+        </v-col>
+        <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
         <!-- Cart and Checkout Section -->
         <v-col cols="12" md="4">
             <v-card class="cart">
@@ -215,7 +216,8 @@ export default {
     data() {
         return {
             products: [],
-            cart: [],
+			cart: [],
+			loading:false,
             dialog: false,
             maxDate: null,
             currentPage: 1,
@@ -276,19 +278,30 @@ export default {
                 this.addNewCustomer();
             }
         },
-        async fetchData() {
-            try {
-                const response = await axios.get("/product-list", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("access_token")}`
-                    },
-                });
-                console.log(response.data); // Debugging
-                this.products = response.data.data.data; // Ensure this matches API response structure
-            } catch (error) {
-                this.showAlert(error.response.data.message || "An error occurred", 'error');
+         // Fetch product data for the given page
+   async fetchData() {
+    this.loading = true;
+    try {
+        const response = await axios.get('/product-list', {
+            params: {
+                page: this.currentPage,
+                per_page: this.perPage
             }
-        },
+        });
+
+        const productsData = response.data.data.data || [];
+        this.products = Array.isArray(productsData) ? productsData : [];
+
+        // Update pagination information
+        this.pageCount = Math.ceil(response.data.data.meta.total / this.perPage);
+
+        this.loading = false;
+    } catch (error) {
+        this.loading = false;
+        console.error("Error fetching products:", error);
+    }
+},
+
         addNewCustomer() {
             this.dialog = true
         },
@@ -405,8 +418,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .product-card {
     height: 100%;
     display: flex;

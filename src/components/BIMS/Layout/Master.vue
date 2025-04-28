@@ -1,6 +1,6 @@
 <template>
 <!-- Fixed Sidebar -->
-<v-navigation-drawer v-model="drawer" app v-if="user?.company?.isComplete !== false">
+<v-navigation-drawer v-model="drawer" app v-if="user?.company?.isComplete !== false"  :width="drawer ? 310 : 64">
     <Sidebar />
 </v-navigation-drawer>
 

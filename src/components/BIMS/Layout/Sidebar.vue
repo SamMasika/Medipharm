@@ -14,6 +14,12 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in Products" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
+        <v-list-group value="Suppliers" append-icon="mdi-menu-right">
+            <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" link prepend-icon="mdi-truck" title="Suppliers" v-tooltip="'Manage Suppliers'"></v-list-item>
+            </template>
+            <v-list-item v-for="([title, icon, path], i) in Suppliers" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+        </v-list-group>
         <v-list-group value="Inventory" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" link prepend-icon="mdi-package" title="Inventory Management" v-tooltip="'Manage Inventory'"></v-list-item>
@@ -32,6 +38,12 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in Accounts" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
+        <v-list-group value="Expenses" append-icon="mdi-menu-right">
+            <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" link prepend-icon="mdi-cash-minus" title="Expenses" v-tooltip="'Manage Expenses'"></v-list-item>
+            </template>
+            <v-list-item title="Expenses" prepend-icon="mdi-cash-minus" router to="/expenses" value="Expenses" v-tooltip="'Go to Expenses'"></v-list-item>
+        </v-list-group>
 
         <v-list-group value="Reports" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
@@ -39,24 +51,23 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in Reports" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
-        <v-list-group value="Suppliers" append-icon="mdi-menu-right">
-            <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" link prepend-icon="mdi-truck" title="Suppliers" v-tooltip="'Manage Suppliers'"></v-list-item>
+        <v-list-group value="Settings" prepend-icon="mdi-cog" append-icon="mdi-menu-right">
+            <template #activator="{ props }">
+                <v-list-item v-bind="props" title="Settings"></v-list-item>
             </template>
-            <v-list-item v-for="([title, icon, path], i) in Suppliers" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+
+            <!-- User Management group inside Settings -->
+            <v-list-group value="UserManagement" no-action prepend-icon="mdi-account-group" append-icon="mdi-menu-right">
+                <template #activator="{ props }">
+                    <v-list-item v-bind="props" title="User Management" v-tooltip="'Manage Users'"></v-list-item>
+                </template>
+                <v-list-item v-for="([title, icon, path], i) in UserManagement" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+            </v-list-group>
+            <v-list-item title="Company Profile" prepend-icon="mdi-domain" to="/company-profile" />
+            <v-list-item title="Change Password" prepend-icon="mdi-lock" to="/change-password" />
+            <!-- Add more settings items below if needed -->
         </v-list-group>
-        <v-list-group value="UserManagement" append-icon="mdi-menu-right">
-            <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" link prepend-icon="mdi-account-group" title="User Management" v-tooltip="'Manage Users'"></v-list-item>
-            </template>
-            <v-list-item v-for="([title, icon, path], i) in UserManagement" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
-        </v-list-group>
-        <v-list-group value="Configurations" append-icon="mdi-menu-right">
-            <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" link prepend-icon="mdi-wrench" title="Settings" v-tooltip="'Change Settings'"></v-list-item>
-            </template>
-            <v-list-item v-for="([title, icon, path], i) in Configurations" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
-        </v-list-group>
+
         <v-list-group value="Support" append-icon="mdi-menu-right">
             <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" link prepend-icon="mdi-help-circle" title="Support" v-tooltip="'Get Support'"></v-list-item>
@@ -81,9 +92,9 @@ export default {
                 ['Dashboard', 'mdi-monitor', '/dashboard']
             ],
             Products: [
-                ['Products', 'mdi-cube', '/products'],
-                ['Categories', 'mdi-tag', '/product-categories'],
                 ['Units', 'mdi-weight', '/product-units'],
+                ['Categories', 'mdi-tag', '/product-categories'],
+                ['Products', 'mdi-cube', '/products'],
             ],
             Inventory: [
                 ['Purchases', 'mdi-cube-outline', '/purchases'],
@@ -106,6 +117,9 @@ export default {
                 ['Trial Balance', 'mdi-scale-balance', '/trial-balance'],
                 ['Financial Reports', 'mdi-finance', '/financial-reports'],
             ],
+            Expenses: [
+                ['Expenses', 'mdi-cash-minus', '/expenses'],
+            ],
             Reports: [
                 ['Sales Report', 'mdi-chart-line', '/sales-report'],
                 ['Inventory Report', 'mdi-archive', '/inventory-report'],
@@ -119,10 +133,6 @@ export default {
                 ['Users', 'mdi-account-group', '/users'],
                 ['Roles', 'mdi-lock', '/roles'],
                 ['Activity Logs', 'mdi-file-alert', '/activity-logs'],
-            ],
-            Configurations: [
-                ['Company Profile', 'mdi-domain', '/company-profile'],
-                ['Change Password', 'mdi-lock', '/change-password']
             ],
             Support: [
                 ['Help Center', 'mdi-help-circle', '/help-center'],
@@ -149,9 +159,9 @@ export default {
 .my-selected-item {
     background-color: #3674B5 !important;
     color: #ffffff;
-}Purchases
+}
 
-.default-color {
+Purchases .default-color {
     color: #3674B5;
 }
 

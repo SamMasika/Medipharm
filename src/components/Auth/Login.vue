@@ -25,7 +25,7 @@
                     </div>
 
                     <!-- Login Button -->
-                    <v-btn block type="submit" class="login-btn"  elevation="1">
+                    <v-btn block type="submit" class="login-btn"  elevation="0">
                         <v-icon left>mdi-arrow-right-bold</v-icon> LOG IN
                     </v-btn>
                 </v-form>

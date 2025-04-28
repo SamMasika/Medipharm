@@ -13,7 +13,6 @@
             <v-spacer></v-spacer>
         </v-toolbar>
         <DataTable :api-url="'/stock-list'" :headers="headers">
-           
         </DataTable>
 
     </v-card>
@@ -59,7 +58,7 @@ export default {
                 },
                 {
                     title: 'Purchase Date',
-                    value: 'purchasedDate',
+                    value: 'purchased_date',
                     format: true
                 },
                 {

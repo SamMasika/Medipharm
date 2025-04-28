@@ -1,66 +1,201 @@
+// Sale Status
 export const SALE_STATUS = {
-    PAY: 'PAY',
-    GETINVOICE: 'GET INVOICE',
-  };
-  
- export const SaleOptions = Object.keys(SALE_STATUS).map(key => ({
-    text: SALE_STATUS[key],
-    value: key
-  }));
+  PAY: 'PAY',
+  GETINVOICE: 'GET INVOICE',
+};
 
-  export const PAYMENT_STATUS = {
-    COMPLETED: 'COMPLETED',
-    PARTIAL: 'PARTIAL',
-    DUE: 'DUE',
-  };
-  
- export const paymentOptions = Object.keys(PAYMENT_STATUS).map(key => ({
-    text: PAYMENT_STATUS[key],
-    value: key
-  }));
-  export const PAYMENT_MODE = {
-    CASH: 'Cash',
-    BANK: 'Bank Transfer',
-  };
-  
- export const modeOptions = Object.keys(PAYMENT_MODE).map(key => ({
-    text: PAYMENT_MODE[key],
-    value: key
-  }));
+export const SaleOptions = Object.keys(SALE_STATUS).map(key => ({
+  text: SALE_STATUS[key],
+  value: key,
+}));
 
-  export const EXPENSE_CATEGORY = {
-    rent: 'Rent Expense',
-    repair: ' Repairs and Maintenance',
-    allowance: 'Staff Weekly allowance',
-    advertising: ' Advertising And Marketing',
-    salary: ' Salaries and Employee Wages',
-    bank: '  Bank Fees and Charges',
-    transport: '  Transport Expenses',
-    parking: ' Parking',
-    other: ' Other Expenses',
-  };
-  
- export const expenseOptions = Object.keys(EXPENSE_CATEGORY).map(key => ({
-    text: EXPENSE_CATEGORY[key],
-    value: key
-  }));
+// Payment Status
+export const PAYMENT_STATUS = {
+  COMPLETED: 'COMPLETED',
+  PARTIAL: 'PARTIAL',
+  DUE: 'DUE',
+};
 
-  export const ACCOUNTING = {
-    cash: 'Cash',
-    bank: ' Bank',
-    receivable: 'Acoounts Receivable',
-    currentasset: 'Current Asset',
-    noncurrentasset: 'Fixed Asset',
-    currentliability: 'Current Liability',
-    longtermliability: 'Long-term Liability',
-    equity: 'Equity',
-    stock: 'Stock',
-    expense: 'Expense',
-    sales: 'Sales',
-    goodsold: 'Cost Of Goods Sold',
-  };
-  
- export const accountOptions = Object.keys(ACCOUNTING).map(key => ({
-    text: ACCOUNTING[key],
-    value: key
-  }));
+export const paymentOptions = Object.keys(PAYMENT_STATUS).map(key => ({
+  text: PAYMENT_STATUS[key],
+  value: key,
+}));
+
+// Payment Modes
+export const PAYMENT_MODE = {
+  CASH: 'Cash',
+  BANK: 'Bank Transfer',
+};
+
+export const modeOptions = Object.keys(PAYMENT_MODE).map(key => ({
+  text: PAYMENT_MODE[key],
+  value: key,
+}));
+
+// Expense Categories
+export const EXPENSE_CATEGORY = {
+  rent: 'Rent Expense',
+  repair: 'Repairs and Maintenance',
+  allowance: 'Staff Weekly Allowance',
+  advertising: 'Advertising and Marketing',
+  salary: 'Salaries and Employee Wages',
+  bank: 'Bank Fees and Charges',
+  transport: 'Transport Expenses',
+  parking: 'Parking',
+  other: 'Other Expenses',
+};
+
+export const expenseOptions = Object.keys(EXPENSE_CATEGORY).map(key => ({
+  text: EXPENSE_CATEGORY[key],
+  value: key,
+}));
+
+// Accounting Categories
+export const ACCOUNTING = {
+  cash: 'Cash',
+  bank: 'Bank',
+  receivable: 'Accounts Receivable',
+  currentasset: 'Current Asset',
+  noncurrentasset: 'Fixed Asset',
+  currentliability: 'Current Liability',
+  longtermliability: 'Long-term Liability',
+  equity: 'Equity',
+  stock: 'Stock',
+  expense: 'Expense',
+  sales: 'Sales',
+  goodsold: 'Cost of Goods Sold',
+};
+
+export const accountOptions = Object.keys(ACCOUNTING).map(key => ({
+  text: ACCOUNTING[key],
+  value: key,
+}));
+
+// Currency Codes
+export const CURRENCY_CODES = {
+  TZS: 'Tanzanian Shilling',
+  AED: 'United Arab Emirates Dirham',
+  AFN: 'Afghan Afghani',
+  ALL: 'Albanian Lek',
+  AMD: 'Armenian Dram',
+  ANG: 'Netherlands Antillean Guilder',
+  ARS: 'Argentine Peso',
+  AUD: 'Australian Dollar',
+  AWG: 'Aruban Florin',
+  AZN: 'Azerbaijani Manat',
+  BAM: 'Bosnia-Herzegovina Convertible Mark',
+  BDT: 'Bangladeshi Taka',
+  BGN: 'Bulgarian Lev',
+  BHD: 'Bahraini Dinar',
+  BND: 'Brunei Dollar',
+  BOB: 'Bolivian Boliviano',
+  BRL: 'Brazilian Real',
+  BTN: 'Bhutanese Ngultrum',
+  BWP: 'Botswanan Pula',
+  BYN: 'Belarusian Ruble',
+  BZD: 'Belize Dollar',
+  CAD: 'Canadian Dollar',
+  CHF: 'Swiss Franc',
+  CLP: 'Chilean Peso',
+  CNY: 'Chinese Yuan',
+  COP: 'Colombian Peso',
+  CRC: 'Costa Rican Colón',
+  CSD: 'Serbian Dinar (2002-2006)',
+  CZK: 'Czech Koruna',
+  CVE: 'Cape Verdean Escudo',
+  DEM: 'German Mark',
+  DKK: 'Danish Krone',
+  DOP: 'Dominican Peso',
+  DZD: 'Algerian Dinar',
+  EEK: 'Estonian Kroon',
+  EGP: 'Egyptian Pound',
+  EUR: 'Euro',
+  FJD: 'Fijian Dollar',
+  FRF: 'French Franc',
+  GBP: 'British Pound Sterling',
+  GEL: 'Georgian Lari',
+  GHS: 'Ghanaian Cedi',
+  HKD: 'Hong Kong Dollar',
+  HNL: 'Honduran Lempira',
+  HRK: 'Croatian Kuna',
+  HUF: 'Hungarian Forint',
+  IDR: 'Indonesian Rupiah',
+  ILS: 'Israeli New Sheqel',
+  INR: 'Indian Rupee',
+  IQD: 'Iraqi Dinar',
+  ISK: 'Icelandic Króna',
+  JMD: 'Jamaican Dollar',
+  JOD: 'Jordanian Dinar',
+  JPY: 'Japanese Yen',
+  KES: 'Kenyan Shilling',
+  KGS: 'Kyrgystani Som',
+  KRW: 'South Korean Won',
+  KWD: 'Kuwaiti Dinar',
+  KYD: 'Cayman Islands Dollar',
+  KZT: 'Kazakhstani Tenge',
+  LAK: 'Laotian Kip',
+  LBP: 'Lebanese Pound',
+  LKR: 'Sri Lankan Rupee',
+  LTL: 'Lithuanian Litas',
+  MAD: 'Moroccan Dirham',
+  MDL: 'Moldovan Leu',
+  MKD: 'Macedonian Denar',
+  MMK: 'Myanma Kyat',
+  MOP: 'Macanese Pataca',
+  MTL: 'Maltese Lira',
+  MUR: 'Mauritian Rupee',
+  MVR: 'Maldivian Rufiyaa',
+  MXN: 'Mexican Peso',
+  MYR: 'Malaysian Ringgit',
+  NAD: 'Namibian Dollar',
+  NGN: 'Nigerian Naira',
+  NIO: 'Nicaraguan Córdoba',
+  NOK: 'Norwegian Krone',
+  NPR: 'Nepalese Rupee',
+  NZD: 'New Zealand Dollar',
+  OMR: 'Omani Rial',
+  PAB: 'Panamanian Balboa',
+  PEN: 'Peruvian Nuevo Sol',
+  PHP: 'Philippine Peso',
+  PKR: 'Pakistani Rupee',
+  PLN: 'Polish Zloty',
+  PYG: 'Paraguayan Guarani',
+  QAR: 'Qatari Rial',
+  RON: 'Romanian Leu',
+  ROL: 'Romanian Leu (1952-2006)',
+  RSD: 'Serbian Dinar',
+  RUB: 'Russian Ruble',
+  SAR: 'Saudi Riyal',
+  SCR: 'Seychellois Rupee',
+  SEK: 'Swedish Krona',
+  SGD: 'Singapore Dollar',
+  SIT: 'Slovenian Tolar',
+  SKK: 'Slovak Koruna',
+  SVC: 'Salvadoran Colón',
+  THB: 'Thai Baht',
+  TND: 'Tunisian Dinar',
+  TRL: 'Turkish Lira (1922-2005)',
+  TRY: 'Turkish Lira',
+  TTD: 'Trinidad and Tobago Dollar',
+  TWD: 'New Taiwan Dollar',
+  UAH: 'Ukrainian Hryvnia',
+  UGX: 'Ugandan Shilling',
+  USD: 'US Dollar',
+  UYU: 'Uruguayan Peso',
+  UZS: 'Uzbekistan Som',
+  VEB: 'Venezuelan Bolívar (1871–2008)',
+  VEF: 'Venezuelan Bolívar (2008–2018)',
+  VES: 'Venezuelan Bolívar',
+  VND: 'Vietnamese Dong',
+  WST: 'Samoan Tala',
+  XCD: 'East Caribbean Dollar',
+  XOF: 'CFA Franc BCEAO',
+  XPF: 'CFP Franc',
+  YER: 'Yemeni Rial',
+  ZAR: 'South African Rand',
+};
+
+export const currencyOptions = Object.keys(CURRENCY_CODES).map(key => ({
+  text: `${key} - ${CURRENCY_CODES[key]}`,
+  value: key,
+}));

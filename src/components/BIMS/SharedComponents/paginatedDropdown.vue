@@ -1,45 +1,24 @@
 <template>
-  <v-autocomplete
-    v-model="selectedItem"
-    :items="computedItems"
-    v-model:search-input="search"
-    :loading="loading"
-    variant="outlined"
-    :label="label"
-    :placeholder="placeholder"
-    @update:search="onSearch"
-    :menu-props="{ maxHeight: '300px' }"
-    :item-title="itemTitle"
-    item-value="id"
-  >
+<v-autocomplete v-model="selectedItem" :items="computedItems" v-model:search-input="search" :loading="loading" variant="outlined" :label="label" :placeholder="placeholder" @update:search="onSearch" :menu-props="{ maxHeight: '300px' }" :item-title="itemTitle" item-value="id">
     <!-- Custom Load All button -->
     <template v-slot:prepend-item>
-      <v-list-item
-        v-if="pagination.currentPage < pagination.lastPage && !loading && !loadedAll && apiEndpoint"
-        @click="loadAllItems"
-      >
-        <v-list-item-content>
-          <v-btn block color="blue" @mouseover="hover = true" @mouseleave="hover = false">
-            <v-icon left>mdi-arrow-down-circle</v-icon>
-            Load All Items
-          </v-btn>
-        </v-list-item-content>
-      </v-list-item>
-      <v-progress-circular
-        v-if="loading"
-        indeterminate
-        size="24"
-        class="loading-indicator"
-      />
+        <v-list-item v-if="pagination.currentPage < pagination.lastPage && !loading && !loadedAll && apiEndpoint" @click="loadAllItems">
+            <v-list-item-content>
+                <v-btn block color="blue" @mouseover="hover = true" @mouseleave="hover = false">
+                    <v-icon left>mdi-arrow-down-circle</v-icon>
+                    Load All Items
+                </v-btn>
+            </v-list-item-content>
+        </v-list-item>
+        <v-progress-circular v-if="loading" indeterminate size="24" class="loading-indicator" />
     </template>
 
     <!-- 👇 Added this for append-item slot support -->
     <template v-slot:append-item>
-      <slot name="append-item" />
+        <slot name="append-item" />
     </template>
-  </v-autocomplete>
+</v-autocomplete>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -167,6 +146,6 @@ export default {
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
-	color: #3674B5;
+    color: #3674B5;
 }
 </style>

@@ -68,14 +68,7 @@
                     </template>
 
                     <v-list>
-                        <!-- View Details -->
-                        <v-list-item @click="goToPurchaseDetails(item.id)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
-                            <template v-slot:prepend>
-                                <v-icon>mdi-eye</v-icon>
-                            </template>
-                            <v-list-item-title>View Details</v-list-item-title>
-                        </v-list-item>
-
+                     
                         <!-- Edit Purchase (only if not yet received or finalized) -->
                         <v-list-item @click="editPurchase(item)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
                             <template v-slot:prepend>
@@ -83,14 +76,6 @@
                             </template>
                             <v-list-item-title>Edit</v-list-item-title>
                         </v-list-item>
-                        <!-- Print / Download Purchase Invoice -->
-                        <v-list-item @click="printPurchaseInvoice(item.id)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
-                            <template v-slot:prepend>
-                                <v-icon>mdi-printer</v-icon>
-                            </template>
-                            <v-list-item-title>Print Invoice</v-list-item-title>
-                        </v-list-item>
-
                         <!-- Delete (if status allows) -->
                         <v-list-item @click="deleteDialog(item)" class="rounded-lg hover:bg-blue-100 hover:text-blue-800">
                             <template v-slot:prepend>
@@ -146,18 +131,18 @@
     <v-dialog v-model="confirmDialogVisible" max-width="450">
         <v-card class="rounded-lg elevation-16" style="background-color: #f9f9f9;">
             <!-- Title Section -->
-            <v-card-title class="text-h5 font-weight-bold white--text text-center py-2" style="font-family: 'Roboto', sans-serif; font-size: 20px;">
+            <v-card-title class=" font-weight-bold white--text text-center py-2" >
                 <v-icon size="90" color="red" class="mr-3">mdi-delete</v-icon>
                 Confirm Deletion
             </v-card-title>
 
             <!-- Content Section -->
-            <v-card-text class="text-center py-1" style="font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 1.6;">
+            <v-card-text class="text-center py-1" >
 
-                <div class="font-weight-medium text-body-1 text-center mb-4">
-                    Are you sure you want to delete <b>"{{ itemToDelete.name }} </b>?
+                <div class="font-weight-medium  text-center mb-4">
+                    Are you sure you want to delete <b>"{{ itemToDelete.productName }} </b>?
                 </div>
-                <div class="font-italic text-subtitle-1" style="color: #777;">
+                <div class="font-italic " style="color: #777;">
                     This action cannot be undone.
                 </div>
             </v-card-text>
@@ -167,10 +152,10 @@
 
             <!-- Action Buttons -->
             <v-card-actions class="justify-center py-4">
-                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2" style="font-family: 'Roboto', sans-serif; font-weight: 500;">
+                <v-btn text class="mr-3" variant="outlined" @click="confirmDialogVisible = false" rounded="xl" color="grey lighten-2">
                     Cancel
                 </v-btn>
-                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red" style="font-family: 'Roboto', sans-serif; font-weight: 600;">
+                <v-btn text variant="tonal" @click="deleteItem" rounded="xl" color="red" >
                     <v-icon left>mdi-delete</v-icon> Delete
                 </v-btn>
             </v-card-actions>
@@ -243,6 +228,11 @@ export default {
                     title: 'Quantity',
                     value: 'quantity',
                     format: true,
+
+                },
+                {
+                    title: 'Created By',
+                    value: 'createdBy',
 
                 },
                 {
