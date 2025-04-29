@@ -7,27 +7,29 @@
     </nav>
     <v-row v-if="products.length > 0">
         <!-- Products Section -->
+        <!-- Products Section -->
         <v-col cols="12" class="text-center">
             <h1 class="title animate__animated animate__fadeInDown">💳 Point of Sale</h1>
-            <p class="subtitle  animate__animated animate__fadeInUp animate__delay-1s">Quick and simple selling interface</p>
-        </v-col>
-        <v-card>
+            <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">Quick and simple selling interface</p>
 
-        </v-card>
+            <!-- 🔍 Search Field -->
+            <v-col cols="12" class="d-flex">
+                <v-text-field v-model="search" label="Search" rounded="lg" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line />
+            </v-col>
+        </v-col>
+
+        <v-card></v-card>
+
         <v-col cols="12" md="8">
             <v-row>
                 <v-col v-for="product in products" :key="product.id" cols="6" sm="4" md="3">
                     <v-card class="product-card">
                         <div class="card-top-border"></div>
                         <v-img :src="getImageUrl(product.image)" class="product-image" cover></v-img>
-                        <v-card-title class="product-title"> {{ product.name }}
-                        </v-card-title>
-                        <v-card-subtitle class="product-price">💸 {{ formatPrice(product.selling_price.toLocaleString()) }}
-                        </v-card-subtitle>
+                        <v-card-title class="product-title">{{ product.name }}</v-card-title>
+                        <v-card-subtitle class="product-price">💸 {{ formatPrice(product.selling_price.toLocaleString()) }}</v-card-subtitle>
                         <v-card-text class="text-center">
-                            <div>
-                                <strong>🔢 Qty:</strong> {{ product.quantity > 0 ? product.quantity : 0 }}
-                            </div>
+                            <div><strong>🔢 Qty:</strong> {{ product.quantity > 0 ? product.quantity : 0 }}</div>
                         </v-card-text>
                         <v-card-actions class="d-flex justify-center">
                             <template v-if="product.quantity > 0">
@@ -43,9 +45,9 @@
                 </v-col>
             </v-row>
 
-            <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5 " @input="fetchData()" :total-visible="7"></v-pagination>
+            <v-pagination v-model="currentPage" :length="pageCount" rounded color="#3674B5" :total-visible="7" @update:options="handlePageChange" />
         </v-col>
-        <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+
         <!-- Cart and Checkout Section -->
         <v-col cols="12" md="4">
             <v-card class="cart">
@@ -200,6 +202,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import axios from "axios";
 import swtalert from "@/mixins/swtalert";
 import PaginatedDropdown from '@/components/BIMS/SharedComponents/paginatedDropdown'
@@ -216,12 +219,15 @@ export default {
     data() {
         return {
             products: [],
-			cart: [],
-			loading:false,
+            allProducts: [],
+            cart: [],
+            loading: false,
             dialog: false,
+            search: "",
             maxDate: null,
             currentPage: 1,
-            perPage: 8,
+            totalProducts: 1,
+            perPage: 0,
             sale: {
                 sales_date: null,
                 sale_code: null,
@@ -246,13 +252,14 @@ export default {
             dateMenu: false,
         };
     },
+    watch: {
+        currentPage(newPage) {
+            this.fetchData(newPage);
+        }
+    },
     computed: {
-        paginatedProducts() {
-            const start = (this.currentPage - 1) * this.perPage;
-            return this.products.slice(start, start + this.perPage);
-        },
         pageCount() {
-            return Math.ceil(this.products.length / this.perPage);
+            return Math.ceil(this.totalProducts / this.perPage);
         },
         totalAmount() {
             return this.cart.reduce((sum, item) => sum + item.selling_price * item.quantity, 0);
@@ -278,29 +285,40 @@ export default {
                 this.addNewCustomer();
             }
         },
-         // Fetch product data for the given page
-   async fetchData() {
-    this.loading = true;
-    try {
-        const response = await axios.get('/product-list', {
-            params: {
-                page: this.currentPage,
-                per_page: this.perPage
-            }
-        });
+        // Handle the page change event (pagination)
+        handlePageChange(newOptions) {
+            this.currentPage = newOptions.page;
+            this.perPage = newOptions.perPage;
+            this.fetchData();
+        },
 
-        const productsData = response.data.data.data || [];
-        this.products = Array.isArray(productsData) ? productsData : [];
+        // Debounced search input method
+        onSearchChange: _.debounce(function () {
+            this.currentPage = 1; // Reset to page 1 on search
+            this.fetchData();
+        }, 300),
 
-        // Update pagination information
-        this.pageCount = Math.ceil(response.data.data.meta.total / this.perPage);
+        // Fetch product data with search and pagination
+        fetchData(page = this.currentPage) {
+            this.loading = true;
 
-        this.loading = false;
-    } catch (error) {
-        this.loading = false;
-        console.error("Error fetching products:", error);
-    }
-},
+            // Construct the query parameters
+            const searchParams = this.search ? `&search=${this.search}` : '';
+
+            axios.get(`/product-list?page=${page}&per_page=${this.perPage}${searchParams}`)
+                .then(response => {
+                    this.products = response.data.data.data;
+                    this.totalProducts = response.data.data.meta.total;
+                    this.perPage = response.data.data.meta.per_page;
+                    this.pageCount = Math.ceil(this.totalProducts / this.perPage);
+                })
+                .catch(error => {
+                    console.error("Failed to fetch products:", error);
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+        },
 
         addNewCustomer() {
             this.dialog = true
@@ -407,11 +425,9 @@ export default {
         },
 
     },
-    created() {
-        this.fetchData();
-        // this.setMaxDate();
-    },
+
     mounted() {
+        this.fetchData(this.currentPage);
         this.setDateLimits();
     }
 };
