@@ -14,7 +14,7 @@
 
             <!-- 🔍 Search Field -->
             <v-col cols="12" class="d-flex">
-                <v-text-field v-model="search" label="Search" rounded="lg" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line />
+                <v-text-field v-model="search" label="Search" rounded="pill" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line />
             </v-col>
         </v-col>
 
