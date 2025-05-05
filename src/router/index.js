@@ -30,6 +30,7 @@ import SaleDetails from "@/components/BIMS/Sales/SaleDetails.vue";
 import Stock from "@/components/BIMS/Products/Stock.vue";
 import PurchaseOrders from "@/components/BIMS/Products/PurchaseOrders.vue";
 import Expense from "@/components/BIMS/Expenses/Expense.vue";
+import Staff from "@/components/BIMS/Staff/Staff.vue";
 
 
 const routes = [
@@ -70,6 +71,7 @@ const routes = [
       { path: "/expenses", name: "expenses", component: Expense },
       { path: '/sale-details/:id' , name: "sale-details", component: SaleDetails },
       { path: "/users", name: "users", component: Users },
+      { path: "/staff", name: "staff", component: Staff },
       { path: "/roles", name: "roles", component: Roles },
       { path: "/customers", name: "customers", component: Customer },
       { path: "/suppliers", name: "suppliers", component: Supplier },

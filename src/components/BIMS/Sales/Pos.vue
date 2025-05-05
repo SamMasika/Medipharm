@@ -14,7 +14,7 @@
 
             <!-- 🔍 Search Field -->
             <v-col cols="12" class="d-flex">
-                <v-text-field v-model="search" label="Search" rounded="pill" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line />
+                <v-text-field v-model="search" label="Search" rounded="lg" prepend-inner-icon="mdi-magnify" @input="onSearchChange" flat variant="solo-filled" hide-details single-line />
             </v-col>
         </v-col>
 
@@ -94,7 +94,7 @@
 
                 <!-- Checkout Form Section -->
                 <v-card-text v-if="cart.length > 0" class="checkout-form">
-                    <PaginatedDropdown :api-endpoint="'/customer-list'" v-model="selectedCustomer" label="👤 Search Customer..." placeholder="Search Product" item-title="name">
+                    <PaginatedDropdown :api-endpoint="'/customer-list'" v-model="selectedCustomer" label="👤 Search Customer..." placeholder="Search Customer" item-title="name">
                         <template v-slot:append-item>
                             <v-list-item @click="addNewCustomer">
                                 <v-list-item-title class="text-primary">
@@ -298,27 +298,26 @@ export default {
             this.fetchData();
         }, 300),
 
-        // Fetch product data with search and pagination
         fetchData(page = this.currentPage) {
-            this.loading = true;
+    this.loading = true;
 
-            // Construct the query parameters
-            const searchParams = this.search ? `&search=${this.search}` : '';
+    const searchParams = this.search ? `&search=${this.search}` : '';
 
-            axios.get(`/product-list?page=${page}&per_page=${this.perPage}${searchParams}`)
-                .then(response => {
-                    this.products = response.data.data.data;
-                    this.totalProducts = response.data.data.meta.total;
-                    this.perPage = response.data.data.meta.per_page;
-                    this.pageCount = Math.ceil(this.totalProducts / this.perPage);
-                })
-                .catch(error => {
-                    console.error("Failed to fetch products:", error);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
+    // ✅ Use 'size' instead of 'per_page'
+    axios.get(`/product-list?page=${page}&size=8${searchParams}`)
+        .then(response => {
+            this.products = response.data.data.data;
+            this.totalProducts = response.data.data.meta.total;
+            this.perPage = response.data.data.meta.per_page;
+            this.pageCount = Math.ceil(this.totalProducts / this.perPage);
+        })
+        .catch(error => {
+            console.error("Failed to fetch products:", error);
+        })
+        .finally(() => {
+            this.loading = false;
+        });
+},
 
         addNewCustomer() {
             this.dialog = true

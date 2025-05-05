@@ -51,6 +51,12 @@
             </template>
             <v-list-item v-for="([title, icon, path], i) in Reports" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
         </v-list-group>
+        <!-- <v-list-group value="Staff" append-icon="mdi-menu-right">
+            <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" link prepend-icon="mdi-account-multiple-outline" title=" Staff" v-tooltip="'Manage Staff'"></v-list-item>
+            </template>
+            <v-list-item v-for="([title, icon, path], i) in Staff" :key="i" :title="title" :prepend-icon="icon" router :to="path" :value="title" v-tooltip="'Go to ' + title"></v-list-item>
+        </v-list-group> -->
         <v-list-group value="Settings" prepend-icon="mdi-cog" append-icon="mdi-menu-right">
             <template #activator="{ props }">
                 <v-list-item v-bind="props" title="Settings"></v-list-item>
@@ -128,6 +134,9 @@ export default {
             Suppliers: [
                 ['Suppliers', 'mdi-truck', '/suppliers'],
             ],
+            // Staff: [
+            //     ['Staff', 'mdi-account-multiple-outline', '/staff'],
+            // ],
             UserManagement: [
 
                 ['Users', 'mdi-account-group', '/users'],
