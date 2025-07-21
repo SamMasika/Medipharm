@@ -1,11 +1,55 @@
 <template>
 <v-container fluid>
-		<nav class="custom-breadcrumbs mb-4">
-			<span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
-			<span class="breadcrumb-separator">/</span>
-			<span class="breadcrumb-item active">Users</span>
-	</nav>
+    <nav class="custom-breadcrumbs mb-4">
+        <span class="breadcrumb-item" @click="$router.push('/dashboard')">Dashboard</span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Users</span>
+    </nav>
+    <v-row justify="end">
+        <v-col cols="12" md="auto" class="d-flex justify-end">
+            <v-btn class="text-none font-weight-regular button-color my-5" prepend-icon="mdi-plus" text="Add User" variant="flat" @click="dialog=true" rounded="xl"></v-btn>
+        </v-col>
+    </v-row>
     <!-- User Table with Actions and Search -->
+    <v-dialog v-model="dialog" max-width="900">
+        <v-card prepend-icon="mdi-plus" title="Add User">
+            <v-form>
+                <v-card-text>
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.name" label="Full Name*" prepend-inner-icon="mdi-account" variant="outlined" required />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.username" label="Username*" prepend-inner-icon="mdi-account-circle" variant="outlined" required />
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.email" label="Email*" prepend-inner-icon="mdi-email" type="email" variant="outlined" required />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.phone" label="Phone Number*" prepend-inner-icon="mdi-phone" variant="outlined" required />
+                        </v-col>
+                    </v-row>
+                    <v-row>
+
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.password" :type="showPassword ? 'text' : 'password'" label="Password*" prepend-inner-icon="mdi-lock" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showPassword = !showPassword" variant="outlined" :error-messages="passwordError" @input="validatePassword" required />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="user.password_confirmation" :type="showPassword ? 'text' : 'password'" label="Confirm Password*" prepend-inner-icon="mdi-lock-check" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" @click:append-inner="showPassword = !showPassword" variant="outlined" :error-messages="confirmPasswordError" @input="validateConfirmPassword" required />
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text="Close" class="text-none" variant="tonal" @click="dialog = false" rounded="xl"></v-btn>
+                    <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addUser" rounded="xl"></v-btn>
+                </v-card-actions>
+            </v-form>
+        </v-card>
+    </v-dialog>
     <v-card flat>
         <v-toolbar>
             <v-icon icon="mdi-account-group" class="mx-5" size="40"></v-icon>&nbsp; Users
@@ -560,6 +604,24 @@ export default {
                 this.loading = false;
             }
         },
+        addUser() {
+            const data = {
+                ...this.user,
+            };
+            axios.post('/user-store', data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Include token if needed
+                    }
+                })
+                .then(response => {
+                    this.showAlert(response.data.message, 'success');
+                    this.dialog = false; // Close the dialog after success
+                    setTimeout(() => {
+                        window.location.reload(); // Reload the window after success
+                    }, 500); // Delay the reload slightly to allow the success message to be shown
+                })
+                .catch(error => this.showAlert(error.response.data.message, 'error'));
+        },
         hasRole(user, roleName) {
             return user.roles.some(role => role.name === roleName);
         },
@@ -743,7 +805,6 @@ export default {
     padding: 16px 24px;
     border-bottom: 1px solid #e0e0e0;
 }
-
 
 .add-button {
     border-radius: 24px;

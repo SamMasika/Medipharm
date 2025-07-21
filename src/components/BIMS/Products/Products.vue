@@ -55,7 +55,6 @@
                 <v-btn type="submit" text="Save" class="text-none button-color" variant="flat" @click="addProduct" rounded="xl"></v-btn>
             </v-card-actions>
         </v-form>
-
     </v-card>
 </v-dialog>
 <v-container fluid v-if="itemsLength > 0">
