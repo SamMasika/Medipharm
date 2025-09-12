@@ -1,7 +1,7 @@
 <template>
 <div v-if="loading" class="loader-overlay">
     <div class="">
-        <v-img src="@/assets/banal.png" class="animated-logo"></v-img>
+        <v-img src="@/assets/stailika.png" class="animated-logo"></v-img>
     </div>
     <!-- Replace src with the correct path to your logo -->
 </div>
