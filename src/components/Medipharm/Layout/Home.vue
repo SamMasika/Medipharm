@@ -18,7 +18,7 @@
                 <!-- BADGE -->
                 <div class="hero-badge">
                     <span class="badge-dot"></span>
-                    MEDIPHARM
+                    MSD MEDIPHARM
                 </div>
 
                 <!-- KICKER -->
