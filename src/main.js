@@ -28,12 +28,12 @@ app.component('apexchart', VueApexCharts);
 loadFonts();
 
 // Set the base URL for Axios
-axios.defaults.baseURL = 'http://41.59.228.237/Stailika-API/public/api';
-// axios.defaults.baseURL = 'http://localhost:8000/api/';
+// axios.defaults.baseURL = 'http://41.59.228.237/Stailika-API/public/api';
+axios.defaults.baseURL = 'http://localhost:8000/api/';
 
 app.config.globalProperties.$getImageUrl = function (imageName) {
-  return `http://41.59.228.237/Stailika-API/public/${imageName}`;
-  // return `http://localhost:8000/${imageName}`;
+  // return `http://41.59.228.237/Stailika-API/public/${imageName}`;
+  return `http://localhost:8000/${imageName}`;
 };
 
 // Dispatch auth attempt and mount the app after authentication attempt
