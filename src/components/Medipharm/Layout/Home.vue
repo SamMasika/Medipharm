@@ -21,34 +21,30 @@
                     MSD MEDIPHARM
                 </div>
 
-                <!-- KICKER -->
-                <div class="hero-kicker">
-                    Joint Venture with MSD Medipharm
-                </div>
-
                 <h1>
-                    Pharmaceutical Manufacturing
-                    <span>In Tanzania</span>
+                    Quality Health Commodities,<br />
+                    <span>Made in Tanzania</span>
                 </h1>
 
                 <!-- DESCRIPTION -->
                 <p class="hero-description">
-                    Elevating pharmaceutical standards across East Africa through world-class manufacturing,
-                    uncompromising quality, and transformative partnerships.
+                    A subsidiary of the Medical Stores Department (MSD)<br />
+                    Dedicated to local manufacturing of high-quality, affordable
+                    pharmaceuticals and medical devices for Tanzania and Africa.
                 </p>
 
                 <!-- BUTTONS -->
                 <div class="hero-actions">
                     <button class="btn-primary" @click="scrollToSection('facilities')">
-                        Explore Our Facilities
+                        Explore Our Products
                     </button>
                     <button class="btn-secondary" @click="scrollToSection('partnerships')">
-                        Partner With Us
+                        Learn About Us
                     </button>
                 </div>
 
                 <!-- METRICS -->
-                <div class="hero-metrics">
+                <!-- <div class="hero-metrics">
                     <div class="metric-card">
                         <div class="metric-value">WHO GMP</div>
                         <div class="metric-label">Certified</div>
@@ -61,7 +57,7 @@
                         <div class="metric-value">99.8%</div>
                         <div class="metric-label">Compliance Rate</div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <!-- RIGHT -->
@@ -77,13 +73,13 @@
                         <div class="floating-icon">
                             <v-icon size="32" color="#ffffff">mdi-shield-check</v-icon>
                         </div>
-                        <div>
-                            <h4>Global Standards. Local Legacy.</h4>
-                            <p>
-                                Delivering innovative, affordable, and reliable medicines through cutting-edge
-                                technology and uncompromising integrity.
-                            </p>
-                        </div>
+                       <div>
+  <h4>Global Standards. Local Legacy.</h4>
+  <p>
+    Manufacturing high-quality, affordable health commodities in Tanzania 
+    to strengthen healthcare access across the nation and beyond.
+  </p>
+</div>
                     </div>
                 </div>
 
@@ -117,7 +113,6 @@
                         </router-link>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -132,8 +127,8 @@
                 </div>
                 <h2>Capabilities That Define Leadership</h2>
                 <p class="section-subtitle">
-                    Engineered for excellence. Built for impact. We combine cutting-edge technology,
-                    uncompromising quality, and sustainable innovation.
+                    Engineered for excellence. Built for impact. We combine cutting-edge
+                    technology, uncompromising quality, and sustainable innovation.
                 </p>
             </div>
 
@@ -156,47 +151,50 @@
             </div>
         </div>
     </section>
-   <!-- ULTRA PREMIUM NEWS & MEDIA -->
-<section class="news-media-section">
-  <div class="section-container">
-    <div class="section-header">
-      <div class="premium-badge">Stories That Matter</div>
-      <h2>News &amp; Media Highlights</h2>
-      <p class="subtitle">Discover our journey, achievements, and impact in transforming healthcare in East Africa.</p>
-    </div>
+    <!-- ULTRA PREMIUM NEWS & MEDIA -->
+    <section class="news-media-section">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="premium-badge">Stories That Matter</div>
+                <h2>News &amp; Media Highlights</h2>
+                <p class="subtitle">
+                    Discover our journey, achievements, and impact in transforming
+                    healthcare in East Africa.
+                </p>
+            </div>
 
-    <div class="news-grid">
-      <div v-for="(news, i) in latestNews" :key="i" class="news-card" :style="{ '--delay': i * 0.1 + 's' }">
-        <div class="news-visual">
-          <img :src="news.image" :alt="news.title" />
-          <div class="category-badge">{{ news.category }}</div>
-        </div>
-        
-        <div class="news-content">
-          <div class="news-meta">
-            <span class="news-date">{{ news.date }}</span>
-          </div>
-          <h3>{{ news.title }}</h3>
-          <p class="excerpt">{{ news.excerpt }}</p>
-          
-          <div class="news-footer">
-            <a :href="news.link" class="read-more-link">
-              Read Full Article
-              <span class="arrow">⟶</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div class="news-grid">
+                <div v-for="(news, i) in latestNews" :key="i" class="news-card" :style="{ '--delay': i * 0.1 + 's' }">
+                    <div class="news-visual">
+                        <img :src="news.image" :alt="news.title" />
+                        <div class="category-badge">{{ news.category }}</div>
+                    </div>
 
-    <div class="view-all">
-      <router-link to="/news" class="premium-cta">
-        Explore All Stories
-        <v-icon size="22">mdi-arrow-top-right</v-icon>
-      </router-link>
-    </div>
-  </div>
-</section>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">{{ news.date }}</span>
+                        </div>
+                        <h3>{{ news.title }}</h3>
+                        <p class="excerpt">{{ news.excerpt }}</p>
+
+                        <div class="news-footer">
+                            <a :href="news.link" class="read-more-link">
+                                Read Full Article
+                                <span class="arrow">⟶</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-all">
+                <router-link to="/news" class="premium-cta">
+                    Explore All Stories
+                    <v-icon size="22">mdi-arrow-top-right</v-icon>
+                </router-link>
+            </div>
+        </div>
+    </section>
 </div>
 </template>
 
@@ -214,27 +212,27 @@ export default {
             coreValues: [{
                     title: "Quality Excellence",
                     desc: "We maintain the highest standards in every product we manufacture",
-                    icon: "mdi-shield-check"
+                    icon: "mdi-shield-check",
                 },
                 {
                     title: "Innovation",
                     desc: "Continuously developing better solutions for healthcare needs",
-                    icon: "mdi-lightbulb-on"
+                    icon: "mdi-lightbulb-on",
                 },
                 {
                     title: "Integrity",
                     desc: "Operating with honesty, transparency, and ethical excellence",
-                    icon: "mdi-handshake"
+                    icon: "mdi-handshake",
                 },
                 {
                     title: "Customer Focus",
                     desc: "Putting the needs of healthcare providers and patients first",
-                    icon: "mdi-account-heart"
+                    icon: "mdi-account-heart",
                 },
                 {
                     title: "Community Impact",
                     desc: "Creating jobs, reducing import dependency, and strengthening local healthcare",
-                    icon: "mdi-hand-heart"
+                    icon: "mdi-hand-heart",
                 },
             ],
             latestNews: [{
@@ -243,7 +241,7 @@ export default {
                     date: "June 15, 2026",
                     category: "Manufacturing",
                     image: require("@/assets/medifarm/medi11.jpeg"), // replace with real image
-                    link: "/news/1"
+                    link: "/news/1",
                 },
                 {
                     title: "Partnership with Regional Health Organizations",
@@ -251,7 +249,7 @@ export default {
                     date: "June 8, 2026",
                     category: "Partnerships",
                     image: require("@/assets/medifarm/medi10.jpeg"),
-                    link: "/news/2"
+                    link: "/news/2",
                 },
                 {
                     title: "Achieving TMDA GMP Certification",
@@ -259,39 +257,39 @@ export default {
                     date: "May 28, 2026",
                     category: "Compliance",
                     image: require("@/assets/medifarm/medi13.jpeg"),
-                    link: "/news/3"
-                }
+                    link: "/news/3",
+                },
             ],
             services: [{
                     name: "Manufacturing",
                     route: "/facilities/manufacturing",
                     description: "State-of-the-art manufacturing facilities equipped with advanced automation and strict quality control systems",
-                    icon: "mdi-factory"
+                    icon: "mdi-factory",
                 },
                 {
                     name: "Research & Development",
                     route: "/facilities/rnd",
                     description: "Cutting-edge R&D center focused on innovation, product development, and continuous improvement of health commodities",
-                    icon: "mdi-flask"
+                    icon: "mdi-flask",
                 },
                 {
                     name: "Quality Assurance & Compliance",
                     route: "/quality",
                     description: "Full TMDA licensing and GMP compliance with rigorous quality management systems and regular audits",
-                    icon: "mdi-shield-check"
+                    icon: "mdi-shield-check",
                 },
                 {
                     name: "Distribution & Supply Chain",
                     route: "/facilities/distribution",
                     description: "Reliable nationwide and regional distribution network serving hospitals, clinics, NGOs, and emergency units",
-                    icon: "mdi-truck-delivery"
+                    icon: "mdi-truck-delivery",
                 },
                 {
                     name: "Sustainability & Community Impact",
                     route: "/facilities/sustainability",
                     description: "Environmentally responsible manufacturing that supports job creation, reduces import dependency, and strengthens local healthcare security",
-                    icon: "mdi-leaf"
-                }
+                    icon: "mdi-leaf",
+                },
             ],
         };
     },
@@ -305,22 +303,21 @@ export default {
         scrollToSection(section) {
             console.log(`Scrolling to ${section}`);
         },
-
     },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap");
 
 :root {
-    --navy: #0A2540;
+    --navy: #0a2540;
     --navy-dark: #05121f;
-    --blue: #1E40AF;
-    --teal: #0F766E;
-    --gold: #D97706;
-    --gold-light: #FCD34D;
-    --accent: #93C439;
+    --blue: #1e40af;
+    --teal: #0f766e;
+    --gold: #d97706;
+    --gold-light: #fcd34d;
+    --accent: #93c439;
 }
 
 .hero-page {
@@ -345,7 +342,8 @@ export default {
     object-fit: cover;
     opacity: 0;
     transform: scale(1.12);
-    transition: opacity 2s cubic-bezier(0.23, 1, 0.32, 1), transform 8s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: opacity 2s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 8s cubic-bezier(0.23, 1, 0.32, 1);
     filter: brightness(0.45) contrast(1.15) saturate(0.9);
 }
 
@@ -357,7 +355,7 @@ export default {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #162456, #233781, #93C439);
+    background: linear-gradient(135deg, #162456, #233781, #93c439);
     opacity: 0.92;
     z-index: 1;
 }
@@ -366,7 +364,8 @@ export default {
     position: absolute;
     inset: 0;
     z-index: 2;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 90px 90px;
     opacity: 0.45;
@@ -426,73 +425,7 @@ export default {
     text-transform: uppercase;
 }
 
-.hero-left h1 {
-    margin-top: 18px;
-    font-family: 'Playfair Display', serif;
-    font-size: 3.85rem;
-    line-height: 1.05;
-    font-weight: 900;
-    letter-spacing: -3.2px;
-    color: #ffffff;
-}
 
-.hero-left h1 span {
-    display: block;
-    margin-top: 12px;
-    font-size: 3.35rem;
-    background: linear-gradient(90deg, #ffffff, #AEDF54, #93C439);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900;
-}
-
-.hero-description {
-    margin-top: 32px;
-    font-size: 1.08rem;
-    line-height: 1.78;
-    color: rgba(241, 245, 249, 0.9);
-    max-width: 580px;
-}
-
-.hero-actions {
-    margin-top: 52px;
-    display: flex;
-    gap: 20px;
-}
-
-.btn-primary,
-.btn-secondary {
-    padding: 18px 40px;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 1.02rem;
-    letter-spacing: 0.6px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #162456, #233781, #93C439);
-    color: white;
-    box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.5);
-}
-
-.btn-primary:hover {
-    transform: translateY(-6px) scale(1.04);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: white;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(20px);
-}
-
-.btn-secondary:hover {
-    border-color: var(--accent);
-    background: rgba(255, 255, 255, 0.1);
-}
 
 .hero-metrics {
     margin-top: 64px;
@@ -530,7 +463,9 @@ export default {
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.02);
-    box-shadow: 0 50px 120px -20px rgba(0, 0, 0, 0.55), 0 15px 35px -10px rgba(22, 36, 86, 0.35), inset 0 0 60px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 50px 120px -20px rgba(0, 0, 0, 0.55),
+        0 15px 35px -10px rgba(22, 36, 86, 0.35),
+        inset 0 0 60px rgba(255, 255, 255, 0.06);
 }
 
 .hero-card:hover {
@@ -552,16 +487,23 @@ export default {
 .hero-card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 45%, rgba(22, 36, 86, 0.55) 75%, rgba(22, 36, 86, 0.75) 100%);
+    background: linear-gradient(to bottom,
+            transparent 45%,
+            rgba(22, 36, 86, 0.55) 75%,
+            rgba(22, 36, 86, 0.75) 100%);
     z-index: 1;
 }
 
 .hero-card-glow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 28% 32%, rgba(147, 196, 57, 0.28), transparent 60%),
+    background: radial-gradient(circle at 28% 32%,
+            rgba(147, 196, 57, 0.28),
+            transparent 60%),
         radial-gradient(circle at 72% 68%, rgba(35, 55, 129, 0.25), transparent 65%),
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.07), transparent 75%);
+        radial-gradient(circle at 50% 50%,
+            rgba(255, 255, 255, 0.07),
+            transparent 75%);
     mix-blend-mode: screen;
     z-index: 2;
     opacity: 0.75;
@@ -573,7 +515,7 @@ export default {
     bottom: 48px;
     left: -40px;
     width: 340px;
-    opacity: 0.80;
+    opacity: 0.8;
     padding: 32px;
     background: linear-gradient(165deg, #162456, #314386);
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -589,7 +531,7 @@ export default {
     width: 68px;
     height: 68px;
     border-radius: 22px;
-    background: linear-gradient(145deg, #162456, #233781, #93C439);
+    background: linear-gradient(145deg, #162456, #233781, #93c439);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -656,7 +598,7 @@ export default {
 .service-icon-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(145deg, #162456, #233781, #93C439);
+    background: linear-gradient(145deg, #162456, #233781, #93c439);
     border-radius: 18px;
     box-shadow: 0 8px 20px rgba(35, 55, 129, 0.4);
 }
@@ -665,7 +607,7 @@ export default {
     font-size: 1.08rem;
     font-weight: 700;
     color: white;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 .service-info p {
@@ -756,16 +698,17 @@ export default {
 
 .services-section {
     padding: 110px 0;
-    background:
-        linear-gradient(180deg, rgba(248, 250, 252, 0.92) 0%, rgba(241, 245, 249, 0.92) 100%),
-        url('@/assets/medifarm/medi7.jpeg') center/cover no-repeat;
+    background: linear-gradient(180deg,
+            rgba(248, 250, 252, 0.92) 0%,
+            rgba(241, 245, 249, 0.92) 100%),
+        url("@/assets/medifarm/medi7.jpeg") center/cover no-repeat;
     position: relative;
     overflow: hidden;
 }
 
 /* Subtle slow-moving background */
 .services-section::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: inherit;
@@ -777,10 +720,12 @@ export default {
 
 /* Soft overlay */
 .services-section::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 35%, rgba(255, 255, 255, 0.88) 85%);
+    background: radial-gradient(circle at center,
+            transparent 35%,
+            rgba(255, 255, 255, 0.88) 85%);
     z-index: 1;
     pointer-events: none;
 }
@@ -831,7 +776,7 @@ export default {
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #0A2540;
+    color: #0a2540;
     box-shadow: 0 10px 30px rgba(10, 37, 64, 0.08);
     margin-bottom: 24px;
 }
@@ -839,16 +784,16 @@ export default {
 .dot {
     width: 9px;
     height: 9px;
-    background: linear-gradient(145deg, #162456, #93C439);
+    background: linear-gradient(145deg, #162456, #93c439);
     border-radius: 50%;
-    box-shadow: 0 0 12px #93C439;
+    box-shadow: 0 0 12px #93c439;
     animation: pulse 3s infinite;
 }
 
 .services-header h2 {
     font-size: 2.9rem;
     font-weight: 800;
-    color: #0A2540;
+    color: #0a2540;
     line-height: 1.08;
     margin-bottom: 20px;
 }
@@ -882,13 +827,13 @@ export default {
 }
 
 .service-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 5px;
-    background: linear-gradient(145deg, #162456, #233781, #93C439);
+    background: linear-gradient(145deg, #162456, #233781, #93c439);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
@@ -900,13 +845,13 @@ export default {
 .service-card:hover {
     transform: translateY(-12px);
     box-shadow: 0 35px 70px -15px rgba(10, 37, 64, 0.18);
-    border-color: #93C439;
+    border-color: #93c439;
 }
 
 .service-icon {
     width: 78px;
     height: 78px;
-    background: linear-gradient(145deg, #162456, #233781, #93C439);
+    background: linear-gradient(145deg, #162456, #233781, #93c439);
     border-radius: 22px;
     display: flex;
     align-items: center;
@@ -924,7 +869,7 @@ export default {
 .service-body h3 {
     font-size: 1.55rem;
     font-weight: 700;
-    color: #0A2540;
+    color: #0a2540;
     margin-bottom: 14px;
 }
 
@@ -952,7 +897,7 @@ export default {
 }
 
 .premium-link:hover {
-    color: #93C439;
+    color: #93c439;
     gap: 20px;
 }
 
@@ -1020,9 +965,9 @@ export default {
 .badge-dot {
     width: 8px;
     height: 8px;
-    background: #93C439;
+    background: #93c439;
     border-radius: 50%;
-    box-shadow: 0 0 10px #93C439;
+    box-shadow: 0 0 10px #93c439;
 }
 
 .panel-header h3 {
@@ -1058,7 +1003,7 @@ export default {
 .service-icon-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(145deg, #162456, #233781, #93C439);
+    background: linear-gradient(145deg, #162456, #233781, #93c439);
     border-radius: 14px;
 }
 
@@ -1097,8 +1042,8 @@ export default {
 
 .view-all-btn:hover {
     background: rgba(147, 196, 57, 0.2);
-    border-color: #93C439;
-    color: #93C439;
+    border-color: #93c439;
+    color: #93c439;
 }
 
 .news-media-section {
@@ -1120,7 +1065,7 @@ export default {
 .badge {
     display: inline-block;
     background: rgba(147, 196, 57, 0.12);
-    color: #4A7043;
+    color: #4a7043;
     font-size: 0.85rem;
     font-weight: 700;
     padding: 8px 26px;
@@ -1133,7 +1078,7 @@ export default {
 .section-header h2 {
     font-size: 2.9rem;
     font-weight: 800;
-    color: #0A2540;
+    color: #0a2540;
     margin-bottom: 16px;
 }
 
@@ -1145,142 +1090,142 @@ export default {
 }
 
 .news-media-section {
-  padding: 130px 0;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 130px 0;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .section-header {
-  text-align: center;
-  margin-bottom: 90px;
+    text-align: center;
+    margin-bottom: 90px;
 }
 
 .premium-badge {
-  display: inline-block;
-  background: linear-gradient(90deg, #93C439, #4ADE80);
-  color: #0A2540;
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 8px 28px;
-  border-radius: 9999px;
-  letter-spacing: 2px;
-  margin-bottom: 16px;
+    display: inline-block;
+    background: linear-gradient(90deg, #93c439, #4ade80);
+    color: #0a2540;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 8px 28px;
+    border-radius: 9999px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
 }
 
 .news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 32px;
 }
 
 .news-card {
-  background: white;
-  border-radius: 32px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px -15px rgba(10, 37, 64, 0.12);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  border: 1px solid rgba(147, 196, 57, 0.12);
-  animation: fadeUp 0.8s backwards var(--delay);
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px -15px rgba(10, 37, 64, 0.12);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 1px solid rgba(147, 196, 57, 0.12);
+    animation: fadeUp 0.8s backwards var(--delay);
 }
 
 .news-card:hover {
-  transform: translateY(-18px);
-  box-shadow: 0 40px 85px -20px rgba(147, 196, 57, 0.28);
+    transform: translateY(-18px);
+    box-shadow: 0 40px 85px -20px rgba(147, 196, 57, 0.28);
 }
 
 .news-visual {
-  position: relative;
-  height: 260px;
-  overflow: hidden;
+    position: relative;
+    height: 260px;
+    overflow: hidden;
 }
 
 .news-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .news-card:hover .news-visual img {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .category-badge {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  background: rgba(10, 37, 64, 0.9);
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 6px 18px;
-  border-radius: 9999px;
-  letter-spacing: 1px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: rgba(10, 37, 64, 0.9);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 9999px;
+    letter-spacing: 1px;
 }
 
 .news-content {
-  padding: 36px;
+    padding: 36px;
 }
 
 .news-meta .news-date {
-  font-size: 0.85rem;
-  color: #64748B;
-  margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 12px;
 }
 
 .news-content h3 {
-  font-size: 1.55rem;
-  line-height: 1.35;
-  font-weight: 700;
-  color: #0A2540;
-  margin-bottom: 16px;
+    font-size: 1.55rem;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #0a2540;
+    margin-bottom: 16px;
 }
 
 .excerpt {
-  color: #475569;
-  line-height: 1.75;
-  font-size: 1.02rem;
-  margin-bottom: 28px;
+    color: #475569;
+    line-height: 1.75;
+    font-size: 1.02rem;
+    margin-bottom: 28px;
 }
 
 .read-more-link {
-  color: #162456;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  transition: all 0.4s ease;
+    color: #162456;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: all 0.4s ease;
 }
 
 .news-card:hover .read-more-link {
-  color: #93C439;
-  gap: 18px;
+    color: #93c439;
+    gap: 18px;
 }
 
 /* View All */
 .view-all {
-  text-align: center;
-  margin-top: 80px;
+    text-align: center;
+    margin-top: 80px;
 }
 
 .premium-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 48px;
-  background: linear-gradient(135deg, #0A2540, #1E40AF, #93C439);
-  color: white;
-  font-weight: 700;
-  font-size: 1.05rem;
-  border-radius: 9999px;
-  text-decoration: none;
-  box-shadow: 0 20px 50px -10px rgba(10, 37, 64, 0.35);
-  transition: all 0.5s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 48px;
+    background: linear-gradient(135deg, #0a2540, #1e40af, #93c439);
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0 20px 50px -10px rgba(10, 37, 64, 0.35);
+    transition: all 0.5s ease;
 }
 
 .premium-cta:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 30px 70px -15px rgba(147, 196, 57, 0.4);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 30px 70px -15px rgba(147, 196, 57, 0.4);
 }
 </style>

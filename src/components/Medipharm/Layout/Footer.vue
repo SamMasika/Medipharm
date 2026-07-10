@@ -10,87 +10,80 @@
             <div class="logo-frame">
     <img :src="logo" alt="Medipharm" width="100%"/>
   </div>
-            <div class="brand-info">
-                <h1>MEDIPHARM</h1>
-                <p class="jv">Strategic Joint Venture with MSD Medipharm</p>
-            </div>
-        </div>
-
-        <div class="footer-content">
-            <!-- COLUMN 1 -->
-            <div class="footer-col">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About Medifarm</a></li>
-                    <li><a href="/facilities">Facilities</a></li>
-                    <li><a href="/products">Our Products</a></li>
-                    <li><a href="/quality">Quality & Compliance</a></li>
-                </ul>
-            </div>
-
-            <!-- COLUMN 2 -->
-            <div class="footer-col">
-                <h4>Manufacturing</h4>
-                <ul>
-                    <li><a href="#">API Production</a></li>
-                    <li><a href="#">Formulation</a></li>
-                    <li><a href="#">Sterile Injectables</a></li>
-                    <li><a href="#">Packaging Solutions</a></li>
-                    <li><a href="#">R&amp;D</a></li>
-                </ul>
-            </div>
-
-            <!-- COLUMN 3 -->
-            <div class="footer-col">
-                <h4>Partnerships</h4>
-                <ul>
-                    <li><a href="/partnerships">MSD Medipharm</a></li>
-                    <li><a href="#">Distributors</a></li>
-                    <li><a href="#">Healthcare Institutions</a></li>
-                    <li><a href="#">Government</a></li>
-                </ul>
-            </div>
-
-            <!-- COLUMN 4 - CONTACT -->
-            <div class="footer-col contact-col">
-                <h4>Contact Us</h4>
-                <div class="contact-details">
-                    <p>P.O Box 9081<br>MSD Office, Block C, Keko Mwanga</p>
-                    <p>Dar es Salaam, Tanzania</p>
-                    <!-- <p class="mt-4">
-                        <strong>+255 677 073 039</strong><br>
-                        <strong>+255 678 073 079</strong>
-                    </p> -->
-                    <p>info.medipharm@msd.go.tz</p>
-                </div>
-
-               <!-- SOCIAL ICONS -->
-<div class="socials">
-  <a href="#" target="_blank" class="social-icon" title="Instagram">
-    <v-icon size="24">mdi-instagram</v-icon>
-  </a>
-  <a href="#" target="_blank" class="social-icon" title="LinkedIn">
-    <v-icon size="24">mdi-linkedin</v-icon>
-  </a>
-  <a href="#" target="_blank" class="social-icon" title="X (Twitter)">
-    <v-icon size="24">mdi-twitter</v-icon>
-  </a>
-  <a href="#" target="_blank" class="social-icon" title="Facebook">
-    <v-icon size="24">mdi-facebook</v-icon>
-  </a>
+           <div class="brand-info">
+  <h1>MSD MEDIPHARM</h1>
+  <p class="jv">A Subsidiary of the Medical Stores Department (MSD)</p>
 </div>
-            </div>
         </div>
+
+      <div class="footer-content">
+  <!-- COLUMN 1 -->
+  <div class="footer-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/facilities">Our Facilities</a></li>
+      <li><a href="/news">News & Media</a></li>
+      <li><a href="/careers">Careers</a></li>
+    </ul>
+  </div>
+
+  <!-- COLUMN 2 -->
+  <div class="footer-col">
+    <h4>Products</h4>
+    <ul>
+      <li><a href="/products">Surgical Face Masks</a></li>
+      <li><a href="/products">N95 Respirators</a></li>
+      <li><a href="/products">Examination Gloves</a></li>
+      <li><a href="/products">Hand Sanitizers & More</a></li>
+    </ul>
+  </div>
+
+  <!-- COLUMN 3 -->
+  <div class="footer-col">
+    <h4>Resources</h4>
+    <ul>
+      <li><a href="/quality">Quality & Compliance</a></li>
+      <li><a href="/sustainability">Sustainability</a></li>
+      <li><a href="/partnerships">Partnerships</a></li>
+      <li><a href="/contact">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- COLUMN 4 - CONTACT -->
+  <div class="footer-col contact-col">
+    <h4>Contact Us</h4>
+    <div class="contact-details">
+      <p>
+        MSD Medipharm Manufacturing Co. LTD<br>
+        P.O. Box 9081, MSD Office, Block C<br>
+        Keko Mwanga, Dar es Salaam, Tanzania
+      </p>
+      <p class="mt-3">
+        <strong>Email:</strong><br>
+        info.medipharm@msd.go.tz
+      </p>
+    </div>
+
+    <!-- SOCIAL ICONS -->
+    <div class="socials">
+      <a href="#" target="_blank" class="social-icon" title="LinkedIn"><v-icon size="24">mdi-linkedin</v-icon></a>
+      <a href="#" target="_blank" class="social-icon" title="Facebook"><v-icon size="24">mdi-facebook</v-icon></a>
+      <a href="#" target="_blank" class="social-icon" title="Instagram"><v-icon size="24">mdi-instagram</v-icon></a>
+      <a href="#" target="_blank" class="social-icon" title="X"><v-icon size="24">mdi-twitter</v-icon></a>
+    </div>
+  </div>
+</div>
 
         <!-- DIVIDER -->
         <div class="footer-divider"></div>
 
         <!-- BOTTOM -->
-        <div class="footer-bottom">
-            <div>© {{ new Date().getFullYear() }} Medifarm Tanzania. All Rights Reserved.</div>
-            <div class="cert">WHO GMP • ISO 9001:2015 • Partner of MSD Medipharm</div>
-        </div>
+       <div class="footer-bottom">
+  <div>© {{ new Date().getFullYear() }} MSD Medipharm. All Rights Reserved.</div>
+  <div class="cert">TMDA Licensed • GMP Compliant • Subsidiary of MSD</div>
+</div>
     </v-container>
 </footer>
 </template>
@@ -191,8 +184,8 @@ export default {
 
 /* Brand Text */
 .brand-info h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.8rem;
+  /* font-family: 'Playfair Display', serif; */
+  font-size: 3.5rem;
   font-weight: 900;
   letter-spacing: -3px;
   color: white;

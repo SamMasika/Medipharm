@@ -8,7 +8,7 @@
             <!-- BRAND -->
             <div class="brand-block">
                 <router-link to="/" class="logo-wrap">
-                    <img :src="coat" alt="Coat of Arms" width="60"/>
+                    <img :src="coat" alt="Coat of Arms" width="60" />
                 </router-link>
             </div>
 
@@ -102,7 +102,6 @@
                     </v-card>
                 </v-menu>
 
-
                 <router-link to="/news" class="cmd-item" :class="{ active: isActive('/news') }">
                     News & Media
                 </router-link>
@@ -110,7 +109,12 @@
 
             <!-- ACTIONS -->
             <div class="actions">
-				<!-- === LANGUAGE SWITCHER === -->
+              
+                <v-btn class="primary-action d-none d-lg-flex" rounded size="large" @click="requestConsultation">
+                    Get In Touch
+                    <v-icon end size="20">mdi-arrow-right</v-icon>
+                </v-btn>
+  <!-- === LANGUAGE SWITCHER === -->
                 <v-menu offset-y open-on-hover transition="scale-transition" content-class="premium-dropdown">
                     <template v-slot:activator="{ props }">
                         <div class="lang-switcher cmd-item" v-bind="props">
@@ -121,13 +125,7 @@
                     </template>
                     <v-card class="dropdown-card lang-dropdown" min-width="220" flat>
                         <div class="lang-list">
-                            <div 
-                                v-for="lang in languages" 
-                                :key="lang.code"
-                                class="lang-option"
-                                :class="{ active: lang.code === currentLang.code }"
-                                @click="switchLanguage(lang)"
-                            >
+                            <div v-for="lang in languages" :key="lang.code" class="lang-option" :class="{ active: lang.code === currentLang.code }" @click="switchLanguage(lang)">
                                 <span class="flag">{{ lang.flag }}</span>
                                 <span class="lang-name">{{ lang.name }}</span>
                                 <v-icon v-if="lang.code === currentLang.code" color="#93C439" size="20" class="ml-auto">mdi-check</v-icon>
@@ -135,17 +133,12 @@
                         </div>
                     </v-card>
                 </v-menu>
-                <v-btn class="primary-action d-none d-lg-flex" rounded size="large" @click="requestConsultation">
-                    Get In Touch
-                    <v-icon end size="20">mdi-arrow-right</v-icon>
-                </v-btn>
-
                 <!-- Hamburger Menu - Only for tablets & mobile -->
                 <v-btn icon class="d-lg-none" @click="drawer = true" size="x-large" variant="text">
                     <v-icon size="28">mdi-menu</v-icon>
                 </v-btn>
             </div>
-			<div class="brand-block ma-11">
+            <div class="brand-block ma-11">
                 <router-link to="/" class="logo-wrap">
                     <img :src="logo" alt="Medifarm Logo" />
                 </router-link>
@@ -191,13 +184,10 @@
                     {{ item.name }}
                 </div>
             </div>
-			<!-- Language Switcher in Drawer -->
+            <!-- Language Switcher in Drawer -->
             <div class="drawer-section">
                 <div class="drawer-section-title">Language</div>
-                <div v-for="lang in languages" :key="lang.code" 
-                     class="drawer-sublink" 
-                     :class="{ active: lang.code === currentLang.code }"
-                     @click="switchLanguage(lang)">
+                <div v-for="lang in languages" :key="lang.code" class="drawer-sublink" :class="{ active: lang.code === currentLang.code }" @click="switchLanguage(lang)">
                     <span class="flag mr-3">{{ lang.flag }}</span>
                     {{ lang.name }}
                 </div>
@@ -218,14 +208,33 @@ export default {
     data() {
         return {
             drawer: false,
-			logo,
-			coat,
-			currentLang: { code: 'en', name: 'English', flag: '🇬🇧' },
-            languages: [
-                { code: 'en', name: 'English', flag: '🇬🇧' },
-                { code: 'sw', name: 'Swahili', flag: '🇹🇿' },
-                { code: 'fr', name: 'Français', flag: '🇫🇷' },
-                { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+            logo,
+            coat,
+            currentLang: {
+                code: 'en',
+                name: 'English',
+                flag: '🇬🇧'
+            },
+            languages: [{
+                    code: 'en',
+                    name: 'English',
+                    flag: '🇬🇧'
+                },
+                {
+                    code: 'sw',
+                    name: 'Swahili',
+                    flag: '🇹🇿'
+                },
+                {
+                    code: 'fr',
+                    name: 'Français',
+                    flag: '🇫🇷'
+                },
+                {
+                    code: 'ar',
+                    name: 'العربية',
+                    flag: '🇸🇦'
+                },
                 // Add more languages as needed
             ],
             mainLinks: [{
@@ -312,15 +321,18 @@ export default {
         };
     },
 
-	methods: {
-		switchLanguage(lang) {
+    methods: {
+        switchLanguage(lang) {
             this.currentLang = lang;
             // TODO: Integrate with vue-i18n or your translation system here
             // Example: this.$i18n.locale = lang.code;
             this.drawer = false;
         },
         isActive(route) {
-            return this.$route.path === route || this.$route.path.startsWith(route);
+            if (route === '/') {
+                return this.$route.path === '/'; // Only exact match for Home
+            }
+            return this.$route.path === route || this.$route.path.startsWith(route + '/');
         },
 
         navigate(route) {
@@ -458,23 +470,6 @@ export default {
     display: flex;
     align-items: center;
     gap: 16px;
-}
-
-.primary-action {
-    background: linear-gradient(135deg, #0A2540, #1E40AF, #93C439) !important;
-    color: white !important;
-    font-weight: 700;
-    padding: 0 38px !important;
-    font-size: 0.95rem;
-    letter-spacing: 0.9px;
-    text-transform: uppercase;
-    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.3);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.primary-action:hover {
-    transform: translateY(-6px) scale(1.04);
-    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.38);
 }
 
 /* DRAWER */
@@ -725,6 +720,7 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 /* === LANGUAGE SWITCHER STYLES === */
 .lang-switcher {
     display: flex;

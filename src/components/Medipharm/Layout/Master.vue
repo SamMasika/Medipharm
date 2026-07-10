@@ -175,6 +175,7 @@ body,
     color: white !important;
 }
 
+
 .title {
     font-size: 50px;
     font-weight: 700;
